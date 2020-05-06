@@ -1,0 +1,268 @@
+---
+title: "Animated Bar Chart"
+author: "ML"
+date: "5/3/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+```{r}
+#https://towardsdatascience.com/create-animated-bar-charts-using-r-31d09e5841da
+
+#Potential Errors
+#If you faced this error Error: The gifski package is required to use gifski_renderer
+#Please install gifski and png package and try again.
+
+```
+
+#GitHub
+
+```{r}
+
+library(usethis)
+
+usethis::use_git()
+
+#.gitignore
+
+browse_github_token()
+
+#usethis::browse_github_pat()
+
+usethis::edit_r_environ()
+
+usethis::git_sitrep()
+
+usethis::use_github(Best_Album_Poll_PAT)
+
+
+```
+
+
+```{r}
+setwd("C:/Users/MarkLaVenia/GitHub/Best Album Polls")
+
+library(tidyverse)
+library(janitor)
+
+#bands <- read_csv("data/album_polls.csv")
+
+#bands <- read_csv("data/album_polls_final.csv")
+
+bands <- read_csv("data/album_polls_final_weighted.csv")
+
+bands_long<-gather(bands, key = "year", value = "value", 2:22)
+head(bands_long)
+
+#write_csv(bands_long,"data/bands_long.csv")
+
+#write_csv(bands_long,"data/bands_long_final.csv")
+
+write_csv(bands_long,"data/bands_long_final_weighted.csv")
+
+rm(bands_long)
+
+```
+
+
+```{r}
+library(tidyverse)
+library(gganimate)
+library(gifski)
+library(png)
+library(ggthemes)
+library(ggdark)
+#library(jcolors)
+#library(RColorBrewer)
+#library(piratepal)
+#library(caTools)
+#library(viridis)
+#library(magick)
+
+```
+
+#Data Manipulation:
+#In this step, We’re going to filter our dataset to retain only the top 10 countries for every given year. We’ll #also create a few more columns that will help us display labels in the plot.
+
+```{r}
+#bands_tidy <- read_csv("data/bands_long.csv")
+
+#bands_tidy <- read_csv("data/bands_long_final.csv")
+
+bands_tidy <- read_csv("data/bands_long_final_weighted.csv")
+
+bands_formatted <- bands_tidy %>%
+  group_by(year) %>%
+  # The * 1 makes it possible to have non-integer ranks while sliding
+  mutate(rank = rank(-value),
+         Value_rel = value/value[rank==1],
+         Value_lbl = paste0(" ",round(value/1))) %>%
+  group_by(band_name) %>% 
+  filter(rank <=10) %>%
+  ungroup()
+```
+
+#Building Static Plots
+#Now that our data is ready to plotted, We’ll build all the required static plots. As you might have seen in the #animation at the top of this post, We’re going to see how the Top 10 Countries based on GDP has changed over the #years in the given dataset. For that we need to build individual plots for each year.
+
+```{r}
+
+mycolors_scale <- c(
+'Anthrax' = '#362f78',
+'Bathory' = '#936663',
+'Black Sabbath' = '#000000',
+'Budgie' = '#8B8B00',
+'Celtic Frost' = '#03A89E',
+'Death' = '#8B1A1A',
+'Deep Purple' = '#551A8B',
+"Guns n' Roses" = '#FFC125',
+'Iron Maiden' = '#458B00',
+'Judas Priest' = '#6E8243',
+'Led Zeppelin' = '#8A4C19',
+'Megadeth' = '#b91e45',
+'Metallica' = '#0000CD',
+'Motorhead' = '#2E382F',
+'Night Sun' = '#FCA811',
+'Queen' = '#cb54d6',
+'Rainbow' = '#9932CC',
+'Rush' = '#573420',
+'Scorpions' = '#D25117',
+'Sepultura' = '#C7B26F',
+'Slayer' = '#b10708',
+'Uriah Heep' = '#5c2c2d',
+'Van Halen' = '#3e45c4'
+)
+
+mycolors_fill <- c(
+'Anthrax' = '#362f78',
+'Bathory' = '#936663',
+'Black Sabbath' = '#000000',
+'Budgie' = '#8B8B00',
+'Celtic Frost' = '#03A89E',
+'Death' = '#8B1A1A',
+'Deep Purple' = '#551A8B',
+"Guns n' Roses" = '#FFC125',
+'Iron Maiden' = '#458B00',
+'Judas Priest' = '#6E8243',
+'Led Zeppelin' = '#8A4C19',
+'Megadeth' = '#b91e45',
+'Metallica' = '#0000CD',
+'Motorhead' = '#2E382F',
+'Night Sun' = '#FCA811',
+'Queen' = '#cb54d6',
+'Rainbow' = '#9932CC',
+'Rush' = '#573420',
+'Scorpions' = '#D25117',
+'Sepultura' = '#C7B26F',
+'Slayer' = '#b10708',
+'Uriah Heep' = '#5c2c2d',
+'Van Halen' = '#3e45c4'
+)
+
+#mycolors <- colorRampPalette(brewer.pal(8, "Set2"))
+
+staticplot = ggplot(bands_formatted, aes(rank, group = band_name, 
+                fill = as.factor(band_name), color = as.factor(band_name))) +
+  geom_tile(aes(y = value/2,
+                height = value,
+                width = 0.9), alpha = 0.8, color = NA) +
+  geom_text(aes(y = 0, label = paste(band_name, " ")), size=10, vjust = 0.2, hjust = 1) +
+  #geom_text(aes(y=value,label = Value_lbl), size = 6, hjust=0) +
+  geom_text(aes(y=value,label = paste(Value_lbl, "%")), size = 7, hjust=0) +
+  coord_flip(clip = "off", expand = FALSE) +
+  scale_y_continuous(labels = scales::comma) +
+  scale_x_reverse() +
+  scale_colour_manual(values=mycolors_scale) + #added
+  scale_fill_manual(values = mycolors_fill) + #added
+  guides(color = FALSE, fill = FALSE) +
+  theme(axis.line=element_blank(),
+        axis.text.x=element_blank(),
+        axis.text.y=element_blank(),
+        axis.ticks=element_blank(),
+        axis.title.x=element_blank(),
+        axis.title.y=element_blank(),
+        legend.position="none",
+        panel.background=element_blank(),
+        panel.border=element_blank(),
+        panel.grid.major=element_blank(),
+        panel.grid.minor=element_blank(),
+        #panel.grid.major.x = element_line( size=.1, color="grey" ),
+        #panel.grid.minor.x = element_line( size=.1, color="grey" ),
+        plot.title=element_text(size=28, hjust=0.5, face="bold", colour="grey", vjust=1.5),
+        plot.subtitle=element_text(size=22, hjust=0.5, face="italic", color="grey"),
+        plot.caption =element_text(size=19, hjust=0.5, face="italic", color="grey"),
+        plot.background=element_blank(),
+       plot.margin = margin(4, 1.8, 1, 7.5, "cm"))
+
+staticplot #+ dark_mode()
+```
+
+#We will not get into the details of how to static plots are built as that’s pretty much similar to how any #normal plot is built using ggplot2. As you can see in the above code, There are a few key aspects with the #theme() function that are done to make it go well with the animation, like – Only Vertical Grid Lines are drawn #and Legends, Axes Title and few more components are removed from the plot.
+
+#Animation
+#The key function here is transition_states() which stitches the individual static plots together by year. #view_follow() is used to give a view as if the background lines (gridlines) are moving as the animation is #progressing.
+
+
+```{r}
+anim = staticplot + transition_states(year, transition_length = 4, state_length = 1) +
+  view_follow(fixed_x = TRUE)  +
+  
+  #labs(title = 'Best album cumulative votes aggregated by band: {closest_state}',  
+ 
+   labs(title = 'Best album cumulative percentage of votes aggregated by band: {closest_state}',  
+       subtitle  =  "Top 10 Bands | 1970–1990",
+       
+       #caption  = "Data Source: @nickmoberly Twitter best album of the year polls, inclusive of all polls (bonus, qualifying, and grand finales).\nValues indicate the sum of votes from the polls for 1970 through a given year.")
+      
+       #caption  = "Data Source: @nickmoberly Twitter best album of the year final polls (excluding data for bonus and qualifying polls).\nValues indicate the sum of votes from the polls for 1970 through a given year.")
+       
+       caption  = "Data Source: @nickmoberly Twitter best album of the year final polls (excluding data for bonus and qualifying polls).\nValues indicate the percentage of votes from the polls for 1970 through a given year, weighted equally across years.")
+
+anim #+ dark_mode()
+
+```
+
+#Rendering
+#With the animation being built (ready) and saved in the object anim , It’s time for us to render the animation #using animate() function. The renderer used in the animate() differs based on the type of output file required.
+#For GIF File Format:
+
+```{r}
+# For GIF
+animate(anim, 400, fps = 10,  width = 1200, height = 1000, 
+        #renderer = gifski_renderer("album_poll_sum.gif"))
+        #renderer = gifski_renderer("album_poll_final_sum.gif"))
+        renderer = gifski_renderer("album_poll_final_percentage.gif"))
+```
+
+#For Video (MP4) File Format:
+
+```{r}
+# For MP4
+animate(anim, 200, fps = 20,  width = 1200, height = 1000, 
+        renderer = ffmpeg_renderer("gganim.mp4")) -> for_mp4
+anim_save("animation.mp4", animation = for_mp4 )
+```
+
