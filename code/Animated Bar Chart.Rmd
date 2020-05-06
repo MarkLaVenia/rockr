@@ -19,60 +19,30 @@ When you click the **Knit** button a document will be generated that includes bo
 summary(cars)
 ```
 
-## Including Plots
+The code for these animated bar charts are heavily borrowed from , found at https://towardsdatascience.com/create-animated-bar-charts-using-r-31d09e5841da
 
-You can also embed plots, for example:
-
-```{r pressure, echo=FALSE}
-plot(pressure)
-```
-
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+Packages used
 
 ```{r}
-#https://towardsdatascience.com/create-animated-bar-charts-using-r-31d09e5841da
-
-#Potential Errors
-#If you faced this error Error: The gifski package is required to use gifski_renderer
-#Please install gifski and png package and try again.
-
-```
-
-#GitHub
-
-```{r}
-
-library(usethis)
-
-usethis::use_git()
-
-#.gitignore
-
-browse_github_token()
-
-#usethis::browse_github_pat()
-
-usethis::edit_r_environ()
-
-usethis::git_sitrep()
-
-usethis::use_github(Best_Album_Poll_PAT)
-
-
-```
-
-
-```{r}
-setwd("C:/Users/MarkLaVenia/GitHub/Best Album Polls")
-
 library(tidyverse)
-library(janitor)
+library(gganimate)
+library(gifski)
+library(png)
+library(ggthemes)
+library(ggdark)
+#library(janitor)
+
+```
+
+
+```{r}
+setwd("C:/Users/MarkLaVenia/GitHub/pollr")
 
 #bands <- read_csv("data/album_polls.csv")
 
 #bands <- read_csv("data/album_polls_final.csv")
 
-bands <- read_csv("data/album_polls_final_weighted.csv")
+bands <- read_csv("raw-data/album_polls_final_weighted.csv")
 
 bands_long<-gather(bands, key = "year", value = "value", 2:22)
 head(bands_long)
@@ -84,23 +54,6 @@ head(bands_long)
 write_csv(bands_long,"data/bands_long_final_weighted.csv")
 
 rm(bands_long)
-
-```
-
-
-```{r}
-library(tidyverse)
-library(gganimate)
-library(gifski)
-library(png)
-library(ggthemes)
-library(ggdark)
-#library(jcolors)
-#library(RColorBrewer)
-#library(piratepal)
-#library(caTools)
-#library(viridis)
-#library(magick)
 
 ```
 
@@ -256,6 +209,20 @@ animate(anim, 400, fps = 10,  width = 1200, height = 1000,
         #renderer = gifski_renderer("album_poll_final_sum.gif"))
         renderer = gifski_renderer("album_poll_final_percentage.gif"))
 ```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+
+
+
 
 #For Video (MP4) File Format:
 
