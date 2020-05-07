@@ -7,7 +7,7 @@ output: github\_document
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-rockr <img src='hex/rockr_hex' align="right" height="150" />
+# rockr <img src='rockr_hex' align="right" height="150" />
 
 <!-- badges: start -->
 
