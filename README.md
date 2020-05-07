@@ -15,18 +15,17 @@ output: github\_document
 
 The goal of rockr is to:
 
-Given a series of polls sequentially linked via a longitudinal
-phenomenon where response options reoccur across polls (namely, a series
-of Twitter polls on best album of the year, with polls for each year,
-where some bands are reoccuring options across polls)
+Given a series of Twitter polls on best album of the year, with polls
+for each year, where some bands are reoccuring response options across
+polls
 
 1.  Wrangle data into an analysis-ready format
 
-2.  Produce multiple scalings and subsets of data for different ways of
-    conceptualizing response data
+2.  Produce multiple scalings and subsets of data to permit different
+    ways of conceptualising poll responses
 
-3.  Render animated bar charts to visualise the cumulative and
-    aggregated sentiment according the series of polls
+3.  Render animated bar charts to visualise the cumulative and aggregate
+    sentiment across the series of polls
 
 <p align="center">
 
