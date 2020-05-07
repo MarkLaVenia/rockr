@@ -9,24 +9,7 @@ output: github_document
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
 
-
-```{r, include = FALSE}
-
-knitr::opts_chunk$set(
-
-  collapse = TRUE,
-
-  comment = "#>",
-
-  fig.path = "man/figures/README-",
-
-  out.width = "100%"
-
-)
-
-```
-
-# edreportr <img src='man/figures/logo.png' align="right" height="150" />
+# rockr <img src='hex/rockr_hex' align="right" height="150" />
 
 
 
@@ -36,15 +19,17 @@ knitr::opts_chunk$set(
 
 
 
-The goal of edreportr is to build functionality to:
+The goal of rockr is to:
 
+Given a series of polls
+    --based on a longitudinally sequenced phenomenon 
+          --where response options reoccur across polls
 
+1.  Wrangle data into an analysis-ready format
 
-1.  Input and manage EdReports RESTful API tokens
+2.  Produce multiple scalings and subsets of data for different ways of conceptualizing and slicing poll responses
 
-2.  Get available API resources
-
-3.  Process API response content into analysis-ready tibbles
+3.  Render animated bar charts to visualise the cumulative and aggregated sentiment according the series of polls
 
 
 
@@ -62,7 +47,7 @@ The goal of edreportr is to build functionality to:
 
 
 
-You can install edreportr by first going to your Developer Settings and creating a new [Personal Access Token (PAT)](https://github.com/settings/tokens). Once you have the new token, run this:
+You can install rockr by first going to your Developer Settings and creating a new [Personal Access Token (PAT)](https://github.com/settings/tokens). Once you have the new token, run this:
 
 
 
@@ -79,215 +64,3 @@ devtools::install_github("bmgf-k12/edreportr", auth_token = "PAT")
 ## Setup
 
 
-
-### Get and Store the API Key
-
-
-
-Receive your EdReports API key by contacting [Janna Chan](mailto:JChan@edreports.org).
-
-
-
-edreportr functions will read your EdReports API key from the environment variable `EDREPORTS_KEY` stored in `.Renviron`.
-
-
-
-If `EDREPORTS_KEY` is not stored in `.Renviron`, you will be prompted to edit it. You can also set your key by running the below, replying Yes to the prompt,  **and then restarting your R session**:
-
-
-
-``` r
-
-edreportr::set_key()
-
-```
-
-
-
-To check whether `EDREPORTS_KEY` is stored in `.Renviron`, run `edreportr::get_key()`.
-
-
-
-## Usage
-
-
-
-### Get EdReports API JSON Response and Transform to Tibble
-
-
-
-To obtain the EdReports API data, use `ed_get()`. Common choices include “reports” and “taxonomies_subjects”. A full list of resources is available [here](https://api.edreports.org/v2/index.html).
-
-
-
-```
-
-series_json <-
-
-  edreportr::ed_get(endpoint = "series")
-
-```
-
-
-
-Once you have the JSON response, you can use `ed_tibblify()` to transform it to a useable tibble.
-
-
-
-```
-
-series_df <-
-
-  edreportr::ed_tibblify(series_json)
-
-```
-
-
-
-For the endpoints that have details, you can use the same functions to obtain the data for the individual entity.
-
-
-
-```
-
-reportdetail_json <-
-
-  edreportr::ed_get(endpoint = "reports", id = "661")
-
-  
-
-reportdetail_df <-
-
-  edreportr::ed_tibblify(reportdetail_json)
-
-```
-
-
-
-If you have downloaded the "reports" response, you can use `ed_review()` to get the ratings for ALL of the titles (instead of one at a time). Note: right now, this only works for "reports."
-
-
-
-```
-
-reportreviews <-
-
-  edreportr::ed_review(reportdetail_df)
-
-```
-
-
-
-
-
-### Assign Alignment to Gateway Ratings
-
-
-
-The function `ed_align()` takes a dataframe and creates a new column for alignment to the standards according to the EdReports [rubric design](https://www.edreports.org/reports/rubrics-evidence) if the dataframe has columns called `gateway_1_rating` and `gateway_2_rating`. If the cells contain text other than "meets", "partially-meets", and "does-not-meet", the function will return `NA`.
-
-
-
-```
-
-df <-
-
-  data.frame(
-
-             gateway_1_rating = c("meets", "meets", "partially-meets", "partially-meets", "partially-meets", "does-not-meet", "not-a-rating"),
-
-             gateway_2_rating = c("meets", "partially-meets", "meets", "partially-meets", "does-not-meet", "does-not-meet", "meets"))
-
-
-
-df_alignment <-
-
-  edreportr::ed_align(df)
-
-```
-
-
-
-## Example Workflow
-
-
-
-Your manager asks you for the complete list of EdReports-reviewed titles, their gateway ratings, and their alignment rating. What do you do?
-
-
-
-1. Get the API response for the endpoint "reports"
-
-
-
-```
-
-response <-
-
-  edreportr::ed_get("reports") # increase the limit to make sure you get everything!
-
-```
-
-
-
-2. Transform the response into a tibble
-
-
-
-```
-
-tibble <-
-
-  edreportr::ed_tibblify(response)
-
-```
-
-
-
-3. Get the reviews for the titles
-
-
-
-```
-
-reviews <-
-
-  edreportr::ed_review(tibble)
-
-```
-
-
-
-4. Find their alignment
-
-
-
-```
-
-align <-
-
-  edreportr::ed_align(reviews)
-
-```
-
-
-
-Tada! Now it is saved under the dataframe "reviews".
-
-
-
-Alternatively, you can do all this under one pipe:
-
-
-
-```
-
-report <-
-
-  edreportr::ed_get("reports") %>% 
-
-  edreportr::ed_tibblify() %>% 
-
-  edreportr::ed_review() %>% 
-
-  edreportr::ed_align()
