@@ -15,9 +15,9 @@ output: github\_document
 
 The goal of rockr is to:
 
-Given a series of Twitter polls on best album of the year, with polls
-for each year, where some bands are reoccuring response options across
-polls
+Given a series of Twitter polls on best album of the year, with
+sequential polls for each year, where some bands are reoccuring response
+options across polls
 
 1.  Wrangle data into an analysis-ready format
 
@@ -26,6 +26,16 @@ polls
 
 3.  Render animated bar charts to visualise the cumulative and aggregate
     sentiment across the series of polls
+
+\[British spelling used in honour of Nick Moberly (Exeter, UK), whose
+@nickmoberly Twitter polls were the motivation for and contributing
+source data used in the illustrative example.\]
+
+<p align="center">
+
+<img src=https://media.giphy.com/media/cD00Ukp6FfXuU/giphy.gif>
+
+</p>
 
 <p align="center">
 
@@ -48,3 +58,9 @@ devtools::install_github("bmgf-k12/edreportr", auth_token = "PAT")
 ```
 
 ## Setup
+
+<p align="center">
+
+<img src=https://media.giphy.com/media/xT9DPiSrihyxZnarbG/giphy.gif>
+
+</p>
