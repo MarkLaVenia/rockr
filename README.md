@@ -1,6 +1,15 @@
-# pollr
+# rockr
 Twitter best album polls
-he goal of edreportr is to build functionality to:
+The goal of edreportr is to build functionality to:
+
+
+# rockr <img src='hex/rockr_hex.png' align="right" height="150" />
+
+
+
+<!-- badges: start -->
+
+<!-- badges: end -->
 
 
 

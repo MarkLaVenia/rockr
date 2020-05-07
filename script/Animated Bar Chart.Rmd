@@ -28,32 +28,29 @@ library(tidyverse)
 library(gganimate)
 library(gifski)
 library(png)
-library(ggthemes)
-library(ggdark)
+#library(ggthemes)
+#library(ggdark)
 #library(janitor)
 
 ```
 
 
 ```{r}
-setwd("C:/Users/MarkLaVenia/GitHub/pollr")
+setwd("C:/Users/MarkLaVenia/GitHub/rockr")
 
 #bands <- read_csv("data/album_polls.csv")
 
 #bands <- read_csv("data/album_polls_final.csv")
 
-bands <- read_csv("raw-data/album_polls_final_weighted.csv")
+bands <- read_csv("data/raw-data/album_polls_final_percent.csv")
 
 bands_long<-gather(bands, key = "year", value = "value", 2:22)
 head(bands_long)
 
-#write_csv(bands_long,"data/bands_long.csv")
-
-#write_csv(bands_long,"data/bands_long_final.csv")
-
-write_csv(bands_long,"data/bands_long_final_weighted.csv")
+save(bands_long,file="bands_long_percent.rda")
 
 rm(bands_long)
+
 
 ```
 
@@ -65,7 +62,7 @@ rm(bands_long)
 
 #bands_tidy <- read_csv("data/bands_long_final.csv")
 
-bands_tidy <- read_csv("data/bands_long_final_weighted.csv")
+bands_tidy <- load("bands_long_percent.rda")
 
 bands_formatted <- bands_tidy %>%
   group_by(year) %>%
@@ -207,7 +204,7 @@ anim #+ dark_mode()
 animate(anim, 400, fps = 10,  width = 1200, height = 1000, 
         #renderer = gifski_renderer("album_poll_sum.gif"))
         #renderer = gifski_renderer("album_poll_final_sum.gif"))
-        renderer = gifski_renderer("album_poll_final_percentage.gif"))
+        renderer = gifski_renderer("plots/album_poll_final_percentage.gif"))
 ```
 
 ## Including Plots
