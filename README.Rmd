@@ -8,7 +8,7 @@ output: github_document
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
 
-# rockr <img src='rockr_hex' align="right" height="150" />
+# rockr <img src='hex/rockr_hex.png' align="right" height="150" />
 
 
 
@@ -20,13 +20,11 @@ output: github_document
 
 The goal of rockr is to:
 
-Given a series of polls \  
-    --based on a longitudinally sequenced phenomenon \  
-        --where response options reoccur across polls
+Given a series of polls sequentially linked via a longitudinal phenomenon where response options reoccur across polls (namely, a series of Twitter polls on best album of the year, with polls for each year, where some bands are reoccuring options across polls)
 
 1.  Wrangle data into an analysis-ready format
 
-2.  Produce multiple scalings and subsets of data for different ways of conceptualizing and slicing poll responses
+2.  Produce multiple scalings and subsets of data for different ways of conceptualizing response data
 
 3.  Render animated bar charts to visualise the cumulative and aggregated sentiment according the series of polls
 
