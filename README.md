@@ -7,7 +7,7 @@ output: github\_document
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# rockr <img src='hex/rockr_hex' align="right" height="150" />
+rockr <img src='hex/rockr_hex' align="right" height="150" />
 
 <!-- badges: start -->
 
@@ -15,8 +15,8 @@ output: github\_document
 
 The goal of rockr is to:
 
-Given a series of polls –based on a longitudinally sequenced phenomenon
-–where response options reoccur across polls
+Given a series of polls   –based on a longitudinally sequenced
+phenomenon   –where response options reoccur across polls
 
 1.  Wrangle data into an analysis-ready format
 
