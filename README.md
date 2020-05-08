@@ -61,9 +61,9 @@ packages <- c("tidyverse", "gganimate", "gifki", "png")
 ipak(packages)
 ```
 
-\[credit to stevenworthington
-(<https://gist.github.com/stevenworthington/3178163>) for the ipak.R
-function\]
+\[Credit to stevenworthington
+<https://gist.github.com/stevenworthington/3178163> for the ipak.R
+function.\]
 
 ## Analytic premises and assumptions (…however questionable)
 
@@ -76,6 +76,13 @@ function\]
 ## Data preparation
 
 ## Rendering animated bar charts
+
+\[Credit to AbdulMajedRaja RS
+<https://towardsdatascience.com/create-animated-bar-charts-using-r-31d09e5841da>
+for source code and guidance referenced for these animated bar charts.
+See also StackOverflow
+<https://stackoverflow.com/questions/53162821/animated-sorted-bar-chart-with-bars-overtaking-each-other>
+for source guidance and discussion.\]
 
 <p align="center">
 
