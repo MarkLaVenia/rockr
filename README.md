@@ -45,13 +45,10 @@ data repository with script tailored to one particular dataset.
 
 The following R packages need to be installed and loaded.
 
-\[h/t stevenworthington
-(<https://gist.github.com/stevenworthington/3178163>) for ipak.R
-function\]
-
 ``` r
 
-# check to see if packages "tidyverse", "gganimate", "gifki", and "png" are installed. Install them if they are not, then load them into the R session.
+# check to see if packages "tidyverse", "gganimate", "gifki", and "png" are installed. 
+# Install them if they are not, then load them into the R session.
 
 ipak <- function(pkg){
 new.pkg <- pkg[!(pkg %in% installed.packages()[, "Package"])]
@@ -60,12 +57,15 @@ if (length(new.pkg))
 sapply(pkg, require, character.only = TRUE)
 }
 
-# usage
 packages <- c("tidyverse", "gganimate", "gifki", "png")
 ipak(packages)
 ```
 
-## Analytic remises and assumptions (…however questionable)
+\[credit to stevenworthington
+(<https://gist.github.com/stevenworthington/3178163>) for the ipak.R
+function\]
+
+## Analytic premises and assumptions (…however questionable)
 
   - a band’s status within the ranking of best bands is a function of
       - the number of albums the band has that qualify as one of the
