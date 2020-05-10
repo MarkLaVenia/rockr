@@ -22,7 +22,7 @@ The goal of rockr is to:
 
 Given a series of Twitter polls on best album of the year, with sequential polls for each year, where some bands are reoccuring response options across polls
 
-1.  Wrangle data into an analysis-ready format
+1.  Munge data into an analysis-ready format
 
 2.  Produce multiple scalings and subsets of data to permit different ways of conceptualising poll responses
 
@@ -45,50 +45,93 @@ Given a series of Twitter polls on best album of the year, with sequential polls
 
 Ideally rockr would be a package in itself with generalizable functions and integrated dependencies. However, at present it is simply a code and data repository with script tailored to one particular dataset. 
 
-The following R packages need to be installed and loaded. 
+The following R packages need to be installed and loaded:
 
+`tidyverse`, `ggplot2`, `gganimate`, `png`
 
-``` r
-
-# check to see if packages "tidyverse", "gganimate", "gifki", and "png" are installed. 
-# Install them if they are not, then load them into the R session.
-
-ipak <- function(pkg){
-new.pkg <- pkg[!(pkg %in% installed.packages()[, "Package"])]
-if (length(new.pkg)) 
-    install.packages(new.pkg, dependencies = TRUE)
-sapply(pkg, require, character.only = TRUE)
-}
-
-packages <- c("tidyverse", "gganimate", "gifki", "png")
-ipak(packages)
-
-```
-
-[Credit to stevenworthington <https://gist.github.com/stevenworthington/3178163> for the ipak.R function.]
-
+All R code required for this project can be found in [script/Animated Bar Chart.Rmd](https://github.com/MarkLaVenia/rockr/blob/master/script/Animated%20Bar%20Chart.Rmd)
 
 ## Analytic premises and assumptions (...however questionable)
 
-
-
-- a band's status within the ranking of best bands is a function of 
+- A band's status within the ranking of best bands is a function of 
   - the number of albums the band has that qualify as one of the best albums of the year and 
   - the proportion of people who vote the band's albums as the best album of the year.
 
+- Poll percentages weighted equally across years smooths over variation in response rate across polls; 
+  - however, sum of votes may (in part) be an indicator of enthusiasm for a given a band or album--
+  and therefore a valid metric for ranking bands.
+  - That said, early polls averaged fewer responses than later polls; therefore, it appears reach of the poll increased over time--likily giving an upward bias for bands in later polls when using vote sums.
+  
+- Using the final poll for each year avoids the problem of needing to account for albums that appeared on both qualifying and final polls; 
+  - however, on the premise that the magnitide of voter response is an indicator of enthusiasm for a given band or album, summing across all polls--capturing the total sum of votes cast for a band/album given the opportunity to vote for that band or album--may yield some insight.
 
 
 ## Data preparation
 
+Raw data are hand entered from Twitter, structured in a long format.
 
 
+### Precision
+
+Twitter polls provide data on the number of votes and the percent of votes per response option rounded to the forst decimal place, So, using the `mutate()` command we calculate
+
+- the number of votes per response option (which is a metric of interest in itself) and 
+- the percent of votes per response option without a rounding truncation.
+
+### Selection
+
+We then reduce the dataframe to the cases of interest. 
+
+- For all analyses, we drop observations for polls coded as invalid (in this data one poll was conducted as an alternate final).
+- For two analyses we retain observation for only final polls (excluding data for bonus and qualifying polls);
+  - whereas, for a third analysis we retained data for all valid polls (bonus, qualifying, and final polls).
+
+### Aggregation
+
+To remedy instances where a given band appears more than once in a given year
+
+- we use the `group_by()` and `summarise_at()` commands to sum percentages or vote counts for each band per year.
+- This occured in the 1970 final poll, where Blask Sabbath had two albums that year;
+  - other scenarios for this occur when analyzing bonus, qualifying, and final polls jointly.
+  
+### Structure
+
+Ultimately we want a file in a long format, with each band having a row for every year in the data set regardless of whether the band has poll data for that year. There is probably a more efficiet what of doing this; but short of figuring that out, 
+
+- I first used the `pivot_wider()` command, then the `pivot_longer()` command to accomplish this.
+- A more efficient approach would evaluate which years were unobserved for given bands, then insert rows for those missing observations. (Suggestions on improvements on this procedure are welcome).
+
+### Computation
+
+To calculate rolling averages and sums, we use 
+
+- the `mutate(cummmean())` command with the `poll_percent` variable and
+- the `mutate(cummsum())` command with the `album_votes` variable.
+
+### Format
+
+The final step before plotting the data is to format by calling
+
+- the `group_by()` and `mutate(rank())` commands to rank order the bands with each year and
+- the `group_by()` and `filter()` commands to constrain the data to the top 10 ranked bands for any given year.
 
 
 ## Rendering animated bar charts
 
+### Static and animated plots
 
-[Credit to AbdulMajedRaja RS <https://towardsdatascience.com/create-animated-bar-charts-using-r-31d09e5841da> for source code and guidance referenced for these animated bar charts. See also StackOverflow <https://stackoverflow.com/questions/53162821/animated-sorted-bar-chart-with-bars-overtaking-each-other> for source guidance and discussion.]
+The first step to making an animated bar chart is to make static bar charts using the `ggplot()` command.
 
+- Dissatisfied with the default colors, I create a custom array of colors and called it using the `scale_colour_manual()` and `scale_fill_manual()` commands.
+- Using the `unique()` command we can generate the list of bands in the plot for which a color is needed. 
+
+Then we use the `transition_states()` command to stitch together the individual static plot.
+
+- And the final step is rendering the animated plots usng the `animate()` command.
+
+### Best album cumulative percentage of votes aggregated by band, based on final polls
+
+This plot uses the `poll_percent` variable as the plotted metric.
 <p align="center">
 
   <img src="plots/album_poll_final_percentage.gif" alt="reviewer">
@@ -99,6 +142,35 @@ ipak(packages)
 
 
 
+### Best album cumulative votes aggregated by band, based on final polls
+
+This plot uses the `album_votes` variable as the plotted metric.
+<p align="center">
+
+  <img src="plots/album_poll_final_sum.gif" alt="reviewer">
+
+
+
+</p>
+
+
+
+### Best album cumulative votes aggregated by band, based on all polls
+
+This plot uses the `album_votes` variable as the plotted metric.
+<p align="center">
+
+  <img src="plots/album_poll_all_sum.gif" alt="reviewer">
+
+
+
+</p>
+
+
+
+### Source code and guidance
+
+Credit to AbdulMajedRaja RS <https://towardsdatascience.com/create-animated-bar-charts-using-r-31d09e5841da> for source code and guidance referenced for these animated bar charts. See also Stack Overflow <https://stackoverflow.com/questions/53162821/animated-sorted-bar-chart-with-bars-overtaking-each-other> for guidance and discussion.
 
 
 
@@ -107,9 +179,5 @@ ipak(packages)
 <p align="center">
 
   <img src=https://media.giphy.com/media/xT9DPiSrihyxZnarbG/giphy.gif>
-
-
-
-</p>
 
 

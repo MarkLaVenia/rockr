@@ -1,0 +1,193 @@
+valid,poll_date,poll_type,poll_votes,album_year,band_name,album_name,poll_percent
+1,30-Jun-19,final,16,1970,Black Sabbath,Black Sabbath,43.8
+1,30-Jun-19,final,16,1970,Deep Purple,In Rock,18.8
+1,30-Jun-19,final,16,1970,Black Sabbath,Paranoid,31.3
+1,30-Jun-19,final,16,1970,Uriah Heep,"Very 'eavy, Very 'umble",6.3
+1,5-Jul-19,final,32,1971,Black Sabbath,Master of Reality,68.8
+1,5-Jul-19,final,32,1971,Deep Purple,Fire Ball,9.4
+1,5-Jul-19,final,32,1971,Led Zeppelin,IV,18.8
+1,5-Jul-19,final,32,1971,Uriah Heep,Salisbury,3.1
+1,12-Jul-19,final,23,1972,Black Sabbath,Vol. 4,73.9
+1,12-Jul-19,final,23,1972,Deep Purple,Machine Head,13
+1,12-Jul-19,final,23,1972,Night Sun,Mournin',8.7
+1,12-Jul-19,final,23,1972,Uriah Heep,Demons & Wizards,4.3
+1,27-Jul-19,final,25,1973,Black Sabbath,Sabbath Bloody Sabbath,80
+1,27-Jul-19,final,25,1973,Budgie,Never Turn Your,8
+1,27-Jul-19,final,25,1973,Queen,Queen,12
+1,27-Jul-19,final,25,1973,Uriah Heep,Sweet Freedom,0
+1,9-Aug-19,final,28,1974,Budgie,In for the Kill,14.3
+1,9-Aug-19,final,28,1974,Queen,II,46.4
+1,9-Aug-19,final,28,1974,Rush,Rush,28.6
+1,9-Aug-19,final,28,1974,Scorpions,Rainbow,10.7
+1,16-Aug-19,final,25,1975,Black Sabbath,Sabatoge,72
+1,16-Aug-19,final,25,1975,Budgie,Bandolier,0
+1,16-Aug-19,final,25,1975,Rainbow,s/t,16
+1,16-Aug-19,final,25,1975,Scorpions,In Trance,12
+1,"Augist 21, 2019",final,59,1976,Black Sabbath,Technical Extasy,3.4
+1,"Augist 21, 2019",final,59,1976,Judas Priest,Sad Wings of Destiny,28.8
+1,"Augist 21, 2019",final,59,1976,Rainbow,Rising,33.9
+1,"Augist 21, 2019",final,59,1976,Rush,2112,33.9
+1,30-Aug-19,final,48,1977,Judas Priest,Sin after Sin,37.5
+1,30-Aug-19,final,48,1977,Motorhead,Motorhead,39.6
+1,30-Aug-19,final,48,1977,Scorpions,Taken by Force,39.6
+1,30-Aug-19,final,48,1977,UFO,Lights Out,10.4
+1,5-Sep-19,final,51,1978,Judas Priest,Stained Class,35.3
+1,5-Sep-19,final,51,1978,Rainbow,Long Live Rock,21.6
+1,5-Sep-19,final,51,1978,Rush,Hemispheres,17.6
+1,5-Sep-19,final,51,1978,Van Halen,Van Halen,25.5
+1,13-Sep-19,final,13,1979,Accept,Accept,0
+1,13-Sep-19,final,13,1979,Motorhead,Overkill,69.2
+1,13-Sep-19,final,13,1979,Scorpions,Lovedrive,15.4
+1,13-Sep-19,final,13,1979,Thin Lizzy,Black Rose,15.4
+1,20-Sep-19,final,21,1980,AC/DC,Back in Black,33.3
+1,20-Sep-19,final,21,1980,Iron Maiden,s/t,33.3
+1,20-Sep-19,final,21,1980,Judas Priest,British Steel,4.8
+1,20-Sep-19,final,21,1980,Motorhead,Ace of Spades,28.6
+1,21-Sep-19,bonus,5,1980,Angel Witch,s/t,20
+1,21-Sep-19,bonus,5,1980,Diamond Head,Lightning,60
+1,21-Sep-19,bonus,5,1980,Saxon,Wheels of Steel,0
+1,21-Sep-19,bonus,5,1980,Witchfynde,Give 'em Hell,20
+1,29-Sep-19,final,21,1981,Iron Maiden,Killers,61.9
+1,29-Sep-19,final,21,1981,Motley Crue,Too Fast…,14.3
+1,29-Sep-19,final,21,1981,Ozzy Osbourne,Diary…,9.5
+1,29-Sep-19,final,21,1981,Venom,Welcom to Hell,14.3
+1,30-Sep-19,bonus,7,1981,Def Leppard,High and Dry,71.4
+1,30-Sep-19,bonus,7,1981,Holocaust,Nightcomers,14.3
+1,30-Sep-19,bonus,7,1981,Raven,Rock 'til You Drop,0
+1,30-Sep-19,bonus,7,1981,Saxon,Denim and Leather,14.3
+1,5-Oct-19,final,5,1982,Accept,Restless and Wild,0
+1,5-Oct-19,final,5,1982,Iron Maiden,Number o/t Beats,100
+1,5-Oct-19,final,5,1982,Judas Priest,Screaming for Vengeance,0
+1,5-Oct-19,final,5,1982,Venom,Black Metal,0
+1,12-Oct-19,final,28,1983,Iron Maiden,Piece of Mind,28.6
+1,12-Oct-19,final,28,1983,Mercyful Fate,Melissa,7.1
+1,12-Oct-19,final,28,1983,Metallica,Kill 'em All,53.6
+1,12-Oct-19,final,28,1983,Slayer,Show No Mercy,10.7
+1,19-Oct-19,pre1,16,1984,Anthrax,Fistful of Metal,12.5
+1,19-Oct-19,pre1,16,1984,Bathory,Bathory,50
+1,19-Oct-19,pre1,16,1984,Exciter,Violence & Force,18.8
+1,19-Oct-19,pre1,16,1984,Metal Church,s/t,18.8
+1,20-Oct-19,pre2,11,1984,Judas Priest,Defenders,18.2
+1,20-Oct-19,pre2,11,1984,Manowar,Hail to England,27.3
+1,20-Oct-19,pre2,11,1984,Mercyful Fate,Don't Break,45.5
+1,20-Oct-19,pre2,11,1984,"W.A,S.P.",s/t,9.1
+1,26-Oct-19,final,81,1984,Bathory,Bathory,7.4
+1,26-Oct-19,final,81,1984,Iron Maiden,Powerslave,30.9
+1,26-Oct-19,final,81,1984,Mercyful Fate,Don't Break,13.6
+1,26-Oct-19,final,81,1984,Metallica,Ride the Light,48.1
+1,2-Nov-19,pre1,27,1985,Anthrax,Spreading the…,25.9
+1,2-Nov-19,pre1,27,1985,Exodus,Bondedby Blood,18.5
+1,2-Nov-19,pre1,27,1985,Megadeth,Killing is My…,18.5
+1,2-Nov-19,pre1,27,1985,Slayer,Hell Awaits,37
+1,3-Nov-19,pre2,22,1985,Bathory,The Return,18.2
+1,3-Nov-19,pre2,22,1985,Celtic Frost,To Mega Therion,45.5
+1,3-Nov-19,pre2,22,1985,Possessed,Seven Churches,22.7
+1,3-Nov-19,pre2,22,1985,Venom,Possessed,13.6
+1,9-Nov-19,pre3,24,1985,Bulldozer,Day of Wrath,4.2
+1,9-Nov-19,pre3,24,1985,Destruction,Infernal Ov,16.7
+1,9-Nov-19,pre3,24,1985,Kreator,Endless Pain,58.3
+1,9-Nov-19,pre3,24,1985,Onslaught,Power from Hell,20.8
+1,16-Nov-19,pre4,14,1985,Accept,Metal Heart,28.6
+1,16-Nov-19,pre4,14,1985,Agent Steel,Skeptics…,7.1
+1,16-Nov-19,pre4,14,1985,Helloween,…Jericho,50
+1,16-Nov-19,pre4,14,1985,Manilla Road,Open Gates,14.3
+1,22-Nov-19,final,31,1985,Celtic Frost,To Mega Therion,54.8
+1,22-Nov-19,final,31,1985,Helloween,…Jericho,12.9
+1,22-Nov-19,final,31,1985,Kreator,Endless Pain,3.2
+1,22-Nov-19,final,31,1985,Slayer,Hell Awaits,29
+1,1-Dec-19,pre1,36,1986,Candlemass,Epicus Doomicus,25
+1,1-Dec-19,pre1,36,1986,Iron Maiden,Somewhere in Time,66.7
+1,1-Dec-19,pre1,36,1986,King Diamond,Fatal Portait,2.8
+1,1-Dec-19,pre1,36,1986,Motorhead,Orgasmatron,5.6
+1,6-Dec-19,pre2,17,1986,Dark Angel,Darkness Descends,5.9
+1,6-Dec-19,pre2,17,1986,Kreator,Pleasure to Kill,23.5
+1,6-Dec-19,pre2,17,1986,Megadeth,Peace Sells,58.8
+1,6-Dec-19,pre2,17,1986,Nuclear Assault,Game Over,11.8
+1,14-Dec-19,final,50,1986,Iron Maiden,Somewhere in Time,12
+1,14-Dec-19,final,50,1986,Megadeth,Peace Sells,4
+1,14-Dec-19,final,50,1986,Metallica,Master of Puppets,54
+1,14-Dec-19,final,50,1986,Slayer,Reign in Blood,30
+1,22-Dec-19,pre1,40,1987,Candlemass,Nightfall,12.5
+1,22-Dec-19,pre1,40,1987,Guns n' Roses,Apetite for Destruction,52.5
+1,22-Dec-19,pre1,40,1987,Helloween,Keeper of the 7 Keys Pt. 1,17.5
+1,22-Dec-19,pre1,40,1987,King Diamond,Abigail,17.5
+1,29-Dec-19,pre2,46,1987,Bathory,Under the Sign…,23.9
+1,29-Dec-19,pre2,46,1987,Death,Screaming Bloody Gore,45.7
+1,29-Dec-19,pre2,46,1987,Napalm Death,Scum,30.4
+1,29-Dec-19,pre2,46,1987,Sarcofago,I.N.R.I,0
+1,1-Jan-20,pre3,88,1987,Celtic Frost,Into the Pandemonium,37.5
+1,1-Jan-20,pre3,88,1987,Coroner,R.I.P,13.6
+1,1-Jan-20,pre3,88,1987,Sodom,Persecution Mania,15.9
+1,1-Jan-20,pre3,88,1987,Voivod,Killing Technology,33
+1,11-Jan-20,pre4,20,1987,Anthrax,Among the Living,50
+1,11-Jan-20,pre4,20,1987,Death Angel,The Ultra-Violence,5
+1,11-Jan-20,pre4,20,1987,Suicidal Tendencies,Join the Army,15
+1,11-Jan-20,pre4,20,1987,Testament,The Legacy,30
+1,18-Jan-20,final,86,1987,Anthrax,Among the Living,23.3
+1,18-Jan-20,final,86,1987,Celtic Frost,Into the Pandemonium,15.1
+1,18-Jan-20,final,86,1987,Death,Screaming Bloody Gore,23.3
+1,18-Jan-20,final,86,1987,Guns n' Roses,Apetite for Destruction,38.4
+0,24-Jan-20,final_alt,36,1987,Anthrax,Among the Living,44.4
+0,24-Jan-20,final_alt,36,1987,Celtic Frost,Into the Pandemonium,13.9
+0,24-Jan-20,final_alt,36,1987,Death,Screaming Bloody Gore,22.2
+0,24-Jan-20,final_alt,36,1987,Helloween,Keeper of the 7 Keys Pt. 1,19.4
+1,26-Jan-20,pre1,67,1988,Helloween,Keeper of the 7 Keys Pt. 2,7.5
+1,26-Jan-20,pre1,67,1988,Iron Maiden,7th Son of a 7th Son,64.2
+1,26-Jan-20,pre1,67,1988,Judas Priest,Ram it Down,7.5
+1,26-Jan-20,pre1,67,1988,Queensryche,Operation: Mindcrime,20.9
+1,1-Feb-20,pre2,56,1988,Bathory,Blood Fire Death,32.1
+1,1-Feb-20,pre2,56,1988,Carcass,Reek of Putrification,17.9
+1,1-Feb-20,pre2,56,1988,Death,Leprosy,28.6
+1,1-Feb-20,pre2,56,1988,Napalm Death,From Enslavement,21.4
+1,8-Feb-20,pre3,44,1988,Anthrax,State of Euphoria,0
+1,8-Feb-20,pre3,44,1988,Flotsam & Jetsam,No Place for Disgrace,2.3
+1,8-Feb-20,pre3,44,1988,Metallica,…and Justice for All,90.9
+1,8-Feb-20,pre3,44,1988,Sabbat,History of a Time to Come,6.8
+1,9-Feb-20,pre4,59,1988,Megadeth,"So far, So Good, So What!",23.7
+1,9-Feb-20,pre4,59,1988,Slayer,South of Heaven,52.5
+1,9-Feb-20,pre4,59,1988,Testament,The New Order,5.1
+1,9-Feb-20,pre4,59,1988,Voivod,Dimension Hatros,18.6
+1,15-Feb-20,final,100,1988,Bathory,Blood Fire Death,10
+1,15-Feb-20,final,100,1988,Iron Maiden,7th Son of a 7th Son,28
+1,15-Feb-20,final,100,1988,Metallica,…and Justice for All,39
+1,15-Feb-20,final,100,1988,Slayer,South of Heaven,23
+1,22-Feb-20,pre1,95,1989,Carcass,Symphony of Sickness,28.4
+1,22-Feb-20,pre1,95,1989,Morbid Angel,Altars of Madness,47.4
+1,22-Feb-20,pre1,95,1989,Obituary,Slowly We Rot,22.1
+1,22-Feb-20,pre1,95,1989,Pestilence,Sonsuming Impulse,2.1
+1,29-Feb-20,pre2,45,1989,Coroner,No More Color,11.1
+1,29-Feb-20,pre2,45,1989,Kreator,Extreme Aggression,33.3
+1,29-Feb-20,pre2,45,1989,Sabbat,Deamweaver,28.9
+1,29-Feb-20,pre2,45,1989,Sodom,Agent Orange,26.7
+1,7-Mar,pre3,46,1989,Annihilator,Alice in Hell,8.7
+1,7-Mar,pre3,46,1989,Exodus,Fabulous Disaster,10.9
+1,7-Mar,pre3,46,1989,Nuclear Assault,Handle with Care,4.3
+1,7-Mar,pre3,46,1989,Sepultura,Beneath the Remains,76.1
+1,21-Mar-20,pre4,34,1989,Black Sabbath,Headless Cross,11.8
+1,21-Mar-20,pre4,34,1989,Candlemass,Tales of Creation,8.8
+1,21-Mar-20,pre4,34,1989,Faith No More,The Real Thing,64.7
+1,21-Mar-20,pre4,34,1989,Skid Row,Skid Row,14.7
+1,28-Mar-20,final,52,1989,Faith No More,The Real Thing,42.3
+1,28-Mar-20,final,52,1989,Kreator,Extreme Aggression,3.8
+1,28-Mar-20,final,52,1989,Morbid Angel,Altars of Madness,13.5
+1,28-Mar-20,final,52,1989,Sepultura,Beneath the Remains,40.4
+1,4-Apr-20,pre1,61,1990,Death,Spiritual Healing,34.4
+1,4-Apr-20,pre1,61,1990,Deicide,Deicide,26.2
+1,4-Apr-20,pre1,61,1990,Nocturnus,The Key,3.3
+1,4-Apr-20,pre1,61,1990,Obituary,Caude of Death,36.1
+1,11-Apr-20,pre2,18,1990,Annihilator,"Never, Neverland",33.3
+1,11-Apr-20,pre2,18,1990,Death Angel,Act III,22.2
+1,11-Apr-20,pre2,18,1990,Exodus,Impact is Imminent,5.6
+1,11-Apr-20,pre2,18,1990,Suicidal Tendencies,Lights Camera Revolution,38.9
+1,18-Apr,pre3,50,1990,Anthrax,Persistence of Time,6
+1,18-Apr,pre3,50,1990,Megadeth,Rust in Peace,56
+1,18-Apr,pre3,50,1990,Slayer,Season of the Abyss,36
+1,18-Apr,pre3,50,1990,Suicidal Tendencies,Lights Camera Revolution,2
+1,25-Apr-20,pre4,24,1990,Artillery,By Inheritance,16.7
+1,25-Apr-20,pre4,24,1990,Celtic Frost,Banity/Nemesis,16.7
+1,25-Apr-20,pre4,24,1990,Destruction,Cracked Brain,8.3
+1,25-Apr-20,pre4,24,1990,Kreator,Coma of Souls,58.3
+1,2-May-20,pre5,52,1990,Entombed,Left Hand Path,50
+1,2-May-20,pre5,52,1990,Kreator,Coma of Souls,11.5
+1,2-May-20,pre5,52,1990,Napalm Death,Harmony of Curruption,21.2
+1,2-May-20,pre5,52,1990,Paradise Lost,Lost Paradise,17.3
