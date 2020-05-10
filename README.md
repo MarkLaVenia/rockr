@@ -43,7 +43,8 @@ Ideally rockr would be a package in itself with generalizable functions
 and integrated dependencies. However, at present it is simply a code and
 data repository with script tailored to one particular dataset.
 
-The following R packages need to be installed and loaded:
+The analyses described herein requires the installation and loading of
+the following R packages:
 
 `tidyverse`, `ggplot2`, `gganimate`, `png`
 
@@ -61,41 +62,45 @@ Chart.Rmd](https://github.com/MarkLaVenia/rockr/blob/master/script/Animated%20Ba
   - Poll percentages weighted equally across years smooths over
     variation in response rate across polls;
       - however, sum of votes may (in part) be an indicator of
-        enthusiasm for a given a band or album– and therefore a valid
-        metric for ranking bands.
+        enthusiasm for a given a band or album– and therefore may also
+        be a valid metric for ranking bands.
       - That said, early polls averaged fewer responses than later
         polls; therefore, it appears reach of the poll increased over
-        time–likily giving an upward bias for bands in later polls when
+        time–likely giving an upward bias for bands in later polls when
         using vote sums.
-  - Using the final poll for each year avoids the problem of needing to
-    account for albums that appeared on both qualifying and final polls;
+  - Constraining the date to only the final poll for each year avoids
+    the problem of needing to account for albums that appeared on both
+    qualifying and final polls;
       - however, on the premise that the magnitide of voter response is
         an indicator of enthusiasm for a given band or album, summing
-        across all polls–capturing the total sum of votes cast for a
-        band/album given the opportunity to vote for that band or
-        album–may yield some insight.
+        across bonus, qualifying final polls polls–constituting the
+        total sum of votes cast for a band or album given the
+        opportunity to vote for that band or album–may yield some
+        insight.
 
 ## Data preparation
 
-Raw data are hand entered from Twitter, structured in a long format.
+Raw data for this project were hand entered from Twitter, structured in
+a long format.
 
 ### Precision
 
-Twitter polls provide data on the number of votes and the percent of
-votes per response option rounded to the forst decimal place, So, using
-the `mutate()` command we calculate
+Twitter polls provide data on the total number of votes and the
+percentage of votes per response option rounded to the first decimal
+place, Accordingly, using the `mutate()` command we calculated
 
   - the number of votes per response option (which is a metric of
     interest in itself) and
-  - the percent of votes per response option without a rounding
-    truncation.
+  - the percentage of votes per response option without truncation due
+    to rounding.
 
 ### Selection
 
-We then reduce the dataframe to the cases of interest.
+We then reduce the dataframe to the observations of interest.
 
-  - For all analyses, we drop observations for polls coded as invalid
-    (in this data one poll was conducted as an alternate final).
+  - For all analyses, we drop observations for polls coded as invalid.
+      - In the example data, one poll was conducted as an alternate
+        final.
   - For two analyses we retain observation for only final polls
     (excluding data for bonus and qualifying polls);
       - whereas, for a third analysis we retained data for all valid
@@ -103,12 +108,12 @@ We then reduce the dataframe to the cases of interest.
 
 ### Aggregation
 
-To remedy instances where a given band appears more than once in a given
-year
+To remedy instances where a given band appeared more than once in a
+given year
 
   - we use the `group_by()` and `summarise_at()` commands to sum
     percentages or vote counts for each band per year.
-  - This occured in the 1970 final poll, where Blask Sabbath had two
+  - This occured in the 1970 final poll, where Black Sabbath had two
     albums that year;
       - other scenarios for this occur when analyzing bonus, qualifying,
         and final polls jointly.
@@ -157,7 +162,7 @@ charts using the `ggplot()` command.
     the plot for which a color is needed.
 
 Then we use the `transition_states()` command to stitch together the
-individual static plot.
+individual static plots.
 
   - And the final step is rendering the animated plots usng the
     `animate()` command.
