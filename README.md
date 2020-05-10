@@ -141,7 +141,7 @@ To calculate rolling averages and sums, we use
 
 ### Format
 
-The final step before plotting the data is to format by calling
+The final step before plotting the data is to format the data by calling
 
   - the `group_by()` and `mutate(rank())` commands to rank order the
     bands with each year and
@@ -152,14 +152,14 @@ The final step before plotting the data is to format by calling
 
 ### Static and animated plots
 
-The first step to making an animated bar chart is to make static bar
-charts using the `ggplot()` command.
+The first step to making an animated bar chart is to make a series of
+static bar charts using the `ggplot()` command.
 
   - Dissatisfied with the default colors, I create a custom array of
     colors and called it using the `scale_colour_manual()` and
     `scale_fill_manual()` commands.
   - Using the `unique()` command we can generate the list of bands in
-    the plot for which a color is needed.
+    the plot for which colors are needed.
 
 Then we use the `transition_states()` command to stitch together the
 individual static plots.
@@ -169,7 +169,8 @@ individual static plots.
 
 ### Best album cumulative percentage of votes aggregated by band, based on final polls
 
-This plot uses the `poll_percent` variable as the plotted metric.
+This plot uses a rolling average of the `poll_percent` variable as the
+plotted metric.
 
 <p align="center">
 
@@ -179,7 +180,8 @@ This plot uses the `poll_percent` variable as the plotted metric.
 
 ### Best album cumulative votes aggregated by band, based on final polls
 
-This plot uses the `album_votes` variable as the plotted metric.
+This plot uses a rolling sum of the `album_votes` variable as the
+plotted metric.
 
 <p align="center">
 
@@ -189,7 +191,8 @@ This plot uses the `album_votes` variable as the plotted metric.
 
 ### Best album cumulative votes aggregated by band, based on all polls
 
-This plot uses the `album_votes` variable as the plotted metric.
+This plot uses uses a rolling sum of the `album_votes` variable as the
+plotted metric.
 
 <p align="center">
 
