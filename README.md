@@ -7,12 +7,11 @@ output: github\_document
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-\[![Cool But
-Useless](https://img.shields.io/badge/cool-useless-green.svg) [![Ask Me
+![](https://img.shields.io/badge/cool-useless-green.svg) [![Ask Me
 Anything
 \!](https://img.shields.io/badge/Ask%20me-anything-1abc9c.svg)](https://GitHub.com/Naereen/ama)
-[![Open Source Love
-svg2](https://badges.frapsoft.com/os/v2/open-source.svg?v=103)](https://github.com/ellerbrock/open-source-badges/)
+[![Open Source
+Love](https://badges.frapsoft.com/os/v1/open-source.png?v=103)](https://github.com/ellerbrock/open-source-badges/)
 
 # rockr <img src='hex/rockr_hex.png' align="right" height="150" />
 
