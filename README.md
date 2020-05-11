@@ -31,7 +31,7 @@ options across polls
 
 > (Attempts at) British spelling are in honour of Nick Moberly (Exeter,
 > UK), whose @nickmoberly Twitter polls were the motivation for and
-> contributing source data used in the illustrative example.
+> contributing data used in the illustrative example.
 
 <br>
 
@@ -121,7 +121,7 @@ given year
 
   - we use the `group_by()` and `summarise_at()` commands to sum
     percentages or vote counts for each band per year.
-  - This scenario occured in the 1970 final poll, where Black Sabbath
+  - This scenario occured in the 1970 final poll, where *Black Sabbath*
     had two albums that year;
       - other scenarios for this occur when analyzing bonus, qualifying,
         and final polls jointly.
@@ -167,8 +167,10 @@ static bar charts using the `ggplot()` command.
   - Dissatisfied with the default colors, I create a custom array of
     colors and called it using the `scale_colour_manual()` and
     `scale_fill_manual()` commands.
-      - After all, Black Sabbath has to be black and Deep Purple has to
-        be purple, right?
+      - After all, *Black Sabbath* has to be
+        **<span style="color: black;">black</span>** and *Deep Purple*
+        has to be **<span style="color: purple;">purple</span>**,
+        *right*?
   - Using the `unique()` command we can generate the list of bands in
     the plot for which colors are needed.
 
@@ -176,7 +178,9 @@ Then we use the `transition_states()` command to stitch together the
 individual static plots.
 
   - And the final step is rendering the animated plots usng the
-    `animate()` command.
+    `animate(gifski_renderer())` command.
+
+<br>
 
 ### Best album cumulative percentage of votes aggregated by band, based on *final* polls
 
@@ -237,3 +241,5 @@ plotted metric.
 <img src=https://media.giphy.com/media/xT9DPiSrihyxZnarbG/giphy.gif>
 
 </p>
+
+<br>
