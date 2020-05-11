@@ -50,7 +50,7 @@ Given a series of Twitter polls on best album of the year, with sequential polls
 </p>
 
 
-## Installation
+## Packages, script, and data
 
 Although `rockr` aspires to be a full blown package contributing generalizable functions useful for a variety of applications, at present it is simply a code and data repository with script tailored to one particular dataset. 
 

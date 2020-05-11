@@ -46,7 +46,7 @@ options across polls
 
 </p>
 
-## Installation
+## Packages, script, and data
 
 Although `rockr` aspires to be a full blown package contributing
 generalizable functions useful for a variety of applications, at present
