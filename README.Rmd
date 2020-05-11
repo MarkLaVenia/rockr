@@ -49,7 +49,7 @@ The analyses described herein requires the installation and loading of the follo
 
 `tidyverse`, `ggplot2`, `gganimate`, `png`
 
-All R code required for this project can be found in [script/Animated Bar Chart.Rmd](https://github.com/MarkLaVenia/rockr/blob/master/script/Animated%20Bar%20Chart.Rmd)
+All R code required for this project can be found in [script/Animated Bar Chart.Rmd](https://github.com/MarkLaVenia/rockr/blob/master/script/Animated%20Bar%20Chart.Rmd), with raw data found in [data/raw-data/raw_twitter_poll_data.csv](https://github.com/MarkLaVenia/rockr/tree/master/data/raw-data/raw_twitter_poll_data.csv)
 
 ## Analytic premises and assumptions (...however questionable)
 
@@ -58,13 +58,14 @@ All R code required for this project can be found in [script/Animated Bar Chart.
   - the proportion of people who vote the band's albums as the best album of the year.
 
 - Poll percentages weighted equally across years smooths over variation in response rate across polls; 
-  - however, sum of votes may (in part) be an indicator of enthusiasm for a given a band or album--
+  - however, the sum of votes may (in part) be an indicator of enthusiasm for a given a band or album--
   and therefore may also be a valid metric for ranking bands.
   - That said, early polls averaged fewer responses than later polls; therefore, it appears reach of the poll increased over time--likely giving an upward bias for bands in later polls when using vote sums.
   
 - Constraining the date to only the final poll for each year avoids the problem of needing to account for albums that appeared on both qualifying and final polls; 
   - however, on the premise that the magnitide of voter response is an indicator of enthusiasm for a given band or album, summing across bonus, qualifying final polls polls--constituting the total sum of votes cast for a band or album given the opportunity to vote for that band or album--may yield some insight.
-
+  
+- Lastly, these are not scientifically derived samples--just Nick's mates :)
 
 ## Data preparation
 
@@ -133,8 +134,7 @@ Then we use the `transition_states()` command to stitch together the individual 
 ### Best album cumulative percentage of votes aggregated by band, based on final polls
 
 This plot uses a rolling average of the `poll_percent` variable as the plotted metric.
-<p align="center">
-  <img src="plots/album_poll_final_percentage.gif" alt="reviewer">
+<p align="center"> <img src="plots/album_poll_final_percentage.gif" alt="reviewer">
 
 
 
@@ -145,8 +145,7 @@ This plot uses a rolling average of the `poll_percent` variable as the plotted m
 ### Best album cumulative votes aggregated by band, based on final polls
 
 This plot uses a rolling sum of the `album_votes` variable as the plotted metric.
-<p align="center">
-  <img src="plots/album_poll_final_sum.gif" alt="reviewer">
+<p align="center"> <img src="plots/album_poll_final_sum.gif" alt="reviewer">
 
 
 
@@ -157,8 +156,7 @@ This plot uses a rolling sum of the `album_votes` variable as the plotted metric
 ### Best album cumulative votes aggregated by band, based on all polls
 
 This plot uses uses a rolling sum of the `album_votes` variable as the plotted metric.
-<p align="center">
-  <img src="plots/album_poll_all_sum.gif" alt="reviewer">
+<p align="center"> <img src="plots/album_poll_all_sum.gif" alt="reviewer">
 
 
 

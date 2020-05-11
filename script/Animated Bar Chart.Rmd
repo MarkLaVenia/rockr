@@ -20,6 +20,8 @@ ipak <- function(pkg) {
 packages <- c("tidyverse", "ggplot2", "gganimate", "png")
 ipak(packages)
 
+#install.packages("dplyr") run in case of "there is no package called ‘rlang’" error
+
 ```
 
 Prepare analysis files

@@ -50,7 +50,9 @@ the following R packages:
 
 All R code required for this project can be found in [script/Animated
 Bar
-Chart.Rmd](https://github.com/MarkLaVenia/rockr/blob/master/script/Animated%20Bar%20Chart.Rmd)
+Chart.Rmd](https://github.com/MarkLaVenia/rockr/blob/master/script/Animated%20Bar%20Chart.Rmd),
+with raw data found in
+[data/raw-data/raw\_twitter\_poll\_data.csv](https://github.com/MarkLaVenia/rockr/tree/master/data/raw-data/raw_twitter_poll_data.csv)
 
 ## Analytic premises and assumptions (…however questionable)
 
@@ -61,7 +63,7 @@ Chart.Rmd](https://github.com/MarkLaVenia/rockr/blob/master/script/Animated%20Ba
         album of the year.
   - Poll percentages weighted equally across years smooths over
     variation in response rate across polls;
-      - however, sum of votes may (in part) be an indicator of
+      - however, the sum of votes may (in part) be an indicator of
         enthusiasm for a given a band or album– and therefore may also
         be a valid metric for ranking bands.
       - That said, early polls averaged fewer responses than later
@@ -77,6 +79,8 @@ Chart.Rmd](https://github.com/MarkLaVenia/rockr/blob/master/script/Animated%20Ba
         total sum of votes cast for a band or album given the
         opportunity to vote for that band or album–may yield some
         insight.
+  - Lastly, these are not scientifically derived samples–just Nick’s
+    mates :)
 
 ## Data preparation
 
