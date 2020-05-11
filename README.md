@@ -51,7 +51,7 @@ options across polls
 
 Although `rockr` aspires to be a full blown package contributing
 generalizable functions useful for a variety of applications, at present
-it is simply a code and data repository with script specified to one
+it is simply a code and data repository with script tailored to one
 particular dataset.
 
 The analyses described herein requires the installation and loading of

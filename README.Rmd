@@ -51,7 +51,7 @@ Given a series of Twitter polls on best album of the year, with sequential polls
 
 ## Installation
 
-Although `rockr` aspires to be a full blown package contributing generalizable functions useful for a variety of applications, at present it is simply a code and data repository with script specified to one particular dataset. 
+Although `rockr` aspires to be a full blown package contributing generalizable functions useful for a variety of applications, at present it is simply a code and data repository with script tailored to one particular dataset. 
 
 The analyses described herein requires the installation and loading of the following R packages:
 
