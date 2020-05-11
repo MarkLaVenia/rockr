@@ -7,11 +7,10 @@ output: github\_document
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-![](https://img.shields.io/badge/cool-useless-green.svg) [![Ask Me
-Anything
-\!](https://img.shields.io/badge/Ask%20me-anything-1abc9c.svg)](https://GitHub.com/Naereen/ama)
-[![Open Source
+![](https://img.shields.io/badge/cool-useless-green.svg) [![Open Source
 Love](https://badges.frapsoft.com/os/v1/open-source.png?v=103)](https://github.com/ellerbrock/open-source-badges/)
+[![Ask Me Anything
+\!](https://img.shields.io/badge/Ask%20me-anything-1abc9c.svg)](https://GitHub.com/Naereen/ama)
 
 # rockr <img src='hex/rockr_hex.png' align="right" height="150" />
 
@@ -201,7 +200,9 @@ plotted metric.
 #### Best album cumulative votes aggregated by band, based on *final* polls
 
 This plot uses a rolling sum of the `album_votes` variable as the
-plotted metric.
+plotted metric. This and the following plot based on vote sums has the
+annoying quirk of having ties where bars overlap–making the band name
+dificult to read. (Suggested remedies to this are welcome.)
 
 <p align="center">
 
