@@ -27,9 +27,13 @@ options across polls
 3.  Render animated bar charts to visualise the cumulative and aggregate
     sentiment across the series of polls
 
-\[(Attempts at) British spelling are in honour of Nick Moberly (Exeter,
-UK), whose @nickmoberly Twitter polls were the motivation for and
-contributing source data used in the illustrative example.\]
+<br>
+
+> (Attempts at) British spelling are in honour of Nick Moberly (Exeter,
+> UK), whose @nickmoberly Twitter polls were the motivation for and
+> contributing source data used in the illustrative example.
+
+<br>
 
 <p align="center">
 
@@ -54,7 +58,7 @@ Chart.Rmd](https://github.com/MarkLaVenia/rockr/blob/master/script/Animated%20Ba
 with raw data found in
 [data/raw-data/raw\_twitter\_poll\_data.csv](https://github.com/MarkLaVenia/rockr/tree/master/data/raw-data/raw_twitter_poll_data.csv)
 
-## Analytic premises and assumptions (…however questionable)
+## Analytic premises and assumptions (*…however questionable*)
 
   - A band’s status within the ranking of best bands is a function of
       - the number of albums the band has that qualify as one of the
@@ -103,10 +107,10 @@ place, Accordingly, using the `mutate()` command we calculated
 We then reduce the dataframe to the observations of interest.
 
   - For all analyses, we drop observations for polls coded as invalid.
-      - In the example data, one poll was conducted as an alternate
-        final.
-  - For two analyses we retain observation for only final polls
-    (excluding data for bonus and qualifying polls);
+      - In the example data, one poll coded as invalid was conducted as
+        an alternate final.
+  - For two analyses we retain data for only final polls (excluding data
+    for bonus and qualifying polls);
       - whereas, for a third analysis we retained data for all valid
         polls (bonus, qualifying, and final polls).
 
@@ -117,23 +121,23 @@ given year
 
   - we use the `group_by()` and `summarise_at()` commands to sum
     percentages or vote counts for each band per year.
-  - This occured in the 1970 final poll, where Black Sabbath had two
-    albums that year;
+  - This scenario occured in the 1970 final poll, where Black Sabbath
+    had two albums that year;
       - other scenarios for this occur when analyzing bonus, qualifying,
         and final polls jointly.
 
 ### Structure
 
 Ultimately we want a file in a long format, with each band having a row
-for every year in the data set regardless of whether the band has poll
+for every year in the data set regardless of whether the band had poll
 data for that year. There is probably a more efficiet what of doing
 this; but short of figuring that out,
 
-  - I first used the `pivot_wider()` command, then the `pivot_longer()`
-    command to accomplish this.
+  - I first used the `pivot_wider()` command, followed by the
+    `pivot_longer()` command to accomplish this.
   - A more efficient approach would evaluate which years were unobserved
     for given bands, then insert rows for those missing observations.
-    (Suggestions on improvements on this procedure are welcome).
+    (Suggestions on improved approaches to this are welcome.)
 
 ### Computation
 
@@ -145,23 +149,26 @@ To calculate rolling averages and sums, we use
 
 ### Format
 
-The final step before plotting the data is to format the data by calling
+The final step before plotting is to format the data by calling
 
   - the `group_by()` and `mutate(rank())` commands to rank order the
     bands with each year and
   - the `group_by()` and `filter()` commands to constrain the data to
-    the top 10 ranked bands for any given year.
+    the top ranked bands for any given year.
+      - In this example we filter to the top 10 ranked bands.
 
 ## Rendering animated bar charts
 
 ### Static and animated plots
 
-The first step to making an animated bar chart is to make a series of
+The first step to making an animated bar chart is to plot a series of
 static bar charts using the `ggplot()` command.
 
   - Dissatisfied with the default colors, I create a custom array of
     colors and called it using the `scale_colour_manual()` and
     `scale_fill_manual()` commands.
+      - After all, Black Sabbath has to be black and Deep Purple has to
+        be purple, right?
   - Using the `unique()` command we can generate the list of bands in
     the plot for which colors are needed.
 
@@ -171,7 +178,7 @@ individual static plots.
   - And the final step is rendering the animated plots usng the
     `animate()` command.
 
-### Best album cumulative percentage of votes aggregated by band, based on final polls
+### Best album cumulative percentage of votes aggregated by band, based on *final* polls
 
 This plot uses a rolling average of the `poll_percent` variable as the
 plotted metric.
@@ -182,7 +189,9 @@ plotted metric.
 
 </p>
 
-### Best album cumulative votes aggregated by band, based on final polls
+<br><br><br>
+
+### Best album cumulative votes aggregated by band, based on *final* polls
 
 This plot uses a rolling sum of the `album_votes` variable as the
 plotted metric.
@@ -193,7 +202,9 @@ plotted metric.
 
 </p>
 
-### Best album cumulative votes aggregated by band, based on all polls
+<br><br><br>
+
+### Best album cumulative votes aggregated by band, based on *all* polls
 
 This plot uses uses a rolling sum of the `album_votes` variable as the
 plotted metric.
@@ -204,15 +215,25 @@ plotted metric.
 
 </p>
 
+<br>
+
+-----
+
 ### Source code and guidance
 
-Credit to AbdulMajedRaja RS
-<https://towardsdatascience.com/create-animated-bar-charts-using-r-31d09e5841da>
-for source code and guidance referenced for these animated bar charts.
-See also Stack Overflow
-<https://stackoverflow.com/questions/53162821/animated-sorted-bar-chart-with-bars-overtaking-each-other>
-for guidance and discussion.
+> Credit to AbdulMajedRaja RS
+> <https://towardsdatascience.com/create-animated-bar-charts-using-r-31d09e5841da>
+> for source code and guidance referenced for these animated bar charts.
+> See also Stack Overflow
+> <https://stackoverflow.com/questions/53162821/animated-sorted-bar-chart-with-bars-overtaking-each-other>
+> for guidance and discussion.
+
+-----
+
+<br><br><br><br>
 
 <p align="center">
 
 <img src=https://media.giphy.com/media/xT9DPiSrihyxZnarbG/giphy.gif>
+
+</p>
