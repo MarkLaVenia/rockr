@@ -168,7 +168,7 @@ static bar charts using the `ggplot()` command.
     colors and called it using the `scale_colour_manual()` and
     `scale_fill_manual()` commands.
       - After all, *Black Sabbath* has to be
-        **<span style="color: black;">black</span>** and *Deep Purple*
+        **<span style="color: black">black</span>** and *Deep Purple*
         has to be **<span style="color: purple;">purple</span>**,
         *right*?
   - Using the `unique()` command we can generate the list of bands in

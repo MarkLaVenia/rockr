@@ -128,7 +128,7 @@ The final step before plotting is to format the data by calling
 The first step to making an animated bar chart is to plot a series of static bar charts using the `ggplot()` command.
 
 - Dissatisfied with the default colors, I create a custom array of colors and called it using the `scale_colour_manual()` and `scale_fill_manual()` commands.
-  - After all, *Black Sabbath* has to be **<span style="color: black;">black</span>** and *Deep Purple* has to be **<span style="color: purple;">purple</span>**, *right*?
+  - After all, *Black Sabbath* has to be **<span style="color: black">black</span>** and *Deep Purple* has to be **<span style="color: purple;">purple</span>**, *right*?
 - Using the `unique()` command we can generate the list of bands in the plot for which colors are needed. 
 
 Then we use the `transition_states()` command to stitch together the individual static plots.
