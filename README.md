@@ -7,6 +7,13 @@ output: github\_document
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
+\[![Cool But
+Useless](https://img.shields.io/badge/cool-useless-green.svg) [![Ask Me
+Anything
+\!](https://img.shields.io/badge/Ask%20me-anything-1abc9c.svg)](https://GitHub.com/Naereen/ama)
+[![Open Source Love
+svg2](https://badges.frapsoft.com/os/v2/open-source.svg?v=103)](https://github.com/ellerbrock/open-source-badges/)
+
 # rockr <img src='hex/rockr_hex.png' align="right" height="150" />
 
 <!-- badges: start -->
@@ -43,9 +50,10 @@ options across polls
 
 ## Installation
 
-Ideally rockr would be a package in itself with generalizable functions
-and integrated dependencies. However, at present it is simply a code and
-data repository with script tailored to one particular dataset.
+Although `rockr` aspires to be a full blown package contributing
+generalizable functions useful for a variety of applications, at present
+it is simply a code and data repository with script specified to one
+particular dataset.
 
 The analyses described herein requires the installation and loading of
 the following R packages:
@@ -167,10 +175,8 @@ static bar charts using the `ggplot()` command.
   - Dissatisfied with the default colors, I create a custom array of
     colors and called it using the `scale_colour_manual()` and
     `scale_fill_manual()` commands.
-      - After all, *Black Sabbath* has to be
-        **<span style="color: black">black</span>** and *Deep Purple*
-        has to be **<span style="color: purple;">purple</span>**,
-        *right*?
+      - After all, *Black Sabbath* has to be *black* and *Deep Purple*
+        has to be *purple*, *right*?
   - Using the `unique()` command we can generate the list of bands in
     the plot for which colors are needed.
 
@@ -180,9 +186,7 @@ individual static plots.
   - And the final step is rendering the animated plots usng the
     `animate(gifski_renderer())` command.
 
-<br>
-
-### Best album cumulative percentage of votes aggregated by band, based on *final* polls
+#### Best album cumulative percentage of votes aggregated by band, based on *final* polls
 
 This plot uses a rolling average of the `poll_percent` variable as the
 plotted metric.
@@ -195,7 +199,7 @@ plotted metric.
 
 <br><br><br>
 
-### Best album cumulative votes aggregated by band, based on *final* polls
+#### Best album cumulative votes aggregated by band, based on *final* polls
 
 This plot uses a rolling sum of the `album_votes` variable as the
 plotted metric.
@@ -208,7 +212,7 @@ plotted metric.
 
 <br><br><br>
 
-### Best album cumulative votes aggregated by band, based on *all* polls
+#### Best album cumulative votes aggregated by band, based on *all* polls
 
 This plot uses uses a rolling sum of the `album_votes` variable as the
 plotted metric.
