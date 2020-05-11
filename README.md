@@ -79,8 +79,8 @@ with raw data found in
         total sum of votes cast for a band or album given the
         opportunity to vote for that band or album–may yield some
         insight.
-  - Lastly, these are not scientifically derived samples–just Nick’s
-    mates :)
+  - Lastly, it is worth noting that these are not scientifically derived
+    samples–just Nick’s mates :)
 
 ## Data preparation
 

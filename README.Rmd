@@ -65,7 +65,7 @@ All R code required for this project can be found in [script/Animated Bar Chart.
 - Constraining the date to only the final poll for each year avoids the problem of needing to account for albums that appeared on both qualifying and final polls; 
   - however, on the premise that the magnitide of voter response is an indicator of enthusiasm for a given band or album, summing across bonus, qualifying final polls polls--constituting the total sum of votes cast for a band or album given the opportunity to vote for that band or album--may yield some insight.
   
-- Lastly, these are not scientifically derived samples--just Nick's mates :)
+- Lastly, it is worth noting that these are not scientifically derived samples--just Nick's mates :)
 
 ## Data preparation
 
