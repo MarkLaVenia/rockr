@@ -52,7 +52,7 @@ Given a series of Twitter polls on best album of the year, with sequential polls
 
 ## Packages, scripts, and data
 
-Although `rockr` aspires to be a full blown package contributing a array of functions useful for a variety of applications, at present it is simply a code and data repository, with scripts to perform one task, tailored to one particular dataset. See section, [Future development of `rockr`](#Future development of rockr), for thoughts on what `rockr` might be when it grows up.
+Although `rockr` aspires to be a full blown package contributing an array of functions useful for a variety of applications, at present it is simply a code and data repository, with scripts to perform one task, tailored to one particular dataset. See section, [Future development of `rockr`](#Future development of rockr), for thoughts on what `rockr` might be when it grows up.
 
 The analyses described herein requires the installation and loading of the following `R` packages:
 
@@ -108,7 +108,7 @@ To remedy instances where a given band appeared more than once in a given year
 Ultimately we want a file in a long format, with each band having a row for every year in the data set regardless of whether the band had poll data for that year. There is probably a more efficient what of doing this; but short of figuring that out, 
 
 - I first used the `pivot_wider()` command, followed by the `pivot_longer()` command to accomplish this.
-- A more efficient approach would evaluate which years were unobserved for given bands, then insert rows for those missing observations. 
+- A more efficient approach might evaluate which years were unobserved for given bands, then insert rows for those missing observations. 
   - Suggestions on improved approaches to this are welcome.
 
 ### Computation
@@ -147,7 +147,7 @@ Then we use the `transition_states()` command to stitch together the individual 
 
 This plot uses a rolling average of the `poll_percent` variable as the plotted metric, based on results according to the *final* polls.
 <p align="center"> 
-<img src="plots/album_poll_final_percentage.gif" alt="reviewer">
+<img src="R/plots/album_poll_final_percentage.gif" alt="reviewer">
 </p> 
 <br><br><br>
 <a id="Bar Chart 2"></a>
@@ -159,7 +159,7 @@ This plot uses a rolling sum of the `album_votes` variable as the plotted metric
 - This and the following plot that uses vote sums as the plotted metric has the annoying quirk of occasionally having ties where bars overlap--making the band name difficult to read. 
   - Suggested visualization remedies to the overlapping of bars are welcome.
 <p align="center">
-<img src="plots/album_poll_final_sum.gif" alt="reviewer">
+<img src="R/plots/album_poll_final_sum.gif" alt="reviewer">
 </p> <br><br><br>
 <a id="Bar Chart 3"></a>
 
@@ -167,7 +167,7 @@ This plot uses a rolling sum of the `album_votes` variable as the plotted metric
 
 This plot uses uses a rolling sum of the `album_votes` variable as the plotted metric, based on results according to *all* polls.
 <p align="center"> 
-<img src="plots/album_poll_all_sum.gif" alt="reviewer">
+<img src="R/plots/album_poll_all_sum.gif" alt="reviewer">
 </p> <br>
 
 ***

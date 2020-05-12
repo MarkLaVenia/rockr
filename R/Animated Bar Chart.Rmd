@@ -30,7 +30,7 @@ Prepare analysis files
 setwd("C:/Users/MarkLaVenia/GitHub/rockr")
 
 twitter_poll_data <-
-  read_csv("inst/extdata/raw_twitter_poll_data.csv")
+  read_csv("data-raw/raw_twitter_poll_data.csv")
 
 precision_poll_data <- twitter_poll_data %>%
   mutate(album_votes = round(poll_votes * (poll_percent / 100), 0)) %>%
@@ -292,10 +292,10 @@ anim
 ```{r}
 animate(anim, 200, fps = 10, duration = 40, width = 1200, height = 1000,
   
-  renderer = gifski_renderer("plots/album_poll_final_percentage.gif")) # for final polls percentages
+  renderer = gifski_renderer("R/plots/album_poll_final_percentage.gif")) # for final polls percentages
 
-#  renderer = gifski_renderer("plots/album_poll_final_sum.gif")) # for final polls sums
+#  renderer = gifski_renderer("R/plots/album_poll_final_sum.gif")) # for final polls sums
 
-#  renderer = gifski_renderer("plots/album_poll_all_sum.gif")) # for all polls sums
+#  renderer = gifski_renderer("R/plots/album_poll_all_sum.gif")) # for all polls sums
 ```
 
