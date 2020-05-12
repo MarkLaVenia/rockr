@@ -238,14 +238,12 @@ plotted metric.
 > posts](https://stackoverflow.com/questions/53162821/animated-sorted-bar-chart-with-bars-overtaking-each-other)
 > for guidance and discussion.
 
-<br>
+<br> <a id="Future development of rockr"></a>
 
 ### Future development of `rockr`
 
-<a id="Future development of rockr"></a>
-
-1.  The most untuitive development of `rockr` is to integrate web
-    scraping into the workflow to more efficiently and gather the data
+1.  The most untuitive further development of `rockr` is to integrate
+    web scraping into the workflow to more efficiently gather the data
     from the Twitter polls.
 
 2.  We could also draw upon existing datasets, such as [JarbasAI GitHub
@@ -259,7 +257,7 @@ plotted metric.
       - One extension of this could be to create an `R` cousin of
         `pymetal`, with `rmetal` being a sub-command in a broader
         `rockr`package.
-      - Of course there are planty of other great uses for the [JarbasAI
+      - Of course there are plenty of other great uses for the [JarbasAI
         GitHub Metal
         Dataset](https://github.com/OpenJarbas/metal_dataset) worth
         exploring and possibly integrating into a `rockr` package.
@@ -267,44 +265,43 @@ plotted metric.
 3.  [Alberto Acerbi’s genre
     analysis](https://github.com/albertoacerbi/mxm_genres_analysis)
     constitutes an interesting sentiment analysis of lyrics, which
-    infers postive and negative emotional tone of music by genre and
+    infers postive and negative emotional tone of music, by genre, and
     over time. Certainly other conceptual frameworks and category
     operationalizations could be applied to explore alternate
     interpretations of the data. Albert Acerbi makes use of the
     [musixmatch](https://www.musixmatch.com/) repository of song lyrics
     for his analysis, which could be drawn upon for replications and
-    extensions of this work.
+    extensions of this line of inquiry.
     
       - One variation on this analytic strategy includes taking a more
         holistic approach to categorizing positive and negative valence,
         such as keying by word phrases rather than individual words–or
         even clustering lyrics by song to allow for an evaluation of
-        songs over the entire arc of their lyrics.
-      - Further, additional data on sonics, harmonic esthetics, tempo,
-        dynamics, etc. of the music and vocals to evaluate the auditory
-        effect of the song holistically–placing the lyrics within the
-        broader context of the song as a unit of analysis. Of course,
-        this would require additional data, for which I am unaware of
-        existing at present.
+        individual songs over the entire arc of their lyrics.
+      - Further, additional data on the sonics, harmonic esthetics,
+        tempo, dynamics, etc. of the instrumentation and vocals to
+        evaluate the auditory effect of songs holistically–placing the
+        lyrics within the broader context of the song as a unit of
+        analysis. Of course, this would require additional data, for
+        which I am not aware of as existing at present.
 
 4.  The [Bound by Metal Interactive Metal Genres
     Graph](https://www.boundbymetal.com/en/common/metal-genres-graph)
     represents an excellent data visualization for up- and down-stream
     influences between sub-genres. This kind of network analysis can be
-    very helpful interogating ontology of and relationships between
-    sub-genres.
+    very helpful for interogating the ontology of and relationships
+    between sub-genres.
     
-      - However, I would lover greater transparency around source data
-        and decision rules. Also, I’d love to be able toggle the unit of
-        anlysis to visualize the network connections by band–or even
-        account for how albums for a given band may vary in style and
-        shift from one sub-genre to another. A `rockr` package might be
-        designed to do just that.
+      - However, I would love greater transparency around the source
+        data and decision rules. Also, I’d love to be able toggle the
+        unit of anlysis to visualize the network connections by band–or
+        even account for how albums for a given band may vary in style
+        and shift from one sub-genre to another. A `rockr` package might
+        be designed to do just that.
 
 > Consider this as an open invitation for all collaborators interested
-> in pursuing any of these or other developments.
-
-<https://www.boundbymetal.com/en/common/metal-genres-graph>
+> in pursuing any of these or other developments around a prospective
+> `rockr` package.
 
 -----
 
