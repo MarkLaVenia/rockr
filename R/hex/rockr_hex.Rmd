@@ -15,7 +15,7 @@ library(hexSticker)
 setwd("C:/Users/MarkLaVenia/GitHub/rockr")
 
 #rm(logo)
-logo <- image_read("hex/Rock Emoji.png")
+logo <- image_read("R/hex/Rock Emoji.png")
 logo <- logo %>% image_scale(200) %>% image_crop("400x330")
 
 r <- sticker(logo, package = "rockr", p_size = 23, p_color = "#FFC600",

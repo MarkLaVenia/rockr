@@ -30,7 +30,7 @@ Prepare analysis files
 setwd("C:/Users/MarkLaVenia/GitHub/rockr")
 
 twitter_poll_data <-
-  read_csv("data/raw-data/raw_twitter_poll_data.csv")
+  read_csv("inst/extdata/raw_twitter_poll_data.csv")
 
 precision_poll_data <- twitter_poll_data %>%
   mutate(album_votes = round(poll_votes * (poll_percent / 100), 0)) %>%

@@ -14,7 +14,7 @@ Love](https://badges.frapsoft.com/os/v1/open-source.png?v=103)](https://github.c
 
 <a id="top of page"></a>
 
-# rockr <img src='hex/rockr_hex.png' align="right" height="150" />
+# rockr <img src='R/hex/rockr_hex.png' align="right" height="150" />
 
 <!-- badges: start -->
 
@@ -23,8 +23,8 @@ Love](https://badges.frapsoft.com/os/v1/open-source.png?v=103)](https://github.c
 The (current) goal of `rockr` is:
 
 Given a series of Twitter polls on best album of the year, with
-sequential polls for each year, where some bands are reoccuring response
-options across polls
+sequential polls for each year, where some bands are reoccurring
+response options across polls
 
 1.  Munge data into an analysis-ready format
 
@@ -50,10 +50,10 @@ options across polls
 
 ## Packages, scripts, and data
 
-Although `rockr` aspires to be a full blown package contributing
-generalizable functions useful for a variety of applications, at present
-it is simply a code and data repository with script tailored to one
-particular dataset. See section, [Future development of
+Although `rockr` aspires to be a full blown package contributing a array
+of functions useful for a variety of applications, at present it is
+simply a code and data repository, with scripts to perform one task,
+tailored to one particular dataset. See section, [Future development of
 `rockr`](#Future%20development%20of%20rockr), for thoughts on what
 `rockr` might be when it grows up.
 
@@ -62,11 +62,10 @@ the following `R` packages:
 
 `tidyverse`, `ggplot2`, `gganimate`, `png`
 
-All `R` code required for this project can be found in [script/Animated
-Bar
-Chart.Rmd](https://github.com/MarkLaVenia/rockr/blob/master/script/Animated%20Bar%20Chart.Rmd),
+All `R` code required for this project can be found in [R/Animated Bar
+Chart.Rmd](https://github.com/MarkLaVenia/rockr/blob/master/R/Animated%20Bar%20Chart.Rmd),
 with raw data found in
-[data/raw-data/raw\_twitter\_poll\_data.csv](https://github.com/MarkLaVenia/rockr/tree/master/data/raw-data/raw_twitter_poll_data.csv)
+[inst/extdata/raw\_twitter\_poll\_data.csv](https://github.com/MarkLaVenia/rockr/tree/master/data-raw/raw_twitter_poll_data.csv)
 
 ## Analytic premises and assumptions (*…however questionable*)
 
@@ -87,13 +86,13 @@ with raw data found in
   - Constraining the date to only the final poll for each year avoids
     the problem of needing to account for albums that appeared on both
     qualifying and final polls;
-      - however, on the premise that the magnitide of voter response is
+      - however, on the premise that the magnitude of voter response is
         an indicator of enthusiasm for a given band or album, summing
         across bonus, qualifying, and final polls–constituting the total
         sum of votes cast for a band or album given the opportunity to
         vote for that band or album–may yield some insight.
-  - Lastly, regarding these Twitter polls, it is worth noting that these
-    are not scientifically derived samples–just Nick’s Twitter mates :)
+  - Lastly, regarding these polls, it is worth noting that these are not
+    scientifically derived samples–just Nick’s Twitter mates :)
 
 ## Data preparation
 
@@ -131,7 +130,7 @@ given year
 
   - we use the `group_by()` and `summarise_at()` commands to sum
     percentages or vote counts for each band per year.
-  - This scenario occured in the 1970 final poll, where *Black Sabbath*
+  - This scenario occurred in the 1970 final poll, where *Black Sabbath*
     had two albums that year;
       - other scenarios for this occur when analyzing bonus, qualifying,
         and final polls jointly.
@@ -186,14 +185,14 @@ static bar charts using the `ggplot()` command.
 Then we use the `transition_states()` command to stitch together the
 individual static plots.
 
-  - And the final step is rendering the animated plots usng the
+  - And the final step is rendering the animated plots using the
     `animate(gifski_renderer())` command. <br><br>
     <a id="Bar Chart 1"></a>
 
 #### Bar Chart 1. *Best album cumulative percentage of votes aggregated by band*
 
 This plot uses a rolling average of the `poll_percent` variable as the
-plotted metric, based on the *final* polls.
+plotted metric, based on results according to the *final* polls.
 
 <p align="center">
 
@@ -206,7 +205,7 @@ plotted metric, based on the *final* polls.
 #### Bar Chart 2. *Best album cumulative votes aggregated by band*
 
 This plot uses a rolling sum of the `album_votes` variable as the
-plotted metric, based on the *final* polls.
+plotted metric, based on results according to the *final* polls.
 
   - This and the following plot that uses vote sums as the plotted
     metric has the annoying quirk of occasionally having ties where bars
@@ -221,7 +220,7 @@ plotted metric, based on the *final* polls.
 #### Bar Chart 3. *Best album cumulative votes aggregated by band*
 
 This plot uses uses a rolling sum of the `album_votes` variable as the
-plotted metric, based on *all* polls.
+plotted metric, based on results according to *all* polls.
 
 <p align="center">
 
@@ -246,14 +245,14 @@ plotted metric, based on *all* polls.
 
 ### Future development of `rockr`
 
-1.  The most untuitive further development of `rockr` is to integrate
+1.  The most intuitive further development of `rockr` is to integrate
     web scraping into the workflow to more efficiently gather the data
     from the Twitter polls.
 
 2.  We could also draw upon existing datasets, such as [JarbasAI’s Metal
     Dataset](https://github.com/OpenJarbas/metal_dataset) on GitHub: a
     vast curation of metal bands, songs, and lyrics sorted by sub-genre.
-    Existing uses of this dataset unclude the [Metal
+    Existing uses of this dataset include the [Metal
     Generator](https://ai-jarbas.gitbook.io/jarbasai/projects/metal-generator)
     / [pymetal](https://github.com/OpenJarbas/pymetal) `Python` package
     for generating new band names, song names, and lyrics.
@@ -268,7 +267,7 @@ plotted metric, based on *all* polls.
 3.  [Alberto Acerbi’s genre
     analysis](https://github.com/albertoacerbi/mxm_genres_analysis)
     constitutes an interesting sentiment analysis of lyrics, which
-    infers the postive and negative emotional tone of music, by genre,
+    infers the positive and negative emotional tone of music, by genre,
     and over time. Certainly other conceptual frameworks and dimension
     operationalizations could be applied to explore alternate
     interpretations of the data. Albert Acerbi makes use of the
@@ -293,12 +292,12 @@ plotted metric, based on *all* polls.
     Graph](https://www.boundbymetal.com/en/common/metal-genres-graph)
     represents an excellent data visualization for up- and down-stream
     influences between sub-genres. This kind of network analysis can be
-    useful for interogating the ontology of and relationships between
+    useful for interrogating the ontology of and relationships between
     sub-genres.
     
       - However, I would love greater transparency around the source
         data and decision rules. Also, I’d love to be able toggle the
-        unit of anlysis to visualize the network connections by band–or
+        unit of analysis to visualize the network connections by band–or
         even account for and visualize how bands may vary in style over
         time, evolving across sub-genres. A `rockr` package might be
         designed to do just that.
