@@ -278,13 +278,31 @@ plotted metric.
       - One variation on this analytic strategy includes taking a more
         holistic approach to categorizing positive and negative valence,
         such as keying by word phrases rather than individual words–or
-        even clustering lyrics by song to allow evaluation of songs as a
-        whole.
-      - Further additional data on sonics, harmony/dissonance, and tempo
-        of the music and vocals to evaluate the auditory effect of the
-        song holistically–placing the lyrics within the broader context
-        of the song. Of course, this would require additional data, for
-        which I am unaware of existing at present.
+        even clustering lyrics by song to allow for an evaluation of
+        songs over the entire arc of their lyrics.
+      - Further, additional data on sonics, harmonic esthetics, tempo,
+        dynamics, etc. of the music and vocals to evaluate the auditory
+        effect of the song holistically–placing the lyrics within the
+        broader context of the song as a unit of analysis. Of course,
+        this would require additional data, for which I am unaware of
+        existing at present.
+
+4.  The [Bound by Metal Interactive Metal Genres
+    Graph](https://www.boundbymetal.com/en/common/metal-genres-graph)
+    represents an excellent data visualization for up- and down-stream
+    influences between sub-genres. This kind of network analysis can be
+    very helpful interogating ontology of and relationships between
+    sub-genres.
+    
+      - However, I would lover greater transparency around source data
+        and decision rules. Also, I’d love to be able toggle the unit of
+        anlysis to visualize the network connections by band–or even
+        account for how albums for a given band may vary in style and
+        shift from one sub-genre to another. A `rockr` package might be
+        designed to do just that.
+
+> Consider this as an open invitation for all collaborators interested
+> in pursuing any of these or other developments.
 
 <https://www.boundbymetal.com/en/common/metal-genres-graph>
 
