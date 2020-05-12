@@ -25,15 +25,15 @@ output: github_document
 
 
 
-The (current) goal of rockr is to:
+The (current) goal of `rockr` is:
 
 Given a series of Twitter polls on best album of the year, with sequential polls for each year, where some bands are reoccuring response options across polls
 
 1.  Munge data into an analysis-ready format
 
-2.  Produce multiple scalings and subsets of data to permit different ways of conceptualising poll responses
+2.  Produce multiple scalings and subsets of data to permit different ways of conceptualising poll results
 
-3.  Render animated bar charts to visualise the cumulative and aggregate sentiment across the series of polls
+3.  Render animated bar charts to visualise the cumulative and aggregate response across the series of polls
 
 <br>
 
@@ -50,7 +50,7 @@ Given a series of Twitter polls on best album of the year, with sequential polls
 </p>
 
 
-## Packages, script, and data
+## Packages, scripts, and data
 
 Although `rockr` aspires to be a full blown package contributing generalizable functions useful for a variety of applications, at present it is simply a code and data repository with script tailored to one particular dataset. See section, [Future development of `rockr`](#Future development of rockr), for thoughts on what `rockr` might be when it grows up.
 
@@ -63,22 +63,21 @@ All `R` code required for this project can be found in [script/Animated Bar Char
 ## Analytic premises and assumptions (*...however questionable*)
 
 - A band's status within the ranking of best bands is a function of 
-  - the number of albums the band has that qualify as one of the best albums of the year and 
-  - the proportion of people who vote the band's albums as the best album of the year.
+  - the number of albums a band has that qualify as one of the best albums of the year and 
+  - the proportion of people who vote a band's albums as the best album of the year.
 
 - Poll percentages weighted equally across years smooths over variation in response rate across polls; 
-  - however, the sum of votes may (in part) be an indicator of enthusiasm for a given a band or album--
-  and therefore may also be a valid metric for ranking bands.
-  - That said, early polls averaged fewer responses than later polls; therefore, it appears reach of the poll increased over time--likely giving an upward bias for bands in later polls when using vote sums.
+  - however, the sum of votes may (in part) be an indicator of enthusiasm for a given a band or album--and therefore may also be a valid metric for ranking bands.
+  - That said, early polls averaged fewer responses than later polls; therefore, it appears reach of the polls increased over time--likely giving an upward bias for bands in later polls when using vote sums as the metric of analysis.
   
 - Constraining the date to only the final poll for each year avoids the problem of needing to account for albums that appeared on both qualifying and final polls; 
-  - however, on the premise that the magnitide of voter response is an indicator of enthusiasm for a given band or album, summing across bonus, qualifying final polls polls--constituting the total sum of votes cast for a band or album given the opportunity to vote for that band or album--may yield some insight.
+  - however, on the premise that the magnitide of voter response is an indicator of enthusiasm for a given band or album, summing across bonus, qualifying, and final polls--constituting the total sum of votes cast for a band or album given the opportunity to vote for that band or album--may yield some insight.
   
 - Lastly, regarding these Twitter polls, it is worth noting that these are not scientifically derived samples--just Nick's Twitter mates :)
 
 ## Data preparation
 
-Raw data for this project were hand-entered from Twitter, structured in a long format.
+Raw data for this project were hand-entered from Twitter, structured in a long-format entry log.
 
 
 ### Precision
@@ -94,8 +93,7 @@ We then reduce the dataframe to the observations of interest.
 
 - For all analyses, we drop observations for polls coded as invalid.
   - In the example data, one poll coded as invalid was conducted as an alternate final.
-- For two analyses we retain data for only final polls (excluding data for bonus and qualifying polls);
-  - whereas, for a third analysis we retained data for all valid polls (bonus, qualifying, and final polls).
+- For two analyses we retain data for only final polls, excluding data for bonus and qualifying polls (see [Figure 1](#Figure 1) and [Figure 2](#Figure 2)); for a third analysis we retained data for all valid polls, inclusive of bonus, qualifying, and final polls (see [Figure 3](#Figure 3)).
 
 ### Aggregation
 
@@ -107,10 +105,11 @@ To remedy instances where a given band appeared more than once in a given year
   
 ### Structure
 
-Ultimately we want a file in a long format, with each band having a row for every year in the data set regardless of whether the band had poll data for that year. There is probably a more efficiet what of doing this; but short of figuring that out, 
+Ultimately we want a file in a long format, with each band having a row for every year in the data set regardless of whether the band had poll data for that year. There is probably a more efficient what of doing this; but short of figuring that out, 
 
 - I first used the `pivot_wider()` command, followed by the `pivot_longer()` command to accomplish this.
-- A more efficient approach would evaluate which years were unobserved for given bands, then insert rows for those missing observations. (Suggestions on improved approaches to this are welcome.)
+- A more efficient approach would evaluate which years were unobserved for given bands, then insert rows for those missing observations. 
+  - Suggestions on improved approaches to this are welcome.
 
 ### Computation
 
@@ -121,7 +120,7 @@ To calculate rolling averages and sums, we use
 
 ### Format
 
-The final step before plotting is to format the data by calling
+The final step before plotting is to format the data for analysis by calling
 
 - the `group_by()` and `mutate(rank())` commands to rank order the bands with each year and
 - the `group_by()` and `filter()` commands to constrain the data to the top ranked bands for any given year.
@@ -134,7 +133,7 @@ The final step before plotting is to format the data by calling
 
 The first step to making an animated bar chart is to plot a series of static bar charts using the `ggplot()` command.
 
-- Dissatisfied with the default colors, I create a custom array of colors and called it using the `scale_colour_manual()` and `scale_fill_manual()` commands.
+- Dissatisfied with the default colors, I create a custom array of colors and called it in using the `scale_colour_manual()` and `scale_fill_manual()` commands.
   - After all, *Black Sabbath* has to be *black* and *Deep Purple* has to be *purple*, *right*?
 - Using the `unique()` command we can generate the list of bands in the plot for which colors are needed. 
 
@@ -142,24 +141,29 @@ Then we use the `transition_states()` command to stitch together the individual 
 
 - And the final step is rendering the animated plots usng the `animate(gifski_renderer())` command.
 <br><br>
+<a id="Figure 1"></a>
 
-#### Best album cumulative percentage of votes aggregated by band, based on *final* polls
+#### Figure 1. Best album cumulative percentage of votes aggregated by band, based on *final* polls
 
 This plot uses a rolling average of the `poll_percent` variable as the plotted metric.
 <p align="center"> 
 <img src="plots/album_poll_final_percentage.gif" alt="reviewer">
 </p> 
 <br><br><br>
+<a id="Figure 2"></a>
 
-#### Best album cumulative votes aggregated by band, based on *final* polls
+#### Figure 2. Best album cumulative votes aggregated by band, based on *final* polls
 
-This plot uses a rolling sum of the `album_votes` variable as the plotted metric. This and the following plot based on vote sums has the annoying quirk of having ties where bars overlap--making the band name dificult to read. (Suggested remedies to this are welcome.)
+This plot uses a rolling sum of the `album_votes` variable as the plotted metric. 
+
+- This and the following plot that uses vote sums as the plotted metric has the annoying quirk of having ties where bars overlap--making the band name dificult to read. 
+  - Suggested visualization remedies to the overlapping of bars are welcome.
 <p align="center">
 <img src="plots/album_poll_final_sum.gif" alt="reviewer">
 </p> <br><br><br>
+<a id="Figure 3"></a>
 
-
-#### Best album cumulative votes aggregated by band, based on *all* polls
+#### Figure 3. Best album cumulative votes aggregated by band, based on *all* polls
 
 This plot uses uses a rolling sum of the `album_votes` variable as the plotted metric.
 <p align="center"> 
@@ -179,17 +183,19 @@ This plot uses uses a rolling sum of the `album_votes` variable as the plotted m
 
 1. The most untuitive further development of `rockr` is to integrate web scraping into the workflow to more efficiently gather the data from the Twitter polls.
 
-2. We could also draw upon existing datasets, such as [JarbasAI's Metal Dataset](https://github.com/OpenJarbas/metal_dataset) on GitHub: a vast curation of metal bands, songs, and lyrics sorted by sub-genre. Existing uses of this dataset unclude the [Metal Generator](https://ai-jarbas.gitbook.io/jarbasai/projects/metal-generator) / [pytorch](https://github.com/OpenJarbas/pymetal) `Python` package for generating new band names, song names, and lyrics.
-    - One extension of this could be to create an `R` cousin of `pymetal`, to where `rmetal` is a sub-command in a broader `rockr`package.
+2. We could also draw upon existing datasets, such as [JarbasAI's Metal Dataset](https://github.com/OpenJarbas/metal_dataset) on GitHub: a vast curation of metal bands, songs, and lyrics sorted by sub-genre. Existing uses of this dataset unclude the [Metal Generator](https://ai-jarbas.gitbook.io/jarbasai/projects/metal-generator) / [pymetal](https://github.com/OpenJarbas/pymetal) `Python` package for generating new band names, song names, and lyrics.
+    - One extension of this could be to create an `R` cousin of `pymetal`, to where `rmetal` is a sub-command in a more comprehensive `rockr`package.
     - Of course there are plenty of other great uses for [JarbasAI's Metal Dataset](https://github.com/OpenJarbas/metal_dataset) worth exploring and possibly integrating into a `rockr` package.
 
-3. [Alberto Acerbi's genre analysis](https://github.com/albertoacerbi/mxm_genres_analysis) constitutes an interesting sentiment analysis of lyrics, which infers postive and negative emotional tone of music, by genre, and over time. Certainly other conceptual frameworks and dimension operationalizations could be applied to explore alternate interpretations of the data. Albert Acerbi makes use of the [musixmatch](https://www.musixmatch.com/) repository of song lyrics for his analysis, which could be drawn upon for replication and extension of this line of inquiry.
+3. [Alberto Acerbi's genre analysis](https://github.com/albertoacerbi/mxm_genres_analysis) constitutes an interesting sentiment analysis of lyrics, which infers the postive and negative emotional tone of music, by genre, and over time. Certainly other conceptual frameworks and dimension operationalizations could be applied to explore alternate interpretations of the data. Albert Acerbi makes use of the [musixmatch](https://www.musixmatch.com/) repository of song lyrics for his analysis, which could be drawn upon for replication and extension of this line of inquiry.
     - One variation on this analytic strategy includes taking a more holistic approach to categorizing positive and negative valence, such as keying by word phrases rather than individual words--or even clustering lyrics by song to allow for an evaluation of individual songs over the entire arc of their lyrics.
-    - Further, additional data on the sonics, harmonic esthetics, tempo, dynamics, etc. of the instrumentation and vocals to evaluate the auditory effect of songs holistically--placing the lyrics within the broader context of the song as a unit of analysis. Of course, this would require additional data, for which I am not aware of as existing at present.
+    - Further, additional data on the sonics, harmonic esthetics, tempo, dynamics, etc. of the instrumentation and vocals could be brought to bear to evaluate the auditory effect of songs holistically--placing the lyrics within the broader context of the song as a unit of analysis. 
+      - Of course, this would require additional data, of which I am not aware of as existing at present.
     
-4. The [Bound by Metal Interactive Metal Genres Graph](https://www.boundbymetal.com/en/common/metal-genres-graph) represents an excellent data visualization for up- and down-stream influences between sub-genres. This kind of network analysis can be very helpful for interogating the ontology of and relationships between sub-genres.
-    - However, I would love greater transparency around the source data and decision rules. Also, I'd love to be able toggle the unit of anlysis to visualize the network connections by band--or even account for and visualize how bands may vary in style over time, shifting between sub-genres. A `rockr` package might be designed to do just that.
+4. The [Bound by Metal Interactive Metal Genres Graph](https://www.boundbymetal.com/en/common/metal-genres-graph) represents an excellent data visualization for up- and down-stream influences between sub-genres. This kind of network analysis can be useful for interogating the ontology of and relationships between sub-genres.
+    - However, I would love greater transparency around the source data and decision rules. Also, I'd love to be able toggle the unit of anlysis to visualize the network connections by band--or even account for and visualize how bands may vary in style over time, evolving across sub-genres. A `rockr` package might be designed to do just that.
     
+<br>
 > Consider this as an open invitation for all collaborators interested in pursuing any of these or other development ideas for a prospective `rockr` package.
 
 
