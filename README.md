@@ -246,21 +246,20 @@ plotted metric.
     web scraping into the workflow to more efficiently gather the data
     from the Twitter polls.
 
-2.  We could also draw upon existing datasets, such as [JarbasAI GitHub
-    Metal Dataset](https://github.com/OpenJarbas/metal_dataset): a vast
-    curation of metal bands, songs, and lyrics sorted by sub-genre.
+2.  We could also draw upon existing datasets, such as [JarbasAI’s Metal
+    Dataset](https://github.com/OpenJarbas/metal_dataset) on GitHub: a
+    vast curation of metal bands, songs, and lyrics sorted by sub-genre.
     Existing uses of this dataset unclude the [Metal
     Generator](https://ai-jarbas.gitbook.io/jarbasai/projects/metal-generator)
     / [pytorch](https://github.com/OpenJarbas/pymetal) `Python` package
     for generating new band names, song names, and lyrics.
     
       - One extension of this could be to create an `R` cousin of
-        `pymetal`, with `rmetal` being a sub-command in a broader
+        `pymetal`, to where `rmetal` is a sub-command in a broader
         `rockr`package.
-      - Of course there are plenty of other great uses for the [JarbasAI
-        GitHub Metal
-        Dataset](https://github.com/OpenJarbas/metal_dataset) worth
-        exploring and possibly integrating into a `rockr` package.
+      - Of course there are plenty of other great uses for [JarbasAI’s
+        Metal Dataset](https://github.com/OpenJarbas/metal_dataset)
+        worth exploring and possibly integrating into a `rockr` package.
 
 3.  [Alberto Acerbi’s genre
     analysis](https://github.com/albertoacerbi/mxm_genres_analysis)
@@ -270,8 +269,8 @@ plotted metric.
     operationalizations could be applied to explore alternate
     interpretations of the data. Albert Acerbi makes use of the
     [musixmatch](https://www.musixmatch.com/) repository of song lyrics
-    for his analysis, which could be drawn upon for replications and
-    extensions of this line of inquiry.
+    for his analysis, which could be drawn upon for replication and
+    extension of this line of inquiry.
     
       - One variation on this analytic strategy includes taking a more
         holistic approach to categorizing positive and negative valence,
@@ -295,12 +294,12 @@ plotted metric.
       - However, I would love greater transparency around the source
         data and decision rules. Also, I’d love to be able toggle the
         unit of anlysis to visualize the network connections by band–or
-        even account for how albums for a given band may vary in style
-        and shift from one sub-genre to another. A `rockr` package might
-        be designed to do just that.
+        even account for and visualize how bands may vary in style over
+        time, shifting between sub-genres. A `rockr` package might be
+        designed to do just that.
 
 > Consider this as an open invitation for all collaborators interested
-> in pursuing any of these or other developments around a prospective
+> in pursuing any of these or other development ideas for a prospective
 > `rockr` package.
 
 -----
