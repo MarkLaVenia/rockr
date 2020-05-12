@@ -12,6 +12,8 @@ Love](https://badges.frapsoft.com/os/v1/open-source.png?v=103)](https://github.c
 [![Ask Me Anything
 \!](https://img.shields.io/badge/Ask%20me-anything-1abc9c.svg)](https://GitHub.com/Naereen/ama)
 
+<a id="top of page"></a>
+
 # rockr <img src='hex/rockr_hex.png' align="right" height="150" />
 
 <!-- badges: start -->
@@ -117,10 +119,10 @@ We then reduce the dataframe to the observations of interest.
       - In the example data, one poll coded as invalid was conducted as
         an alternate final.
   - For two analyses we retain data for only final polls, excluding data
-    for bonus and qualifying polls (see [Figure 1](#Figure%201) and
-    [Figure 2](#Figure%202)); for a third analysis we retained data for
-    all valid polls, inclusive of bonus, qualifying, and final polls
-    (see [Figure 3](#Figure%203)).
+    for bonus and qualifying polls (see [Bar Chart 1](#Bar%20Chart%201)
+    and [Bar Chart 2](#Bar%20Chart%202)); for a third analysis we
+    retained data for all valid polls, inclusive of bonus, qualifying,
+    and final polls (see [Bar Chart 3](#Bar%20Chart%203)).
 
 ### Aggregation
 
@@ -185,12 +187,13 @@ Then we use the `transition_states()` command to stitch together the
 individual static plots.
 
   - And the final step is rendering the animated plots usng the
-    `animate(gifski_renderer())` command. <br><br> <a id="Figure 1"></a>
+    `animate(gifski_renderer())` command. <br><br>
+    <a id="Bar Chart 1"></a>
 
-#### Figure 1. Best album cumulative percentage of votes aggregated by band, based on *final* polls
+#### Bar Chart 1. *Best album cumulative percentage of votes aggregated by band*
 
 This plot uses a rolling average of the `poll_percent` variable as the
-plotted metric.
+plotted metric, based on the *final* polls.
 
 <p align="center">
 
@@ -198,27 +201,27 @@ plotted metric.
 
 </p>
 
-<br><br><br> <a id="Figure 2"></a>
+<br><br><br> <a id="Bar Chart 2"></a>
 
-#### Figure 2. Best album cumulative votes aggregated by band, based on *final* polls
+#### Bar Chart 2. *Best album cumulative votes aggregated by band*
 
 This plot uses a rolling sum of the `album_votes` variable as the
-plotted metric.
+plotted metric, based on the *final* polls.
 
   - This and the following plot that uses vote sums as the plotted
-    metric has the annoying quirk of having ties where bars
-    overlap–making the band name dificult to read.
+    metric has the annoying quirk of occasionally having ties where bars
+    overlap–making the band name difficult to read.
       - Suggested visualization remedies to the overlapping of bars are
         welcome.
         <p align="center">
         <img src="plots/album_poll_final_sum.gif" alt="reviewer">
         </p>
-        <br><br><br> <a id="Figure 3"></a>
+        <br><br><br> <a id="Bar Chart 3"></a>
 
-#### Figure 3. Best album cumulative votes aggregated by band, based on *all* polls
+#### Bar Chart 3. *Best album cumulative votes aggregated by band*
 
 This plot uses uses a rolling sum of the `album_votes` variable as the
-plotted metric.
+plotted metric, based on *all* polls.
 
 <p align="center">
 
@@ -300,13 +303,17 @@ plotted metric.
         time, evolving across sub-genres. A `rockr` package might be
         designed to do just that.
 
-<br> \> Consider this as an open invitation for all collaborators
-interested in pursuing any of these or other development ideas for a
-prospective `rockr` package.
+<br>
+
+> Consider this as an open invitation for all collaborators interested
+> in pursuing any of these or other development ideas for a prospective
+> `rockr` package.
+
+<br> [top of page](#top%20of%20page) <br><br>
 
 -----
 
-<br><br><br><br>
+<br>
 
 <p align="center">
 
