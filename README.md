@@ -184,7 +184,7 @@ Then we use the `transition_states()` command to stitch together the
 individual static plots.
 
   - And the final step is rendering the animated plots usng the
-    `animate(gifski_renderer())` command.
+    `animate(gifski_renderer())` command. <br><br>
 
 #### Best album cumulative percentage of votes aggregated by band, based on *final* polls
 
