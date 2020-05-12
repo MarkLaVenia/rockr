@@ -51,14 +51,16 @@ options across polls
 Although `rockr` aspires to be a full blown package contributing
 generalizable functions useful for a variety of applications, at present
 it is simply a code and data repository with script tailored to one
-particular dataset.
+particular dataset. See section, [Future development of
+`rockr`](#Future%20development%20of%20rockr), for thoughts on what
+`rockr` might be when it grows up.
 
 The analyses described herein requires the installation and loading of
-the following R packages:
+the following `R` packages:
 
 `tidyverse`, `ggplot2`, `gganimate`, `png`
 
-All R code required for this project can be found in [script/Animated
+All `R` code required for this project can be found in [script/Animated
 Bar
 Chart.Rmd](https://github.com/MarkLaVenia/rockr/blob/master/script/Animated%20Bar%20Chart.Rmd),
 with raw data found in
@@ -89,12 +91,12 @@ with raw data found in
         total sum of votes cast for a band or album given the
         opportunity to vote for that band or album–may yield some
         insight.
-  - Lastly, it is worth noting that these are not scientifically derived
-    samples–just Nick’s mates :)
+  - Lastly, regarding these Twitter polls, it is worth noting that these
+    are not scientifically derived samples–just Nick’s Twitter mates :)
 
 ## Data preparation
 
-Raw data for this project were hand entered from Twitter, structured in
+Raw data for this project were hand-entered from Twitter, structured in
 a long format.
 
 ### Precision
@@ -229,12 +231,62 @@ plotted metric.
 
 ### Source code and guidance
 
-> Credit to AbdulMajedRaja RS
-> <https://towardsdatascience.com/create-animated-bar-charts-using-r-31d09e5841da>
+> Credit to [AbdulMajedRaja
+> RS](https://towardsdatascience.com/create-animated-bar-charts-using-r-31d09e5841da)
 > for source code and guidance referenced for these animated bar charts.
-> See also Stack Overflow
-> <https://stackoverflow.com/questions/53162821/animated-sorted-bar-chart-with-bars-overtaking-each-other>
+> See also related [Stack Overflow
+> posts](https://stackoverflow.com/questions/53162821/animated-sorted-bar-chart-with-bars-overtaking-each-other)
 > for guidance and discussion.
+
+<br>
+
+### Future development of `rockr`
+
+<a id="Future development of rockr"></a>
+
+1.  The most untuitive development of `rockr` is to integrate web
+    scraping into the workflow to more efficiently and gather the data
+    from the Twitter polls.
+
+2.  We could also draw upon existing datasets, such as [JarbasAI GitHub
+    Metal Dataset](https://github.com/OpenJarbas/metal_dataset): a vast
+    curation of metal bands, songs, and lyrics sorted by sub-genre.
+    Existing uses of this dataset unclude the [Metal
+    Generator](https://ai-jarbas.gitbook.io/jarbasai/projects/metal-generator)
+    / [pytorch](https://github.com/OpenJarbas/pymetal) `Python` package
+    for generating new band names, song names, and lyrics.
+    
+      - One extension of this could be to create an `R` cousin of
+        `pymetal`, with `rmetal` being a sub-command in a broader
+        `rockr`package.
+      - Of course there are planty of other great uses for the [JarbasAI
+        GitHub Metal
+        Dataset](https://github.com/OpenJarbas/metal_dataset) worth
+        exploring and possibly integrating into a `rockr` package.
+
+3.  [Alberto Acerbi’s genre
+    analysis](https://github.com/albertoacerbi/mxm_genres_analysis)
+    constitutes an interesting sentiment analysis of lyrics, which
+    infers postive and negative emotional tone of music by genre and
+    over time. Certainly other conceptual frameworks and category
+    operationalizations could be applied to explore alternate
+    interpretations of the data. Albert Acerbi makes use of the
+    [musixmatch](https://www.musixmatch.com/) repository of song lyrics
+    for his analysis, which could be drawn upon for replications and
+    extensions of this work.
+    
+      - One variation on this analytic strategy includes taking a more
+        holistic approach to categorizing positive and negative valence,
+        such as keying by word phrases rather than individual words–or
+        even clustering lyrics by song to allow evaluation of songs as a
+        whole.
+      - Further additional data on sonics, harmony/dissonance, and tempo
+        of the music and vocals to evaluate the auditory effect of the
+        song holistically–placing the lyrics within the broader context
+        of the song. Of course, this would require additional data, for
+        which I am unaware of existing at present.
+
+<https://www.boundbymetal.com/en/common/metal-genres-graph>
 
 -----
 
