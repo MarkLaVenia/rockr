@@ -18,7 +18,7 @@ Love](https://badges.frapsoft.com/os/v1/open-source.png?v=103)](https://github.c
 
 <!-- badges: end -->
 
-The goal of rockr is to:
+The (current) goal of rockr is to:
 
 Given a series of Twitter polls on best album of the year, with
 sequential polls for each year, where some bands are reoccuring response
