@@ -52,7 +52,7 @@ Given a series of Twitter polls on best album of the year, with sequential polls
 
 ## Packages, scripts, and data
 
-Although `rockr` aspires to be a full blown package contributing an array of functions useful for a variety of applications, at present it is simply a code and data repository, with scripts to perform one task, tailored to one particular dataset. See section, [Future development of `rockr`](#Future development of rockr), for thoughts on what `rockr` might be when it grows up.
+Although `rockr` aspires to be a full blown package contributing an array of functions and analytic enhancement useful for a variety of applications, at present it is simply a code and data repository, with scripts to perform one task, tailored to one particular dataset. See section, [Future development of `rockr`](#Future development of rockr), for thoughts on what `rockr` might be when it grows up.
 
 The analyses described herein requires the installation and loading of the following `R` packages:
 
@@ -185,6 +185,8 @@ This plot uses uses a rolling sum of the `album_votes` variable as the plotted m
 
 2. We could also draw upon existing datasets, such as [JarbasAI's Metal Dataset](https://github.com/OpenJarbas/metal_dataset) on GitHub: a vast curation of metal bands, songs, and lyrics sorted by sub-genre. Existing uses of this dataset include the [Metal Generator](https://ai-jarbas.gitbook.io/jarbasai/projects/metal-generator) / [pymetal](https://github.com/OpenJarbas/pymetal) `Python` package for generating new band names, song names, and lyrics.
     - One extension of this could be to create an `R` cousin of `pymetal`, to where `rmetal` is a sub-command in a more comprehensive `rockr`package.
+    - Integration of these data into a polling component of `rockr` could take the form of a facilitative tool for informing the generation of new polls, with probable matches by sub-genre and year.
+      - Full execution of this functionality would require the augmentation of [JarbasAI's Metal Dataset](https://github.com/OpenJarbas/metal_dataset) on rankings according to rock and metal 'zine charts and reviews, including those from prominant outlets like `Kerrang!` and `Metal Hammer` as well as smaller independent outlets such as `Ghost Cult Magazine`and classic fanzines such `The Dead Sea`.
     - Of course there are plenty of other great uses for [JarbasAI's Metal Dataset](https://github.com/OpenJarbas/metal_dataset) worth exploring and possibly integrating into a `rockr` package.
 
 3. [Alberto Acerbi's genre analysis](https://github.com/albertoacerbi/mxm_genres_analysis) constitutes an interesting sentiment analysis of lyrics, which infers the positive and negative emotional tone of music, by genre, and over time. Certainly other conceptual frameworks and dimension operationalizations could be applied to explore alternate interpretations of the data. Albert Acerbi makes use of the [musixmatch](https://www.musixmatch.com/) repository of song lyrics for his analysis, which could be drawn upon for replication and extension of this line of inquiry.
