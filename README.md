@@ -265,7 +265,7 @@ plotted metric.
     analysis](https://github.com/albertoacerbi/mxm_genres_analysis)
     constitutes an interesting sentiment analysis of lyrics, which
     infers postive and negative emotional tone of music, by genre, and
-    over time. Certainly other conceptual frameworks and category
+    over time. Certainly other conceptual frameworks and dimension
     operationalizations could be applied to explore alternate
     interpretations of the data. Albert Acerbi makes use of the
     [musixmatch](https://www.musixmatch.com/) repository of song lyrics
