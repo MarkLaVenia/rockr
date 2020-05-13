@@ -50,10 +50,11 @@ response options across polls
 
 ## Packages, scripts, and data
 
-Although `rockr` aspires to be a full blown package contributing a array
-of functions useful for a variety of applications, at present it is
-simply a code and data repository, with scripts to perform one task,
-tailored to one particular dataset. See section, [Future development of
+Although `rockr` aspires to be a full blown package contributing an
+array of functions and analytic enhancement useful for a variety of
+applications, at present it is simply a code and data repository, with
+scripts to perform one task, tailored to one particular dataset. See
+section, [Future development of
 `rockr`](#Future%20development%20of%20rockr), for thoughts on what
 `rockr` might be when it grows up.
 
@@ -144,7 +145,7 @@ this; but short of figuring that out,
 
   - I first used the `pivot_wider()` command, followed by the
     `pivot_longer()` command to accomplish this.
-  - A more efficient approach would evaluate which years were unobserved
+  - A more efficient approach might evaluate which years were unobserved
     for given bands, then insert rows for those missing observations.
       - Suggestions on improved approaches to this are welcome.
 
@@ -196,7 +197,7 @@ plotted metric, based on results according to the *final* polls.
 
 <p align="center">
 
-<img src="plots/album_poll_final_percentage.gif" alt="reviewer">
+<img src="R/plots/album_poll_final_percentage.gif" alt="reviewer">
 
 </p>
 
@@ -213,7 +214,7 @@ plotted metric, based on results according to the *final* polls.
       - Suggested visualization remedies to the overlapping of bars are
         welcome.
         <p align="center">
-        <img src="plots/album_poll_final_sum.gif" alt="reviewer">
+        <img src="R/plots/album_poll_final_sum.gif" alt="reviewer">
         </p>
         <br><br><br> <a id="Bar Chart 3"></a>
 
@@ -224,7 +225,7 @@ plotted metric, based on results according to *all* polls.
 
 <p align="center">
 
-<img src="plots/album_poll_all_sum.gif" alt="reviewer">
+<img src="R/plots/album_poll_all_sum.gif" alt="reviewer">
 
 </p>
 
@@ -260,6 +261,18 @@ plotted metric, based on results according to *all* polls.
       - One extension of this could be to create an `R` cousin of
         `pymetal`, to where `rmetal` is a sub-command in a more
         comprehensive `rockr`package.
+      - Integration of these data into a polling component of `rockr`
+        could take the form of a facilitative tool for informing the
+        generation of new polls, with probable matches by sub-genre and
+        year.
+          - Full execution of this functionality would require the
+            augmentation of [JarbasAI’s Metal
+            Dataset](https://github.com/OpenJarbas/metal_dataset) on
+            rankings according to rock and metal ’zine charts and
+            reviews, including those from prominant outlets like
+            `Kerrang!` and `Metal Hammer` as well as smaller independent
+            outlets such as `Ghost Cult Magazine`and classic fanzines
+            such `The Dead Sea`.
       - Of course there are plenty of other great uses for [JarbasAI’s
         Metal Dataset](https://github.com/OpenJarbas/metal_dataset)
         worth exploring and possibly integrating into a `rockr` package.
