@@ -384,7 +384,7 @@ opportunity provokes the call for a meta-package: a `rockrverse`.
         accomplish with a `rockr` package. Nevertheless, within the
         suite of `rockrverse` packages might live an `R` cousin of
         `pymetal`: `rmetal`, if you will. I’d venture that those
-        interested in using `rockr` package would appreciate having a
+        interested in using a `rockr` package would appreciate having a
         `rmetal` functionality that is easily available–either for
         manifest purposes of just for kicks.
 
@@ -401,8 +401,8 @@ opportunity provokes the call for a meta-package: a `rockrverse`.
       - Already, [ORCID](https://orcid.org/) integrates with other
         applications like Scopus and Publons and there is an [ORCID
         Developer Tool](https://orcid.org/developer-tools) that appears
-        like it would support such an endeavor. Thus, this doesn’t like
-        a far-out proposal.
+        like it would support such an endeavor. Thus, this doesn’t look
+        like a far-out proposal.
 
 The ideas generated above are only a sample of developments that might
 be pursued in associations with a `rockr`/`rockrverse` package. <br>
