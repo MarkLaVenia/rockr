@@ -105,7 +105,7 @@ To remedy instances where a given band appeared more than once in a given year
   
 ### Structure
 
-Ultimately we want a file in a long (tidy) format, with each band having a row for every year in the data set regardless of whether the band had poll data for that year. There is probably a more efficient what of doing this; but short of figuring that out, 
+Ultimately we want a file in a long (tidy) format, with each band having a row for every year in the dataset regardless of whether the band had poll data for that year. There is probably a more efficient what of doing this; but short of figuring that out, 
 
 - I first used the `pivot_wider()` command, followed by the `pivot_longer()` command to accomplish this.
 - A more efficient approach might evaluate which years were unobserved for given bands, then insert rows for those missing observations. 
@@ -194,7 +194,7 @@ This plot uses a rolling sum of the `album_votes` variable as the plotted metric
 
 3. Additional data that might be incorporated include archives of rankings according to rock and metal 'zine charts and reviews, including those from prominent outlets like *Kerrang!* and *Metal Hammer*, as well as smaller independent outlets and fanzines. [Cult Never Dies](https://cultneverdies.myshopify.com/collections/books-zines), [The Corroseum](https://thecorroseum.org/fanzines/index.php) and [Rare & Obscure Metal](https://strappadometalblog.blogspot.com/2011/02/zine-zone-metal-fanzines.html) are example webstores and repositories of metal fanzines that might be drawn upon.
     - An extraordinarily ambitious undertaking might be to even incorporate text from interviews and articles published in such sources. The opportunities for textual analysis from such a data repository would be tremendous.
-    - A data repository of this kind would constitute a robust basis for clustering band bands according to style and influence. Analytic approaches such as latent transition analyses and machine learning techniques could be leveraged to group bands by profile, allowing profile to vary over time according to observed indicators for albums.
+    - A data repository of this kind would constitute a robust basis for clustering bands according to style and influence. Analytic approaches such as latent transition analyses and machine learning techniques could be leveraged to group bands by profile, allowing profile to vary over time according to observed indicators for albums.
 
 4. Further, `spotifyr`, a `R` wrapper for Spotify's [Web API](https://developer.spotify.com/documentation/web-api/), can be used to gain access to not only information on artists, albums, tracks, etc., but also attributes for each song such as tempo, energy, key, etc.
     - In addition to existing data on attributes of songs, original analysis of music can be conducted through tools such as the `tuneR` R package. The opportunities for engaging in the analysis of [textural, sonic, and musical components](https://joelezekielconfetti.wordpress.com) in the service of building a robust ontology of rock sub-genres is truly awe-inspiring. 
@@ -214,16 +214,16 @@ If a robust data warehouse could be assembled as described above for a `rockr` p
 
 - Other functions that might be combined into this suite of packages is the `tabr` package for rendering tablature and sheet music for guitar and other stringed instruments. This is certainly outside the lane of what put the `rockr` project in motion; nevertheless, it is a parallel-running interest that many users of `rockr` will surely appreciate being integrated.
 
-- Corresponding projects with JarbasAI's [Metal Dataset](https://github.com/OpenJarbas/metal_dataset) are the [Metal Generator](https://ai-jarbas.gitbook.io/jarbasai/projects/metal-generator) / [pymetal](https://github.com/OpenJarbas/pymetal), a`Python` package for generating new band names, song names, and lyrics. 
+- Corresponding projects with JarbasAI's [Metal Dataset](https://github.com/OpenJarbas/metal_dataset) are [Metal Generator](https://ai-jarbas.gitbook.io/jarbasai/projects/metal-generator) / [pymetal](https://github.com/OpenJarbas/pymetal), a`Python` package for generating new band names, song names, and lyrics. 
   - Again, this function is not integral to what we set out to accomplish with a `rockr` package. Nevertheless, within the suite of `rockrverse` packages might live an `R` cousin of `pymetal`: `rmetal`, if you will. I'd venture that those interested in using a `rockr` package would appreciate having a `rmetal` functionality that is easily available--either for manifest purposes of just for kicks.
     
-- There are a number of us in the academic/research world who at one time played in or current do play in bands that are in the registries of [Metal Archives](https://www.metal-archives.com/). It has been half-joked that it would be great if someone could figure out how to link metal-archives with [ORCID](https://orcid.org/), to facilitate comprehensive incorporation of our professional activity and published works. On this thought, I propose the development of `metalorcid`; an `R` package for integrating metal-archives with ORCID.
-  - Already, [ORCID](https://orcid.org/) integrates with other applications like Scopus and Publons and there is an [ORCID Developer Tool](https://orcid.org/developer-tools) that appears like it would support such an endeavor. Thus, this doesn't look like a far-out proposal.
+- There are a number of us in the academic/research world who at one time played in or current do play in bands that are in the registries of [Metal Archives](https://www.metal-archives.com/). It has been half-joked that it would be great if someone could figure out how to link metal-archives with [ORCID](https://orcid.org/), to facilitate a comprehensive incorporation of our professional activity and published works. On this thought, I propose the development of `metalORCID`; an `R` package for integrating metal-archives with ORCID.
+  - Already, [ORCID](https://orcid.org/) integrates with other applications like Scopus and Publons and there is an [ORCID Developer Tool](https://orcid.org/developer-tools) that appears like it would support the development of a `metalORCID` integration. Thus, this doesn't look like a far-out proposal.
 
-The ideas generated above are only a sample of developments that might be pursued in associations with a `rockr`/`rockrverse` package. 
+The ideas generated above are only a sample of developments that might be pursued in associations with a `rockr` package. 
 <br>
 
-> Consider this as an open invitation for all collaborators interested in pursuing any of these or other development ideas for a prospective `rockr` package.
+> Consider this as an open invitation for all collaborators interested in pursuing any of these or other development ideas for a prospective `rockr`/`rockrverse` package.
 
 <br> [top of page](#top of page) <br><br>
 

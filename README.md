@@ -139,7 +139,7 @@ given year
 ### Structure
 
 Ultimately we want a file in a long (tidy) format, with each band having
-a row for every year in the data set regardless of whether the band had
+a row for every year in the dataset regardless of whether the band had
 poll data for that year. There is probably a more efficient what of
 doing this; but short of figuring that out,
 
@@ -305,9 +305,9 @@ plotted metric, based on results according to *all* polls.
         sources. The opportunities for textual analysis from such a data
         repository would be tremendous.
       - A data repository of this kind would constitute a robust basis
-        for clustering band bands according to style and influence.
-        Analytic approaches such as latent transition analyses and
-        machine learning techniques could be leveraged to group bands by
+        for clustering bands according to style and influence. Analytic
+        approaches such as latent transition analyses and machine
+        learning techniques could be leveraged to group bands by
         profile, allowing profile to vary over time according to
         observed indicators for albums.
 4.  Further, `spotifyr`, a `R` wrapper for Spotify’s [Web
@@ -375,7 +375,7 @@ opportunity provokes the call for a meta-package: a `rockrverse`.
     appreciate being integrated.
 
   - Corresponding projects with JarbasAI’s [Metal
-    Dataset](https://github.com/OpenJarbas/metal_dataset) are the [Metal
+    Dataset](https://github.com/OpenJarbas/metal_dataset) are [Metal
     Generator](https://ai-jarbas.gitbook.io/jarbasai/projects/metal-generator)
     / [pymetal](https://github.com/OpenJarbas/pymetal), a`Python`
     package for generating new band names, song names, and lyrics.
@@ -393,23 +393,23 @@ opportunity provokes the call for a meta-package: a `rockrverse`.
     registries of [Metal Archives](https://www.metal-archives.com/). It
     has been half-joked that it would be great if someone could figure
     out how to link metal-archives with [ORCID](https://orcid.org/), to
-    facilitate comprehensive incorporation of our professional activity
-    and published works. On this thought, I propose the development of
-    `metalorcid`; an `R` package for integrating metal-archives with
-    ORCID.
+    facilitate a comprehensive incorporation of our professional
+    activity and published works. On this thought, I propose the
+    development of `metalORCID`; an `R` package for integrating
+    metal-archives with ORCID.
     
       - Already, [ORCID](https://orcid.org/) integrates with other
         applications like Scopus and Publons and there is an [ORCID
         Developer Tool](https://orcid.org/developer-tools) that appears
-        like it would support such an endeavor. Thus, this doesn’t look
-        like a far-out proposal.
+        like it would support the development of a `metalORCID`
+        integration. Thus, this doesn’t look like a far-out proposal.
 
 The ideas generated above are only a sample of developments that might
-be pursued in associations with a `rockr`/`rockrverse` package. <br>
+be pursued in associations with a `rockr` package. <br>
 
 > Consider this as an open invitation for all collaborators interested
 > in pursuing any of these or other development ideas for a prospective
-> `rockr` package.
+> `rockr`/`rockrverse` package.
 
 <br> [top of page](#top%20of%20page) <br><br>
 
