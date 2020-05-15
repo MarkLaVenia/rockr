@@ -36,9 +36,9 @@ response options across polls
 
 <br>
 
-> (Attempts at) British spelling are in honour of Nick Moberly (Exeter,
-> UK), whose @nickmoberly Twitter polls were the motivation for and
-> contributing data used in the illustrative example.
+> (Attempts at) British spelling are in honour of *Nick Moberly*
+> (Exeter, UK), whose @nickmoberly Twitter polls were the motivation for
+> and contributing data used in the illustrative example.
 
 <br>
 
@@ -138,10 +138,10 @@ given year
 
 ### Structure
 
-Ultimately we want a file in a long format, with each band having a row
-for every year in the data set regardless of whether the band had poll
-data for that year. There is probably a more efficient what of doing
-this; but short of figuring that out,
+Ultimately we want a file in a long (tidy) format, with each band having
+a row for every year in the data set regardless of whether the band had
+poll data for that year. There is probably a more efficient what of
+doing this; but short of figuring that out,
 
   - I first used the `pivot_wider()` command, followed by the
     `pivot_longer()` command to accomplish this.
@@ -220,7 +220,7 @@ plotted metric, based on results according to the *final* polls.
 
 #### Bar Chart 3. *Best album cumulative votes aggregated by band*
 
-This plot uses uses a rolling sum of the `album_votes` variable as the
+This plot uses a rolling sum of the `album_votes` variable as the
 plotted metric, based on results according to *all* polls.
 
 <p align="center">
@@ -246,38 +246,98 @@ plotted metric, based on results according to *all* polls.
 
 ### Future development of `rockr`
 
-1.  The most intuitive further development of `rockr` is to integrate
-    web scraping into the workflow to more efficiently gather the data
-    from the Twitter polls.
-
-2.  We could also draw upon existing datasets, such as [JarbasAI’s Metal
-    Dataset](https://github.com/OpenJarbas/metal_dataset) on GitHub: a
-    vast curation of metal bands, songs, and lyrics sorted by sub-genre.
-    Existing uses of this dataset include the [Metal
-    Generator](https://ai-jarbas.gitbook.io/jarbasai/projects/metal-generator)
-    / [pymetal](https://github.com/OpenJarbas/pymetal) `Python` package
-    for generating new band names, song names, and lyrics.
-    
-      - One extension of this could be to create an `R` cousin of
-        `pymetal`, to where `rmetal` is a sub-command in a more
-        comprehensive `rockr`package.
-      - Integration of these data into a polling component of `rockr`
-        could take the form of a facilitative tool for informing the
-        generation of new polls, with probable matches by sub-genre and
-        year.
-          - Full execution of this functionality would require the
-            augmentation of [JarbasAI’s Metal
-            Dataset](https://github.com/OpenJarbas/metal_dataset) on
-            rankings according to rock and metal ’zine charts and
-            reviews, including those from prominant outlets like
-            `Kerrang!` and `Metal Hammer` as well as smaller independent
-            outlets such as `Ghost Cult Magazine`and classic fanzines
-            such `The Dead Sea`.
-      - Of course there are plenty of other great uses for [JarbasAI’s
-        Metal Dataset](https://github.com/OpenJarbas/metal_dataset)
-        worth exploring and possibly integrating into a `rockr` package.
-
-3.  [Alberto Acerbi’s genre
+1.  The most intuitive next step in development of `rockr` is to
+    integrate web scraping into the workflow to more efficiently gather
+    the data from the Twitter polls.
+      - Existing `R` packages that might be employed to access and
+        scrape Twitter data are `rtweet` and `twitterR`;
+          - though, as discussed below, other web scraping tasks might
+            be called for that are best executed through other available
+            tools such as the `rvest` or `Rcrawler`packages.
+2.  The exercise of deploying Twitter polls on album of the year derived
+    from Nick’s (@NickMoberly) desire to fill gaps in knowledge on the
+    prominent hard rock and metal bands over the decades. Accordingly,
+    an enhancement to the function of `rockr` could be to integrate data
+    that could be drawn upon for the purpose of informing the
+    development of new polls and survey instruments.
+      - The [Metal Archives: Encyclopdaedia
+        Metallum](https://www.metal-archives.com/) is an extensive data
+        repository on metal bands with information on home country,
+        sub-genre, band members past and present, discography, related
+        artists, etc.
+          - [JarbasAI’s Metal
+            Dataset](https://github.com/OpenJarbas/metal_dataset) is an
+            already conducted scraping of [Metal
+            Archives](https://www.metal-archives.com/), though limited
+            to only data on band names, song titles, and lyrics sorted
+            by sub-genre. Incorporating these data would be an easy
+            lift, though additional scraping of [Metal
+            Archives](https://www.metal-archives.com/) would be required
+            to obtain data on discography, related artists, etc.
+          - Then, using reactive programming, such as through `R`’s
+            `Shiny` package, a dynamic user interface could be developed
+            that draws upon the stores of data to generate lists of
+            similar sets of bands or albums based on selected inputs.
+              - In addition to facilitating poll development, the
+                exercise of interacting with a `rockr` interface of this
+                kind could in itself be a generative exercise for one’s
+                own exploration.
+                  - Some of this functionality can already be
+                    accomplished through the many music streaming
+                    services available, except the UI described here
+                    would/could be more comprehensive in its
+                    directories, unimpeded by the various constraints
+                    with which those services contend around access and
+                    use.
+3.  Additional data that might be incorporated include archives of
+    rankings according to rock and metal ’zine charts and reviews,
+    including those from prominent outlets like *Kerrang\!* and *Metal
+    Hammer*, as well as smaller independent outlets and fanzines. [Cult
+    Never
+    Dies](https://cultneverdies.myshopify.com/collections/books-zines),
+    [The Corroseum](https://thecorroseum.org/fanzines/index.php) and
+    [Rare & Obscure
+    Metal](https://strappadometalblog.blogspot.com/2011/02/zine-zone-metal-fanzines.html)
+    are example webstores and repositories of metal fanzines that might
+    be drawn upon.
+      - An extraordinarily ambitious undertaking might be to even
+        incorporate text from interviews and articles published in such
+        sources. The opportunities for textual analysis from such a data
+        repository would be tremendous.
+      - A data repository of this kind would constitute a robust basis
+        for clustering band bands according to style and influence.
+        Analytic approaches such as latent transition analyses and
+        machine learning techniques could be leveraged to group bands by
+        profile, allowing profile to vary over time according to
+        observed indicators for albums.
+4.  Further, `spotifyr`, a `R` wrapper for Spotify’s [Web
+    API](https://developer.spotify.com/documentation/web-api/), can be
+    used to gain access to not only information on artists, albums,
+    tracks, etc., but also attributes for each song such as tempo,
+    energy, key, etc.
+      - In addition to existing data on attributes of songs, original
+        analysis of music can be conducted through tools such as the
+        `tuneR` R package. The opportunities for engaging in the
+        analysis of [textural, sonic, and musical
+        components](https://joelezekielconfetti.wordpress.com) in the
+        service of building a robust ontology of rock sub-genres is
+        truly awe-inspiring.
+5.  The [Bound by Metal - Interactive Metal Genres
+    Graph](https://www.boundbymetal.com/en/common/metal-genres-graph)
+    represents an excellent data visualization for up- and down-stream
+    influences between sub-genres. This kind of network analysis can be
+    useful for interrogating the ontology of and relationships between
+    sub-genres.
+      - However, I would love greater transparency around the source
+        data and decision rules. Also, I’d love to be able toggle the
+        unit of analysis to visualize the network connections by band–or
+        even account for and visualize how bands may vary in style over
+        time, evolving across sub-genres.
+          - A `rockr` package might be designed to do just that. Use of
+            network graphing to explore established relationships and
+            plot analyses probing proposed relationships can make
+            `rockr` a useful tool for learning and presenting.
+6.  [Alberto Acerbi’s genre
     analysis](https://github.com/albertoacerbi/mxm_genres_analysis)
     constitutes an interesting sentiment analysis of lyrics, which
     infers the positive and negative emotional tone of music, by genre,
@@ -287,35 +347,65 @@ plotted metric, based on results according to *all* polls.
     [musixmatch](https://www.musixmatch.com/) repository of song lyrics
     for his analysis, which could be drawn upon for replication and
     extension of this line of inquiry.
-    
       - One variation on this analytic strategy includes taking a more
-        holistic approach to categorizing positive and negative valence,
-        such as keying by word phrases rather than individual words–or
-        even clustering lyrics by song to allow for an evaluation of
-        individual songs over the entire arc of their lyrics.
-      - Further, additional data on the sonics, harmonic esthetics,
-        tempo, dynamics, etc. of the instrumentation and vocals could be
-        brought to bear to evaluate the auditory effect of songs
-        holistically–placing the lyrics within the broader context of
-        the song as a unit of analysis.
-          - Of course, this would require additional data, of which I am
-            not aware of as existing at present.
+        holistic approach to categorizing positive and negative
+        emotional tone, such as keying by word phrases rather than
+        individual words–or even clustering lyrics by song to allow for
+        an evaluation of individual songs over the entire arc of their
+        lyrics.
+          - Going further, incorporating data on the attributes of the
+            music itself might allow for a multidimensional framework
+            that explains how an overall positive emotional tone can
+            occur for a song with ostensibly negative lyrics. It seems
+            textural, sonic, and musical components may be an important
+            factor to include when trying to understand the effect of
+            music on the listener. <br>
 
-4.  The [Bound by Metal Interactive Metal Genres
-    Graph](https://www.boundbymetal.com/en/common/metal-genres-graph)
-    represents an excellent data visualization for up- and down-stream
-    influences between sub-genres. This kind of network analysis can be
-    useful for interrogating the ontology of and relationships between
-    sub-genres.
+#### On a `rockrverse` collection of `R` packages
+
+If a robust data warehouse could be assembled as described above for a
+`rockr` package, the vast array of analytic and visualization
+opportunity provokes the call for a meta-package: a `rockrverse`.
+
+  - Other functions that might be combined into this suite of packages
+    is the `tabr` package for rendering tablature and sheet music for
+    guitar and other stringed instruments. This is certainly outside the
+    lane of what put the `rockr` project in motion; nevertheless, it is
+    a parallel-running interest that many users of `rockr` will surely
+    appreciate being integrated.
+
+  - Corresponding projects with JarbasAI’s [Metal
+    Dataset](https://github.com/OpenJarbas/metal_dataset) are the [Metal
+    Generator](https://ai-jarbas.gitbook.io/jarbasai/projects/metal-generator)
+    / [pymetal](https://github.com/OpenJarbas/pymetal), a`Python`
+    package for generating new band names, song names, and lyrics.
     
-      - However, I would love greater transparency around the source
-        data and decision rules. Also, I’d love to be able toggle the
-        unit of analysis to visualize the network connections by band–or
-        even account for and visualize how bands may vary in style over
-        time, evolving across sub-genres. A `rockr` package might be
-        designed to do just that.
+      - Again, this function is not integral to what we set out to
+        accomplish with a `rockr` package. Nevertheless, within the
+        suite of `rockrverse` packages might live an `R` cousin of
+        `pymetal`: `rmetal`, if you will. I’d venture that those
+        interested in using `rockr` package would appreciate having a
+        `rmetal` functionality that is easily available–either for
+        manifest purposes of just for kicks.
 
-<br>
+  - There are a number of us in the academic/research world who at one
+    time played in or current do play in bands that are in the
+    registries of [Metal Archives](https://www.metal-archives.com/). It
+    has been half-joked that it would be great if someone could figure
+    out how to link metal-archives with [ORCID](https://orcid.org/), to
+    facilitate comprehensive incorporation of our professional activity
+    and published works. On this thought, I propose the development of
+    `metalorcid`; an `R` package for integrating metal-archives with
+    ORCID.
+    
+      - Already, [ORCID](https://orcid.org/) integrates with other
+        applications like Scopus and Publons and there is an [ORCID
+        Developer Tool](https://orcid.org/developer-tools) that appears
+        like it would support such an endeavor. Thus, this doesn’t like
+        a far-out proposal.
+
+The ideas generated above are only a sample of developments that might
+be pursued in associations with a `rockr`/`rockrverse` package. <br>
 
 > Consider this as an open invitation for all collaborators interested
 > in pursuing any of these or other development ideas for a prospective
