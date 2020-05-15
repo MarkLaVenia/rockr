@@ -66,7 +66,7 @@ the following `R` packages:
 All `R` code required for this project can be found in [R/Animated Bar
 Chart.Rmd](https://github.com/MarkLaVenia/rockr/blob/master/R/Animated%20Bar%20Chart.Rmd),
 with raw data found in
-[inst/extdata/raw\_twitter\_poll\_data.csv](https://github.com/MarkLaVenia/rockr/tree/master/data-raw/raw_twitter_poll_data.csv)
+[data-raw/raw\_twitter\_poll\_data.csv](https://github.com/MarkLaVenia/rockr/tree/master/data-raw/raw_twitter_poll_data.csv)
 
 ## Analytic premises and assumptions (*…however questionable*)
 

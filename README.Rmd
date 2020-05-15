@@ -58,7 +58,7 @@ The analyses described herein requires the installation and loading of the follo
 
 `tidyverse`, `ggplot2`, `gganimate`, `png`
 
-All `R` code required for this project can be found in [R/Animated Bar Chart.Rmd](https://github.com/MarkLaVenia/rockr/blob/master/R/Animated%20Bar%20Chart.Rmd), with raw data found in [inst/extdata/raw_twitter_poll_data.csv](https://github.com/MarkLaVenia/rockr/tree/master/data-raw/raw_twitter_poll_data.csv)
+All `R` code required for this project can be found in [R/Animated Bar Chart.Rmd](https://github.com/MarkLaVenia/rockr/blob/master/R/Animated%20Bar%20Chart.Rmd), with raw data found in [data-raw/raw_twitter_poll_data.csv](https://github.com/MarkLaVenia/rockr/tree/master/data-raw/raw_twitter_poll_data.csv)
 
 ## Analytic premises and assumptions (*...however questionable*)
 
