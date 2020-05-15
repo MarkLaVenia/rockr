@@ -84,7 +84,7 @@ with raw data found in
         polls; therefore, it appears reach of the polls increased over
         time–likely giving an upward bias for bands in later polls when
         using vote sums as the metric of analysis.
-  - Constraining the date to only the final poll for each year avoids
+  - Constraining the data to only the final poll for each year avoids
     the problem of needing to account for albums that appeared on both
     qualifying and final polls;
       - however, on the premise that the magnitude of voter response is

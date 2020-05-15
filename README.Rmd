@@ -70,7 +70,7 @@ All `R` code required for this project can be found in [R/Animated Bar Chart.Rmd
   - however, the sum of votes may (in part) be an indicator of enthusiasm for a given a band or album--and therefore may also be a valid metric for ranking bands.
   - That said, early polls averaged fewer responses than later polls; therefore, it appears reach of the polls increased over time--likely giving an upward bias for bands in later polls when using vote sums as the metric of analysis.
   
-- Constraining the date to only the final poll for each year avoids the problem of needing to account for albums that appeared on both qualifying and final polls; 
+- Constraining the data to only the final poll for each year avoids the problem of needing to account for albums that appeared on both qualifying and final polls; 
   - however, on the premise that the magnitude of voter response is an indicator of enthusiasm for a given band or album, summing across bonus, qualifying, and final polls--constituting the total sum of votes cast for a band or album given the opportunity to vote for that band or album--may yield some insight.
   
 - Lastly, regarding these polls, it is worth noting that these are not scientifically derived samples--just Nick's Twitter mates :)
