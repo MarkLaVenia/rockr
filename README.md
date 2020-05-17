@@ -242,6 +242,8 @@ plotted metric, based on results according to *all* polls.
 > posts](https://stackoverflow.com/questions/53162821/animated-sorted-bar-chart-with-bars-overtaking-each-other)
 > for guidance and discussion.
 
+-----
+
 <br> <a id="Future development of rockr"></a>
 
 ### Future development of `rockr`

@@ -176,6 +176,7 @@ This plot uses a rolling sum of the `album_votes` variable as the plotted metric
 
 > Credit to [AbdulMajedRaja RS](https://towardsdatascience.com/create-animated-bar-charts-using-r-31d09e5841da) for source code and guidance referenced for these animated bar charts. See also related [Stack Overflow posts](https://stackoverflow.com/questions/53162821/animated-sorted-bar-chart-with-bars-overtaking-each-other) for guidance and discussion.
 
+***
 <br>
 <a id="Future development of rockr"></a>
 
@@ -217,8 +218,8 @@ If a robust data warehouse could be assembled as described above for a `rockr` p
 - Corresponding projects with JarbasAI's [Metal Dataset](https://github.com/OpenJarbas/metal_dataset) are [Metal Generator](https://ai-jarbas.gitbook.io/jarbasai/projects/metal-generator) / [pymetal](https://github.com/OpenJarbas/pymetal), a`Python` package for generating new band names, song names, and lyrics. 
   - Again, this function is not integral to what we set out to accomplish with a `rockr` package. Nevertheless, within the suite of `rockrverse` packages might live an `R` cousin of `pymetal`: `rmetal`, if you will. I'd venture that those interested in using a `rockr` package would appreciate having a `rmetal` functionality that is easily available--either for manifest purposes of just for kicks.
     
-- There are a number of us in the academic/research world who at one time played in or current do play in bands that are in the registries of [Metal Archives](https://www.metal-archives.com/). It has been half-joked that it would be great if someone could figure out how to link metal-archives with [ORCID](https://orcid.org/), to facilitate a comprehensive incorporation of our professional activity and published works. On this thought, I propose the development of `metalORCID`; an `R` package for integrating metal-archives with ORCID.
-  - Already, [ORCID](https://orcid.org/) integrates with other applications like Scopus and Publons and there is an [ORCID Developer Tool](https://orcid.org/developer-tools) that appears like it would support the development of a `metalORCID` integration. Thus, this doesn't look like a far-out proposal.
+- There are a number of us in the academic/research world who at one time played in or current do play in bands that are in the registries of [Metal Archives](https://www.metal-archives.com/). It has been half-joked that it would be great if someone could figure out how to link metal-archives with [ORCID](https://orcid.org/), to facilitate a comprehensive incorporation of our professional activity and published works. On this thought, I propose the development of `metalORCID`: an `R` package for integrating metal-archives with ORCID.
+  - Already, [ORCID](https://orcid.org/) integrates with other applications like Scopus and Publons and there is an [ORCID Developer Tool](https://orcid.org/developer-tools) that appears like it would support the development of a `metalORCID` integration. Thus, this doesn't look like an outlandish proposition.
 
 The ideas generated above are only a sample of developments that might be pursued in associations with a `rockr` package. 
 <br>

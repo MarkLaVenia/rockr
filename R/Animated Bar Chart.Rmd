@@ -5,9 +5,12 @@ date: "5/3/2020"
 output: html_document
 ---
 
-Load needed packages
+Execution of these scripts requires the installation and loading of the following packages:
+
+`tidyverse`, `ggplot2`, `gganimate`, `png`
 
 ```{r}
+
 # check to see if packages are installed. Install them if they are not, then load them into the R session.
 
 ipak <- function(pkg) {
@@ -24,19 +27,55 @@ ipak(packages)
 
 ```
 
-Prepare analysis files
+## Data preparation
+
+Raw data for this project were hand-entered from Twitter, structured in a long-format entry log.
+
+Data entry excludeed polls conducted for:
+- Most influential female metal musician
+- Best metal band of the '80s? 
+- best Christian metal band
+- Best metal band of the '70s? 
 
 ```{r}
+
 setwd("C:/Users/MarkLaVenia/GitHub/rockr")
 
 twitter_poll_data <-
   read_csv("data-raw/raw_twitter_poll_data.csv")
+
+```
+
+### Precision
+
+Twitter polls provide data on the total number of votes and the percentage of votes per response option rounded to the first decimal place, Accordingly, using the `mutate()` command we calculate
+
+- the number of votes per response option (which is a metric of interest in itself) and 
+- the percentage of votes per response option without truncation due to rounding.
+
+Each step in the process described below I use the `rm()` command to remove dataframes I am no longer using. I find keeping my environment free of clutter helps me be clear on what I am working on and reduces the chances that I will accidentally work in the incorrect version of files.
+
+```{r}
 
 precision_poll_data <- twitter_poll_data %>%
   mutate(album_votes = round(poll_votes * (poll_percent / 100), 0)) %>%
   mutate(poll_percent = (album_votes / poll_votes) * 100) 
 
 rm(twitter_poll_data)
+
+```
+
+### Selection
+
+We then reduce the dataframe to the observations of interest. 
+
+- For all analyses, we drop observations for polls coded as invalid.
+  - In the example data, one poll coded as invalid was conducted as an alternate final.
+- For two analyses we retain data for only final polls, excluding data for bonus and qualifying polls and; for a third analysis we retained data for all valid polls, inclusive of bonus, qualifying, and final polls.
+
+The steps that follow immediately track toward the creation of analysis files for the first two analyses. I circle back later to create the the third analysis file. In the code chunk below I save the cleaned `precision` file so that I can start there when I return to create that third file.
+
+```{r}
 
 album_finalpolls <-
   precision_poll_data[precision_poll_data$valid %in%  # include only valid polls
@@ -47,12 +86,34 @@ album_finalpolls <-
 save(precision_poll_data, file = "data/precision_poll_data.rda")
 rm(precision_poll_data)
 
+```
+
+### Aggregation
+
+To remedy instances where a given band appeared more than once in a given year
+
+- we use the `group_by()` and `summarise_at()` commands to sum percentages or vote counts for each band per year.
+- This scenario occurred in the 1970 final poll, where *Black Sabbath* had two albums that year;
+  - other scenarios for this occur when analyzing bonus, qualifying, and final polls jointly.
+
+```{r}
+
 band_finalpolls <- album_finalpolls %>%
   group_by(band_name, album_year) %>%
   summarise_at(c("album_votes", "poll_percent"), sum) %>%
   arrange(album_year, band_name)
 
 rm(album_finalpolls)
+
+```
+
+### Structure
+
+Ultimately we want a file in a long (tidy) format, with each band having a row for every year in the dataset regardless of whether the band had poll data for that year.  
+
+- We first use the `pivot_wider()` command, followed by the `pivot_longer()` command to accomplish this.
+
+```{r}
 
 band_finalpolls_wide <- pivot_wider(
   data = band_finalpolls,
@@ -61,6 +122,17 @@ band_finalpolls_wide <- pivot_wider(
   values_from = c("album_votes", "poll_percent"))
 
 rm(band_finalpolls)
+
+```
+
+### Computation
+
+To calculate rolling averages and sums, we use 
+
+- the `mutate(cummmean())` command with the `poll_percent` variable and
+- the `mutate(cummsum())` command with the `album_votes` variable.
+
+```{r}
 
 band_finalpolls_long <- band_finalpolls_wide %>%
   pivot_longer(album_votes_1970:poll_percent_1989,
@@ -72,6 +144,12 @@ band_finalpolls_long <- band_finalpolls_wide %>%
   mutate(album_votes_cumulative = cumsum(replace_na(album_votes, 0)))
 
 rm(band_finalpolls_wide)
+
+```
+
+Here we'll create and save two of our analysis files.
+
+```{r}
 
 finalpolls_percent_analysisfile <- band_finalpolls_long  %>%
   select(band_name, year, poll_percent_cumulative) %>%
@@ -91,6 +169,7 @@ rm(band_finalpolls_long)
 
 ```
 
+Before rendering our barcharts, we have one more analysis file to create and save. Here I assemble all the steps described above into a single code chunk, except starting with the clean `precision` data file we've already created and saved.
 
 ```{r}
 
@@ -106,6 +185,8 @@ band_allpolls <- album_allpolls %>%
   group_by(band_name, album_year) %>%
   summarise_at(c("album_votes"), sum) %>%
   arrange(album_year, band_name)
+
+rm(album_allpolls)
 
 band_allpolls_wide <- pivot_wider(
   data = band_allpolls,
@@ -133,18 +214,29 @@ rm(band_allpolls_long)
 
 ```
 
-#Data Manipulation:
-#In this step, We’re going to filter our dataset to retain only the top 10 countries for every given year. We’ll #also create a few more columns that will help us display labels in the plot.
+### Format
+
+The final step before plotting is to format the data for analysis by calling
+
+- the `group_by()` and `mutate(rank())` commands to rank order the bands with each year and
+- the `group_by()` and `filter()` commands to constrain the data to the top ranked bands for any given year.
+  - Here we filter to the top 10 ranked bands.
+
+Note that I use the # temporailly disable code. I do this so that this same chunk of code can serve all three analysis, enabling/disabling different scripts depending on the analysis. I also use the # at the end of strings of code that are analysis dependent to cue when and which to enable/disable.
+
+Also observe that I do not save `formatted` files for each analysis. So, these scripts are structured to move directly from creating the `formatted` file to rendering the bar chart before creating a `formatted` file for anaother analysis.
+
 
 ```{r}
-load("data/finalpolls_percent_analysisfile.rda")
-analysisfile <- finalpolls_percent_analysisfile
 
-#load("data/finalpolls_sum_analysisfile.rda")
-#analysisfile <- finalpolls_sum_analysisfile
+load("data/finalpolls_percent_analysisfile.rda") # for final polls percentages; render plot before disabling
+analysisfile <- finalpolls_percent_analysisfile # for final polls percentages; render plot before disabling
 
-#load("data/allpolls_sum_analysisfile.rda")
-#analysisfile <- allpolls_sum_analysisfile
+#load("data/finalpolls_sum_analysisfile.rda") # for final polls sums; render plot before disabling
+#analysisfile <- finalpolls_sum_analysisfile # for final polls sums; render plot before disabling
+
+#load("data/allpolls_sum_analysisfile.rda") # for all polls sums; render plot before disabling
+#analysisfile <- allpolls_sum_analysisfile # for all polls sums; render plot before disabling
 
 analysisfile_formatted <- analysisfile %>%
   group_by(year) %>%
@@ -156,17 +248,31 @@ analysisfile_formatted <- analysisfile %>%
   filter(rank <= 10) %>%
   ungroup()
 
-rm(finalpolls_percent_analysisfile)
+rm(finalpolls_percent_analysisfile) # for final polls percentages; render plot before disabling
+#rm(finalpolls_sum_analysisfile) # for final polls sums; render plot before disabling
+#rm(allpolls_sum_analysisfile) # for all polls sums; render plot before disabling
 rm(analysisfile)
 
 ```
 
-#Building Static Plots
-#Now that our data is ready to plotted, We’ll build all the required static plots. As you might have seen in the #animation at the top of this post, We’re going to see how the Top 10 Countries based on GDP has changed over the #years in the given dataset. For that we need to build individual plots for each year.
+## Rendering animated bar charts
+
+### Static plots
+
+The first step to making an animated bar chart is to plot a series of static bar charts using the `ggplot()` command.
+
+- Dissatisfied with the default colors, I create a custom array of colors and called it in using the `scale_colour_manual()` and `scale_fill_manual()` commands.
+  - After all, *Black Sabbath* has to be *black* and *Deep Purple* has to be *purple*, *right*?
+- Using the `unique()` command we can generate the list of bands in the plot for which colors are needed. 
+
+Observe in the chunk below there are two lines of code to enable/disable depedning on whether it is an analysis that uses the percentage values or the sum values
 
 ```{r}
 
-#bands <- unique(analysisfile_formatted$band_name)
+#bands_count <- length(unique(analysisfile_formatted$band_name)) # length of list of bands for which colors are needed
+#bands_count
+
+#bands <- unique(analysisfile_formatted$band_name) # generate list of bands for which colors are needed
 #bands
 
 mycolors_scale <- c(
@@ -227,9 +333,9 @@ mycolors_fill <- c(
 
 staticplot = ggplot(analysisfile_formatted, aes(rank, group = band_name, fill = as.factor(band_name), color = as.factor(band_name))) +
   geom_tile(aes(y = value / 2, height = value, width = 0.9 ), alpha = 0.8, color = NA) +
-#  geom_text(aes(y = 0, label = paste(band_name, " ")), size = 10, vjust = 0.2, hjust = 1) +
+  geom_text(aes(y = 0, label = paste(band_name, " ")), size = 10, vjust = 0.2, hjust = 1) +
   geom_text(aes(y = value, label = paste(value_lbl, "%")), size = 7, hjust = 0) + # use for plot with percentage values
-  geom_text(aes(y=value,label = value_lbl), size = 7, hjust = 0) + # use for plots with sum values
+#  geom_text(aes(y=value,label = value_lbl), size = 7, hjust = 0) + # use for plots with sum values
   coord_flip(clip = "off", expand = FALSE) +
   scale_y_continuous(labels = scales::comma) +
   scale_x_reverse() +
@@ -255,17 +361,20 @@ staticplot = ggplot(analysisfile_formatted, aes(rank, group = band_name, fill = 
     plot.margin = margin(4, 1.8, 1, 7.5, "cm")
   )
 
+rm(analysisfile_formatted)
+
 staticplot
 
 ```
 
-#We will not get into the details of how to static plots are built as that’s pretty much similar to how any #normal plot is built using ggplot2. As you can see in the above code, There are a few key aspects with the #theme() function that are done to make it go well with the animation, like – Only Vertical Grid Lines are drawn #and Legends, Axes Title and few more components are removed from the plot.
+### Animated plots
 
-#Animation
-#The key function here is transition_states() which stitches the individual static plots together by year. #view_follow() is used to give a view as if the background lines (gridlines) are moving as the animation is #progressing.
+Then we use the `transition_states()` command to stitch together the individual static plots.
 
+More enabling/disabling to do here depending on the analysis.
 
 ```{r}
+
 anim = staticplot + transition_states(year, transition_length = 4, state_length = 1) +
   view_follow(fixed_x = TRUE)  +
   
@@ -281,15 +390,18 @@ anim = staticplot + transition_states(year, transition_length = 4, state_length 
 
 #       caption  = "Data Source: @nickmoberly Twitter best album of the year polls, inclusive of all polls (bonus, qualifying, and grand finales).\nValues indicate the sum of votes from the polls for 1970 through a given year.") # for all polls sums
 
+rm(staticplot)
+
 anim 
 
 ```
 
-#Rendering
-#With the animation being built (ready) and saved in the object anim , It’s time for us to render the animation #using animate() function. The renderer used in the animate() differs based on the type of output file required.
-#For GIF File Format:
+And the final step is rendering the animated plots using the `animate(gifski_renderer())` command.
+
+...and yet more enabling/disabling.
 
 ```{r}
+
 animate(anim, 200, fps = 10, duration = 40, width = 1200, height = 1000,
   
   renderer = gifski_renderer("R/plots/album_poll_final_percentage.gif")) # for final polls percentages
@@ -297,5 +409,22 @@ animate(anim, 200, fps = 10, duration = 40, width = 1200, height = 1000,
 #  renderer = gifski_renderer("R/plots/album_poll_final_sum.gif")) # for final polls sums
 
 #  renderer = gifski_renderer("R/plots/album_poll_all_sum.gif")) # for all polls sums
+
+rm(anim)
+
 ```
+
+If you had gone through the full cycle of enabled/disabled code, you should have three anaimated bar charts saved as separate GIFS.
+
+#### Bar Chart 1. *Best album cumulative percentage of votes aggregated by band*
+
+This plot uses a rolling average of the `poll_percent` variable as the plotted metric, based on results according to the *final* polls.
+
+#### Bar Chart 2. *Best album cumulative votes aggregated by band*
+
+This plot uses a rolling sum of the `album_votes` variable as the plotted metric, based on results according to the *final* polls. 
+
+#### Bar Chart 3. *Best album cumulative votes aggregated by band*
+
+This plot uses a rolling sum of the `album_votes` variable as the plotted metric, based on results according to *all* polls.
 
