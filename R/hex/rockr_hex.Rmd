@@ -22,7 +22,7 @@ r <- sticker(logo, package = "rockr", p_size = 23, p_color = "#FFC600",
         h_fill = "#000000", h_color = "#551A8B",
         s_x = 1, s_y = 0.88, s_width = 1.25, s_height = 1.25,
         p_y = 1.65,
-        filename = "hex/rockr_hex.png") 
+        filename = "man/logo.png") 
 
 r
 

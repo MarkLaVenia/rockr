@@ -15,7 +15,7 @@ output: github_document
 
 <a id="top of page"></a>
 
-# rockr <img src='R/hex/rockr_hex.png' align="right" height="150" />
+# rockr <img src='man/logo.png' align="right" height="150" />
 
 
 
@@ -50,7 +50,7 @@ Given a series of Twitter polls on best album of the year, with sequential polls
 </p>
 
 
-## Packages, scripts, and data
+## Packages, script, and data
 
 Although `rockr` aspires to be a full blown package contributing an array of functions and analytic enhancement useful for a variety of applications, at present it is simply a code and data repository, with scripts to perform one task, tailored to one particular dataset. See section, [Future development of `rockr`](#Future development of rockr), for thoughts on what `rockr` might be when it grows up.
 

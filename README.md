@@ -14,7 +14,7 @@ Love](https://badges.frapsoft.com/os/v1/open-source.png?v=103)](https://github.c
 
 <a id="top of page"></a>
 
-# rockr <img src='R/hex/rockr_hex.png' align="right" height="150" />
+# rockr <img src='man/logo.png' align="right" height="150" />
 
 <!-- badges: start -->
 
@@ -48,7 +48,7 @@ response options across polls
 
 </p>
 
-## Packages, scripts, and data
+## Packages, script, and data
 
 Although `rockr` aspires to be a full blown package contributing an
 array of functions and analytic enhancement useful for a variety of
@@ -397,14 +397,15 @@ opportunity provokes the call for a meta-package: a `rockrverse`.
     out how to link metal-archives with [ORCID](https://orcid.org/), to
     facilitate a comprehensive incorporation of our professional
     activity and published works. On this thought, I propose the
-    development of `metalORCID`; an `R` package for integrating
+    development of `metalORCID`: an `R` package for integrating
     metal-archives with ORCID.
     
       - Already, [ORCID](https://orcid.org/) integrates with other
         applications like Scopus and Publons and there is an [ORCID
         Developer Tool](https://orcid.org/developer-tools) that appears
         like it would support the development of a `metalORCID`
-        integration. Thus, this doesn’t look like a far-out proposal.
+        integration. Thus, this doesn’t look like an outlandish
+        proposition.
 
 The ideas generated above are only a sample of developments that might
 be pursued in associations with a `rockr` package. <br>

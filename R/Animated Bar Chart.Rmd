@@ -5,7 +5,7 @@ date: "5/3/2020"
 output: html_document
 ---
 
-Execution of these scripts requires the installation and loading of the following packages:
+Running of this script requires the installation and loading of the following packages:
 
 `tidyverse`, `ggplot2`, `gganimate`, `png`
 
@@ -31,7 +31,7 @@ ipak(packages)
 
 Raw data for this project were hand-entered from Twitter, structured in a long-format entry log.
 
-Data entry excludeed polls conducted for:
+Data entry excluded polls for:
 - Most influential female metal musician
 - Best metal band of the '80s? 
 - best Christian metal band
@@ -222,9 +222,9 @@ The final step before plotting is to format the data for analysis by calling
 - the `group_by()` and `filter()` commands to constrain the data to the top ranked bands for any given year.
   - Here we filter to the top 10 ranked bands.
 
-Note that I use the # temporailly disable code. I do this so that this same chunk of code can serve all three analysis, enabling/disabling different scripts depending on the analysis. I also use the # at the end of strings of code that are analysis dependent to cue when and which to enable/disable.
+Note that I use the # temporailly disable code. I do this so that this same chunk of code can serve all three analysis, enabling/disabling different lines of code depending on the analysis. I also use the # at the end of lines of code that are analysis-dependent to cue when and which to enable/disable.
 
-Also observe that I do not save `formatted` files for each analysis. So, these scripts are structured to move directly from creating the `formatted` file to rendering the bar chart before creating a `formatted` file for anaother analysis.
+Also observe that I do not save `formatted` files for each analysis. So, this script is structured for the analysts to move directly from creating the `formatted` file to rendering the bar chart before creating a `formatted` file for anaother analysis.
 
 
 ```{r}
@@ -269,11 +269,11 @@ Observe in the chunk below there are two lines of code to enable/disable depedni
 
 ```{r}
 
-#bands_count <- length(unique(analysisfile_formatted$band_name)) # length of list of bands for which colors are needed
-#bands_count
+band_listlength <- length(unique(analysisfile_formatted$band_name)) # length of list of bands for which colors are needed
+band_listlength
 
-#bands <- unique(analysisfile_formatted$band_name) # generate list of bands for which colors are needed
-#bands
+band_list <- unique(analysisfile_formatted$band_name) # generate list of bands for which colors are needed
+band_list
 
 mycolors_scale <- c(
   'Anthrax' = '#362f78',
