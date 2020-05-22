@@ -5,9 +5,9 @@ date: "5/3/2020"
 output: html_document
 ---
 
-Running of this script requires the installation and loading of the following packages:
+The following code was written for running on R version 4.0.0 with Windows 10 Pro. Running of this script requires the installation and loading of the following packages:
 
-`tidyverse`, `ggplot2`, `gganimate`, `png`
+`tidyverse`, `gtsummary`, `ggplot2`, `gganimate`, `png`
 
 ```{r}
 
@@ -20,7 +20,7 @@ ipak <- function(pkg) {
   sapply(pkg, require, character.only = TRUE)
 }
 
-packages <- c("tidyverse", "ggplot2", "gganimate", "png")
+packages <- c("tidyverse", "gt", "gtsummary", "install_phantomjs", "ggplot2", "gganimate", "png")
 ipak(packages)
 
 #install.packages("dplyr") run in case of "there is no package called ‘rlang’" error
@@ -64,6 +64,111 @@ precision_poll_data <- twitter_poll_data %>%
 rm(twitter_poll_data)
 
 ```
+
+### Exploration
+
+The first thing we do is make a quick check for data entry error red flags. Using the `group_by()` and `summarise(sum())` commands we calculate the sum of persentages for each response option for each poll; and using the `mutate(sprintf())` and `unique()` commands to verifiy that all polls sum to 100 percent.
+
+```{r}
+
+precision_poll_data <- transform(precision_poll_data, poll_id=match(poll_date, unique(poll_date)))
+
+poll_EDA <- precision_poll_data %>%
+  group_by(poll_id) %>%
+  summarise(poll_date = max(poll_date),
+            poll_type = max(poll_type),
+            poll_votes = max(poll_votes),
+            album_year = max(album_year),
+            poll_percent_sum=sum(poll_percent)) %>% 
+  mutate(poll_percent_sum = sprintf("%0.1f", poll_percent_sum))
+
+unique(poll_EDA$poll_percent_sum)
+
+```
+
+And using the `ggplot()` function, we produce a visualization to inspect  
+the number of votes per poll. We observe a suspiciously low number of votes for the 1982 final poll. Double-checking Twitter revealed that poll indeed did have a low response rate: shocking given it included bangers such as Maiden's *Number of the Beast* and Priest's *Screaming for Vengeance*.
+
+```{r}
+
+poll_EDA$poll_type <- factor(poll_EDA$poll_type, levels=c("qual", "final", "final_alt", "bonus"), labels=c("Qualifying", "Final", "Final (alternate)", "Bonus"))
+
+p <- poll_EDA %>%
+  ggplot(aes(x = factor(poll_id), y = poll_votes, fill = poll_type))  +
+  geom_col(position = "dodge") +
+  facet_grid(~ album_year, scales = "free_x", space = "free_x", switch = "x") +
+  labs(title = 'Number of votes per poll') +
+    labs(fill = "Poll type") +
+    theme(strip.text.x = element_text(angle = 90, hjust = 0),
+    strip.background = element_blank(),
+    axis.line = element_blank(),
+    axis.text.x = element_blank(),
+    axis.ticks = element_blank(),
+    axis.title.x = element_blank(),
+    axis.title.y = element_blank(),
+    panel.background = element_blank(),
+    panel.border = element_blank(),
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+    plot.title = element_text(size = 14, hjust = 0.5, face = "bold", colour = "grey", vjust = 1.5),
+    plot.background = element_blank())
+
+p
+
+ggsave("R/plots/poll_votes.png", width = 8, height = 4)
+
+```
+
+Using the `summarise(n_distinct())` command we see that across all poll types, the data comprise 50 separate polls on 79 bands cumulatively. Constraining to final polls only, the data comprise 21 separate polls on 37 bands cumulatively.
+
+```{r}
+
+band_counts <- precision_poll_data  %>%
+  summarise(poll_counts_all = n_distinct(poll_id),
+    bands_counts_all = n_distinct(band_name),
+    poll_counts_final = n_distinct(poll_id[poll_type == 'final']),
+    bands_counts_final = n_distinct(band_name[poll_type == 'final']))
+
+band_counts
+
+```
+
+
+Lastly, we use the `tbl_summary()` command to view the mean and standard deviation in poll votes by poll type.
+
+```{r}
+
+summary <- poll_EDA %>% dplyr::select(poll_type, poll_votes)
+
+table1 <- tbl_summary(
+  summary,
+  by = poll_type,
+  statistic = list(all_continuous() ~ "{mean} ({sd})"),
+  digits = list(poll_votes ~ c(0, 1)),
+  label = list(poll_votes = "Poll votes")) %>%
+  add_n() %>%
+  bold_labels() %>%
+  as_gt() %>% 
+  tab_header(
+    title = "Summary statistics for poll votes by poll type")
+
+table1
+
+table1 %>%
+  gtsave("table1.png", expand = 10,
+    path = "C:/Users/MarkLaVenia/GitHub/rockr/R/plots")
+
+
+```
+
+Let's clean-up the environment from the exploratory data analysis before moving on.
+
+```{r}
+
+rm("band_counts", "p", "poll_EDA", "summary", "table1")
+
+```
+
 
 ### Selection
 
@@ -259,7 +364,7 @@ rm(analysisfile)
 
 ### Static plots
 
-The first step to making an animated bar chart is to plot a series of static bar charts using the `ggplot()` command.
+The first step to making an animated bar chart is to plot a series of static bar charts using the `ggplot()` function.
 
 - Dissatisfied with the default colors, I create a custom array of colors and called it in using the `scale_colour_manual()` and `scale_fill_manual()` commands.
   - After all, *Black Sabbath* has to be *black* and *Deep Purple* has to be *purple*, *right*?
@@ -269,7 +374,7 @@ Observe in the chunk below there are two lines of code to enable/disable depedni
 
 ```{r}
 
-band_listlength <- length(unique(analysisfile_formatted$band_name)) # length of list of bands for which colors are needed
+band_listlength <- n_distinct(analysisfile_formatted$band_name) # number of distinct bands for which colors are needed
 band_listlength
 
 band_list <- unique(analysisfile_formatted$band_name) # generate list of bands for which colors are needed
@@ -286,6 +391,7 @@ mycolors_scale <- c(
   "Guns n' Roses" = '#FFC125',
   'Iron Maiden' = '#458B00',
   'Judas Priest' = '#6E8243',
+  'Kreator' = '#DC143C',
   'Led Zeppelin' = '#8A4C19',
   'Megadeth' = '#b91e45',
   'Mercyful Fate' = '#FF4500',
@@ -314,6 +420,7 @@ mycolors_fill <- c(
   "Guns n' Roses" = '#FFC125',
   'Iron Maiden' = '#458B00',
   'Judas Priest' = '#6E8243',
+  'Kreator' = '#DC143C',
   'Led Zeppelin' = '#8A4C19',
   'Megadeth' = '#b91e45',
   'Mercyful Fate' = '#FF4500',

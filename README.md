@@ -61,7 +61,8 @@ section, [Future development of
 The analyses described herein requires the installation and loading of
 the following `R` packages:
 
-`tidyverse`, `ggplot2`, `gganimate`, `png`
+`tidyverse`, `gt`, `gtsummary`, `install_phantomjs`, `ggplot2`,
+`gganimate`, `png`
 
 All `R` code required for this project can be found in [R/Animated Bar
 Chart.Rmd](https://github.com/MarkLaVenia/rockr/blob/master/R/Animated%20Bar%20Chart.Rmd),
@@ -110,6 +111,47 @@ place, Accordingly, using the `mutate()` command we calculated
     interest in itself) and
   - the percentage of votes per response option without truncation due
     to rounding.
+
+### Exploration
+
+The first thing we do is make a quick check for data entry error red
+flags. Using the `group_by()` and `summarise(sum())` commands we
+calculate the sum of persentages for each response option for each poll;
+and using the `mutate(sprintf())` and `unique()` commands to verifiy
+that all polls sum to 100 percent.
+
+And using the `ggplot()` function, we produce a visualization to
+inspect  
+the number of votes per poll. Here we use the `facet_grid()` command to
+group the polls for each album year.
+
+We observe a suspiciously low number of votes for the 1982 final poll.
+Double-checking Twitter revealed that the 1982 poll indeed did have a
+low response rate: shocking given it included bangers such as Maiden’s
+*Number of the Beast* and Priest’s *Screaming for Vengeance*, making it
+clear that enthusiasm for the bands or albums can in no way explain all
+the variation in response rate.
+
+<p align="center">
+
+<img src="R/plots/poll_votes.png" alt="reviewer">
+
+</p>
+
+Using the `summarise(n_distinct())` command we see that across all
+polls, the data comprise *50* polls covering *79* bands cumulatively.
+Constraining to final polls only, the data comprise *21* polls covering
+*37* bands cumulatively.
+
+Lastly, we use the `tbl_summary()` command to view the mean and standard
+deviation in poll votes by poll type to make some assessment of the
+central tendency and dispersion of responsiveness to the polls.
+
+<p align="center">
+
+<img src="R/plots/table1.png" alt="reviewer"  width="640">
+
+</p>
 
 ### Selection
 
@@ -426,4 +468,4 @@ be pursued in associations with a `rockr` package. <br>
 
 </p>
 
-<br>
+<br> <br>
