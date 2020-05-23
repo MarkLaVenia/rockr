@@ -20,11 +20,10 @@ Love](https://badges.frapsoft.com/os/v1/open-source.png?v=103)](https://github.c
 
 <!-- badges: end -->
 
-The (current) goal of `rockr` is:
-
-Given a series of Twitter polls on best album of the year, with
-sequential polls for each year, where some bands are reoccurring
-response options across polls
+The (current) goal of `rockr` is to identify top ranked bands from
+polling data on best album of the year. Given a series of Twitter polls
+on best album of the year, with sequential polls for each year, where
+some bands are reoccurring response options across polls, we
 
 1.  Munge data into an analysis-ready format
 
@@ -51,7 +50,7 @@ response options across polls
 ## Packages, script, and data
 
 Although `rockr` aspires to be a full blown package contributing an
-array of functions and analytic enhancement useful for a variety of
+array of functions and analytic enhancements useful for a variety of
 applications, at present it is simply a code and data repository, with
 scripts to perform one task, tailored to one particular dataset. See
 section, [Future development of
@@ -79,8 +78,8 @@ with raw data found in
   - Poll percentages weighted equally across years smooths over
     variation in response rate across polls;
       - however, the sum of votes may (in part) be an indicator of
-        enthusiasm for a given a band or album–and therefore may also be
-        a valid metric for ranking bands.
+        enthusiasm for a given band or album–and therefore may also be a
+        valid metric for ranking bands.
       - That said, early polls averaged fewer responses than later
         polls; therefore, it appears reach of the polls increased over
         time–likely giving an upward bias for bands in later polls when
@@ -105,7 +104,7 @@ a long-format entry log.
 
 Twitter polls provide data on the total number of votes and the
 percentage of votes per response option rounded to the first decimal
-place, Accordingly, using the `mutate()` command we calculated
+place. Accordingly, using the `mutate()` command we calculated
 
   - the number of votes per response option (which is a metric of
     interest in itself) and
@@ -116,7 +115,7 @@ place, Accordingly, using the `mutate()` command we calculated
 
 The first thing we do is make a quick check for data entry error red
 flags. Using the `group_by()` and `summarise(sum())` commands we
-calculate the sum of persentages for each response option for each poll;
+calculate the sum of percentages for each response option for each poll;
 and using the `mutate(sprintf())` and `unique()` commands to verifiy
 that all polls sum to 100 percent.
 
@@ -182,8 +181,8 @@ given year
 
 Ultimately we want a file in a long (tidy) format, with each band having
 a row for every year in the dataset regardless of whether the band had
-poll data for that year. There is probably a more efficient what of
-doing this; but short of figuring that out,
+poll data for that year. There is probably a more efficient way of doing
+this; but short of figuring that out,
 
   - I first used the `pivot_wider()` command, followed by the
     `pivot_longer()` command to accomplish this.
@@ -409,14 +408,14 @@ plotted metric, based on results according to *all* polls.
 
 If a robust data warehouse could be assembled as described above for a
 `rockr` package, the vast array of analytic and visualization
-opportunity provokes the call for a meta-package: a `rockrverse`.
+opportunities provokes the call for a meta-package: a `rockrverse`.
 
   - Other functions that might be combined into this suite of packages
-    is the `tabr` package for rendering tablature and sheet music for
-    guitar and other stringed instruments. This is certainly outside the
-    lane of what put the `rockr` project in motion; nevertheless, it is
-    a parallel-running interest that many users of `rockr` will surely
-    appreciate being integrated.
+    include the `tabr` package for rendering tablature and sheet music
+    for guitar and other stringed instruments. This is certainly outside
+    the lane of what put the `rockr` project in motion; nevertheless, it
+    is a parallel-running interest that many users of `rockr` will
+    surely appreciate being integrated.
 
   - Corresponding projects with JarbasAI’s [Metal
     Dataset](https://github.com/OpenJarbas/metal_dataset) are [Metal
@@ -430,10 +429,10 @@ opportunity provokes the call for a meta-package: a `rockrverse`.
         `pymetal`: `rmetal`, if you will. I’d venture that those
         interested in using a `rockr` package would appreciate having a
         `rmetal` functionality that is easily available–either for
-        manifest purposes of just for kicks.
+        manifest purposes or just for kicks.
 
   - There are a number of us in the academic/research world who at one
-    time played in or current do play in bands that are in the
+    time played in or currently do play in bands that are in the
     registries of [Metal Archives](https://www.metal-archives.com/). It
     has been half-joked that it would be great if someone could figure
     out how to link metal-archives with [ORCID](https://orcid.org/), to

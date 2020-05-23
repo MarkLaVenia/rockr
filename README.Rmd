@@ -25,9 +25,7 @@ output: github_document
 
 
 
-The (current) goal of `rockr` is:
-
-Given a series of Twitter polls on best album of the year, with sequential polls for each year, where some bands are reoccurring response options across polls
+The (current) goal of `rockr` is to identify top ranked bands from polling data on best album of the year. Given a series of Twitter polls on best album of the year, with sequential polls for each year, where some bands are reoccurring response options across polls, we
 
 1.  Munge data into an analysis-ready format
 
@@ -52,7 +50,7 @@ Given a series of Twitter polls on best album of the year, with sequential polls
 
 ## Packages, script, and data
 
-Although `rockr` aspires to be a full blown package contributing an array of functions and analytic enhancement useful for a variety of applications, at present it is simply a code and data repository, with scripts to perform one task, tailored to one particular dataset. See section, [Future development of `rockr`](#Future development of rockr), for thoughts on what `rockr` might be when it grows up.
+Although `rockr` aspires to be a full blown package contributing an array of functions and analytic enhancements useful for a variety of applications, at present it is simply a code and data repository, with scripts to perform one task, tailored to one particular dataset. See section, [Future development of `rockr`](#Future development of rockr), for thoughts on what `rockr` might be when it grows up.
 
 The analyses described herein requires the installation and loading of the following `R` packages:
 
@@ -67,7 +65,7 @@ All `R` code required for this project can be found in [R/Animated Bar Chart.Rmd
   - the proportion of people who vote a band's albums as the best album of the year.
 
 - Poll percentages weighted equally across years smooths over variation in response rate across polls; 
-  - however, the sum of votes may (in part) be an indicator of enthusiasm for a given a band or album--and therefore may also be a valid metric for ranking bands.
+  - however, the sum of votes may (in part) be an indicator of enthusiasm for a given band or album--and therefore may also be a valid metric for ranking bands.
   - That said, early polls averaged fewer responses than later polls; therefore, it appears reach of the polls increased over time--likely giving an upward bias for bands in later polls when using vote sums as the metric of analysis.
   
 - Constraining the data to only the final poll for each year avoids the problem of needing to account for albums that appeared on both qualifying and final polls; 
@@ -82,14 +80,14 @@ Raw data for this project were hand-entered from Twitter, structured in a long-f
 
 ### Precision
 
-Twitter polls provide data on the total number of votes and the percentage of votes per response option rounded to the first decimal place, Accordingly, using the `mutate()` command we calculated
+Twitter polls provide data on the total number of votes and the percentage of votes per response option rounded to the first decimal place. Accordingly, using the `mutate()` command we calculated
 
 - the number of votes per response option (which is a metric of interest in itself) and 
 - the percentage of votes per response option without truncation due to rounding.
 
 ### Exploration
 
-The first thing we do is make a quick check for data entry error red flags. Using the `group_by()` and `summarise(sum())` commands we calculate the sum of persentages for each response option for each poll; and using the `mutate(sprintf())` and `unique()` commands to verifiy that all polls sum to 100 percent.
+The first thing we do is make a quick check for data entry error red flags. Using the `group_by()` and `summarise(sum())` commands we calculate the sum of percentages for each response option for each poll; and using the `mutate(sprintf())` and `unique()` commands to verifiy that all polls sum to 100 percent.
 
 And using the `ggplot()` function, we produce a visualization to inspect  
 the number of votes per poll. Here we use the `facet_grid()` command to group the polls for each album year.
@@ -126,7 +124,7 @@ To remedy instances where a given band appeared more than once in a given year
   
 ### Structure
 
-Ultimately we want a file in a long (tidy) format, with each band having a row for every year in the dataset regardless of whether the band had poll data for that year. There is probably a more efficient what of doing this; but short of figuring that out, 
+Ultimately we want a file in a long (tidy) format, with each band having a row for every year in the dataset regardless of whether the band had poll data for that year. There is probably a more efficient way of doing this; but short of figuring that out, 
 
 - I first used the `pivot_wider()` command, followed by the `pivot_longer()` command to accomplish this.
 - A more efficient approach might evaluate which years were unobserved for given bands, then insert rows for those missing observations. 
@@ -232,14 +230,14 @@ This plot uses a rolling sum of the `album_votes` variable as the plotted metric
 
 #### On a `rockrverse` collection of `R` packages
 
-If a robust data warehouse could be assembled as described above for a `rockr` package, the vast array of analytic and visualization opportunity provokes the call for a meta-package: a `rockrverse`.
+If a robust data warehouse could be assembled as described above for a `rockr` package, the vast array of analytic and visualization opportunities provokes the call for a meta-package: a `rockrverse`.
 
-- Other functions that might be combined into this suite of packages is the `tabr` package for rendering tablature and sheet music for guitar and other stringed instruments. This is certainly outside the lane of what put the `rockr` project in motion; nevertheless, it is a parallel-running interest that many users of `rockr` will surely appreciate being integrated.
+- Other functions that might be combined into this suite of packages include the `tabr` package for rendering tablature and sheet music for guitar and other stringed instruments. This is certainly outside the lane of what put the `rockr` project in motion; nevertheless, it is a parallel-running interest that many users of `rockr` will surely appreciate being integrated.
 
 - Corresponding projects with JarbasAI's [Metal Dataset](https://github.com/OpenJarbas/metal_dataset) are [Metal Generator](https://ai-jarbas.gitbook.io/jarbasai/projects/metal-generator) / [pymetal](https://github.com/OpenJarbas/pymetal), a`Python` package for generating new band names, song names, and lyrics. 
-  - Again, this function is not integral to what we set out to accomplish with a `rockr` package. Nevertheless, within the suite of `rockrverse` packages might live an `R` cousin of `pymetal`: `rmetal`, if you will. I'd venture that those interested in using a `rockr` package would appreciate having a `rmetal` functionality that is easily available--either for manifest purposes of just for kicks.
+  - Again, this function is not integral to what we set out to accomplish with a `rockr` package. Nevertheless, within the suite of `rockrverse` packages might live an `R` cousin of `pymetal`: `rmetal`, if you will. I'd venture that those interested in using a `rockr` package would appreciate having a `rmetal` functionality that is easily available--either for manifest purposes or just for kicks.
     
-- There are a number of us in the academic/research world who at one time played in or current do play in bands that are in the registries of [Metal Archives](https://www.metal-archives.com/). It has been half-joked that it would be great if someone could figure out how to link metal-archives with [ORCID](https://orcid.org/), to facilitate a comprehensive incorporation of our professional activity and published works. On this thought, I propose the development of `metalORCID`: an `R` package for integrating metal-archives with ORCID.
+- There are a number of us in the academic/research world who at one time played in or currently do play in bands that are in the registries of [Metal Archives](https://www.metal-archives.com/). It has been half-joked that it would be great if someone could figure out how to link metal-archives with [ORCID](https://orcid.org/), to facilitate a comprehensive incorporation of our professional activity and published works. On this thought, I propose the development of `metalORCID`: an `R` package for integrating metal-archives with ORCID.
   - Already, [ORCID](https://orcid.org/) integrates with other applications like Scopus and Publons and there is an [ORCID Developer Tool](https://orcid.org/developer-tools) that appears like it would support the development of a `metalORCID` integration. Thus, this doesn't look like an outlandish proposition.
 
 The ideas generated above are only a sample of developments that might be pursued in associations with a `rockr` package. 
