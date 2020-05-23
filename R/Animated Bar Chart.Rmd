@@ -334,14 +334,14 @@ Also observe that I do not save `formatted` files for each analysis. So, this sc
 
 ```{r}
 
-load("data/finalpolls_percent_analysisfile.rda") # for final polls percentages; render plot before disabling
-analysisfile <- finalpolls_percent_analysisfile # for final polls percentages; render plot before disabling
+#load("data/finalpolls_percent_analysisfile.rda") # for final polls percentages; render plot before disabling
+#analysisfile <- finalpolls_percent_analysisfile # for final polls percentages; render plot before disabling
 
 #load("data/finalpolls_sum_analysisfile.rda") # for final polls sums; render plot before disabling
 #analysisfile <- finalpolls_sum_analysisfile # for final polls sums; render plot before disabling
 
-#load("data/allpolls_sum_analysisfile.rda") # for all polls sums; render plot before disabling
-#analysisfile <- allpolls_sum_analysisfile # for all polls sums; render plot before disabling
+load("data/allpolls_sum_analysisfile.rda") # for all polls sums; render plot before disabling
+analysisfile <- allpolls_sum_analysisfile # for all polls sums; render plot before disabling
 
 analysisfile_formatted <- analysisfile %>%
   group_by(year) %>%
@@ -353,9 +353,9 @@ analysisfile_formatted <- analysisfile %>%
   filter(rank <= 10) %>%
   ungroup()
 
-rm(finalpolls_percent_analysisfile) # for final polls percentages; render plot before disabling
+#rm(finalpolls_percent_analysisfile) # for final polls percentages; render plot before disabling
 #rm(finalpolls_sum_analysisfile) # for final polls sums; render plot before disabling
-#rm(allpolls_sum_analysisfile) # for all polls sums; render plot before disabling
+rm(allpolls_sum_analysisfile) # for all polls sums; render plot before disabling
 rm(analysisfile)
 
 ```
@@ -441,8 +441,8 @@ mycolors_fill <- c(
 staticplot = ggplot(analysisfile_formatted, aes(rank, group = band_name, fill = as.factor(band_name), color = as.factor(band_name))) +
   geom_tile(aes(y = value / 2, height = value, width = 0.9 ), alpha = 0.8, color = NA) +
   geom_text(aes(y = 0, label = paste(band_name, " ")), size = 10, vjust = 0.2, hjust = 1) +
-  geom_text(aes(y = value, label = paste(value_lbl, "%")), size = 7, hjust = 0) + # use for plot with percentage values
-#  geom_text(aes(y=value,label = value_lbl), size = 7, hjust = 0) + # use for plots with sum values
+#  geom_text(aes(y = value, label = paste(value_lbl, "%")), size = 7, hjust = 0) + # use for plot with percentage values
+  geom_text(aes(y=value,label = value_lbl), size = 7, hjust = 0) + # use for plots with sum values
   coord_flip(clip = "off", expand = FALSE) +
   scale_y_continuous(labels = scales::comma) +
   scale_x_reverse() +
@@ -485,17 +485,17 @@ More enabling/disabling to do here depending on the analysis.
 anim = staticplot + transition_states(year, transition_length = 4, state_length = 1) +
   view_follow(fixed_x = TRUE)  +
   
-  labs(title = 'Best album cumulative percentage of votes aggregated by band: {closest_state}', # for final polls percentages
+#  labs(title = 'Best album cumulative percentage of votes aggregated by band: {closest_state}', # for final polls percentages
        
-#  labs(title = 'Best album cumulative votes aggregated by band: {closest_state}', # for final and all polls sums
+  labs(title = 'Best album cumulative votes aggregated by band: {closest_state}', # for final and all polls sums
 
        subtitle  =  "Top 10 Bands | 1970–1990",
        
-       caption  = "Data Source: @nickmoberly Twitter best album of the year final polls (excluding data for bonus and qualifying polls).\nValues indicate the percentage of votes from the polls for 1970 through a given year, weighted equally across years.") # for final polls percentages
+#       caption  = "Data Source: @nickmoberly Twitter best album of the year final polls (excluding data for bonus and qualifying polls).\nValues indicate the percentage of votes from the polls for 1970 through a given year, weighted equally across years.") # for final polls percentages
 
 #       caption  = "Data Source: @nickmoberly Twitter best album of the year final polls (excluding data for bonus and qualifying polls).\nValues indicate the sum of votes from the polls for 1970 through a given year.") # for final polls sums
 
-#       caption  = "Data Source: @nickmoberly Twitter best album of the year polls, inclusive of all polls (bonus, qualifying, and grand finales).\nValues indicate the sum of votes from the polls for 1970 through a given year.") # for all polls sums
+       caption  = "Data Source: @nickmoberly Twitter best album of the year polls, inclusive of all polls (bonus, qualifying, and grand finales).\nValues indicate the sum of votes from the polls for 1970 through a given year.") # for all polls sums
 
 rm(staticplot)
 
@@ -511,11 +511,11 @@ And the final step is rendering the animated plots using the `animate(gifski_ren
 
 animate(anim, 200, fps = 10, duration = 40, width = 1200, height = 1000,
   
-  renderer = gifski_renderer("R/plots/album_poll_final_percentage.gif")) # for final polls percentages
+#  renderer = gifski_renderer("R/plots/album_poll_final_percentage.gif")) # for final polls percentages
 
 #  renderer = gifski_renderer("R/plots/album_poll_final_sum.gif")) # for final polls sums
 
-#  renderer = gifski_renderer("R/plots/album_poll_all_sum.gif")) # for all polls sums
+  renderer = gifski_renderer("R/plots/album_poll_all_sum.gif")) # for all polls sums
 
 rm(anim)
 
