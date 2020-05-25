@@ -51,8 +51,8 @@ some bands are reoccurring response options across polls, we
 
 Although `rockr` aspires to be a full blown package contributing an
 array of functions and analytic enhancements useful for a variety of
-applications, at present it is simply a code and data repository, with
-scripts to perform one task, tailored to one particular dataset. See
+applications, at present it is simply a code and data repository, with a
+script to perform one task, tailored to one particular dataset. See
 section, [Future development of
 `rockr`](#Future%20development%20of%20rockr), for thoughts on what
 `rockr` might be when it grows up.
@@ -119,8 +119,7 @@ calculate the sum of percentages for each response option for each poll;
 and using the `mutate(sprintf())` and `unique()` commands to verifiy
 that all polls sum to 100 percent.
 
-And using the `ggplot()` function, we produce a visualization to
-inspect  
+And using the `ggplot()` function, we produce a visualization to inspect
 the number of votes per poll. Here we use the `facet_grid()` command to
 group the polls for each album year.
 
@@ -142,7 +141,7 @@ polls, the data comprise *50* polls covering *79* bands cumulatively.
 Constraining to final polls only, the data comprise *21* polls covering
 *37* bands cumulatively.
 
-Lastly, we use the `tbl_summary()` command to view the mean and standard
+Then, we use the `tbl_summary()` command to view the mean and standard
 deviation in poll votes by poll type to make some assessment of the
 central tendency and dispersion of responsiveness to the polls.
 
@@ -179,10 +178,11 @@ given year
 
 ### Structure
 
-Ultimately we want a file in a long (tidy) format, with each band having
-a row for every year in the dataset regardless of whether the band had
-poll data for that year. There is probably a more efficient way of doing
-this; but short of figuring that out,
+Before undertaking the computations in the next step, we want a file in
+a long (tidy) format, with each band having a row for every year in the
+dataset regardless of whether the band had poll data for that year.
+There is probably a more efficient way of accomplishing this; but short
+of figuring that out,
 
   - I first used the `pivot_wider()` command, followed by the
     `pivot_longer()` command to accomplish this.
@@ -338,11 +338,14 @@ plotted metric, based on results according to *all* polls.
     Hammer*, as well as smaller independent outlets and fanzines. [Cult
     Never
     Dies](https://cultneverdies.myshopify.com/collections/books-zines),
-    [The Corroseum](https://thecorroseum.org/fanzines/index.php) and
-    [Rare & Obscure
+    [The Corroseum](https://thecorroseum.org/fanzines/index.php), [Rare
+    & Obscure
     Metal](https://strappadometalblog.blogspot.com/2011/02/zine-zone-metal-fanzines.html)
-    are example webstores and repositories of metal fanzines that might
-    be drawn upon.
+    and [Send Back My
+    Stamps\!](https://sendbackmystamps.org/fanzine-pdf-downloads/) are
+    example webstores and repositories of metal fanzines that might be
+    drawn upon, not to mention university archives that could be
+    accessed.
       - An extraordinarily ambitious undertaking might be to even
         incorporate text from interviews and articles published in such
         sources. The opportunities for textual analysis from such a data
@@ -402,7 +405,11 @@ plotted metric, based on results according to *all* polls.
             occur for a song with ostensibly negative lyrics. It seems
             textural, sonic, and musical components may be an important
             factor to include when trying to understand the effect of
-            music on the listener. <br>
+            music on the listener.
+          - A repository of this kind could be a valuabe resource for
+            researchers studying the social psychology of music,
+            including inter-individual differences in aesthetic
+            sensativity. <br>
 
 #### On a `rockrverse` collection of `R` packages
 
