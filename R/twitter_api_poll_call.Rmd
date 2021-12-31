@@ -1,0 +1,580 @@
+---
+title: "Twitter API Poll Query"
+author: "ML"
+date: "12/24/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+# baseline
+
+```{r}
+library(tidyverse)
+
+# Set Directory
+setwd("C:/Users/Mark Lavenia/GitHub/rockr")
+
+```
+
+# packages for timeline
+
+```{r}
+
+write('PATH="${RTOOLS40_HOME}\\usr\\bin;${PATH}"', file = "~/.Renviron", append = TRUE)
+
+Sys.which("make")
+
+install.packages("jsonlite", type = "source")
+
+install.packages("Rtools")
+install.packages("devtools")
+
+devtools::install_github("MaelKubli/RTwitterV2")
+library(RTwitterV2)
+
+```
+
+#Get timeline
+
+```{r}
+Bearer_Token <- "AAAAAAAAAAAAAAAAAAAAADJmXQEAAAAANF1R9tQ0Ouw6wcXsjMCEWlZkrGE%3Di9a1dAA20N0QdS41sE5U1MJ8TZ5ozrXduTWNSujmITRtQLAvah" #Insert your Bearer Token
+
+tweets <-
+  get_timelines_v2(
+    token = Bearer_Token,
+    user_id = "121568736",
+    n = 3200
+  )
+
+save(tweets, file = "data/tweets.rda")
+
+load("data/tweets.rda")
+
+polls <- tweets %>% 
+  filter(!is.na(attachments.poll_ids) & is.na(retweet_text) & conversation_id != "1274666078023684096") %>% 
+  select(screen_name, user_id, created_at, attachments.poll_ids, conversation_id, status_id, text) %>% 
+  arrange(created_at)
+
+```
+
+#Parse text
+
+```{r}
+
+library(splitstackshape)
+library(janitor)
+
+polls$text_split <- polls$text
+
+poll_split <- polls %>%
+  cSplit("text_split", ":|?") %>%
+  mutate(
+    prompt = case_when(
+      attachments.poll_ids == "1175370073671905281" |
+        attachments.poll_ids == "1178731691600470018" |
+        attachments.poll_ids == "1243953667092480000" |
+        attachments.poll_ids == "1249252209679912961" ~ paste(text_split_1, text_split_2, sep = ": "),
+      TRUE ~ as.character(text_split_1)
+    )
+  ) %>%
+  mutate(
+    prompt = case_when(
+      attachments.poll_ids == "1167506237908508674" ~ "Your #metal masterpiece of 1977",
+      attachments.poll_ids == "1201037734137257985" ~ "Sweet sixteen for #metal in the sweet year of 1986",
+      # Best of Candlemass/Maiden/King Diamond/Motörhead
+      attachments.poll_ids == "1221513748688646145" ~ "Metal turned 18 in 1988, but its magick number is 7",
+      attachments.poll_ids == "1261626463935172608" ~ "Grand finale 1990",
+      attachments.poll_ids == "1274236907002769409" ~ "Grand finale 1991",
+      attachments.poll_ids == "1404099559471685637" ~ "Death/(post-)black metal play-off 1998",
+      attachments.poll_ids == "1424450958046728192" ~ "Best black metal band of the '90s",
+      attachments.poll_ids == "1426256995825377285" ~ "American death metal band of the '90s",
+      attachments.poll_ids == "1434534777873371146" ~ "Death metal band of the '90s (during that decade)",
+      attachments.poll_ids == "1440026084477657090" ~ "Gothic metal band of the '90s, during that decade. (You knew it was coming!)",
+      attachments.poll_ids == "1441704546468761617" ~ "Power metal band of the '90s, during that decade (round 1 of 2)",
+      attachments.poll_ids == "1442069527739596804" ~ "Power metal band of the '90s, during that decade (old dogs and young pups)",
+      attachments.poll_ids == "1444737929960636423" ~ "Groove metal band of the '90s. Woolly is the hat that bears the crown",
+      attachments.poll_ids == "1447292914430787585" ~ "Alternative metal band of the '90s (in that decade)",
+      attachments.poll_ids == "1472573930372227074" ~ "Best English region for heavy metal (1970-2021)",
+      TRUE ~ as.character(prompt)
+    )
+  ) %>%
+  cSplit("text_split_2", ".") %>%
+  mutate(option = text_split_2_1) %>%
+  cSplit("option", "/") %>%
+  mutate(option_detect = str_detect(text_split_2_1, "/")) %>%
+  mutate(
+    option_detect = case_when(
+      attachments.poll_ids == "1185512064552488960" ~ FALSE,
+      TRUE ~ as.logical(option_detect)
+    )
+  ) %>%
+  mutate(option_detect_chr = as.character(option_detect)) %>%
+  mutate(option_1 = ifelse(option_detect_chr == "FALSE", NA, option_1)) %>%
+  mutate(option_2 = ifelse(attachments.poll_ids == "1185512064552488960", NA, option_2)) %>%
+  mutate(
+    option_1 = case_when(
+      attachments.poll_ids == "1269635313267245062" ~ "Carcass",
+      # Carcass v Death
+      attachments.poll_ids == "1302664156492038144" ~ "Darkthrone",
+      # Darkthrone v Dissection
+      attachments.poll_ids == "1325536546678779904" ~ "Bolt Thrower",
+      # Bolt Thrower vs In Flames
+      attachments.poll_ids == "1328057351576969216" ~ "Corrosion of Conformity",
+      # Corrosion of Conformity vs Tiamat
+      attachments.poll_ids == "1342912074855444481" ~ "At the Gates",
+      # At the Gates vs Death
+      attachments.poll_ids == "1355493998438330368" ~ "Fear Factory",
+      # Fear Factory vs White Zombie
+      attachments.poll_ids == "1368240751574982667" ~ "Cryptopsy",
+      # Cryptopsy vs Opeth
+      attachments.poll_ids == "1388453265390592003" ~ "In the Woods...",
+      # In the Woods.../Paradise Lost/The Gathering/Tiamat
+      attachments.poll_ids == "1436670166692253698" ~ "Neurosis",
+      # Neurosis vs Testament
+      
+      attachments.poll_ids == "1292073225497849856" ~ "Alice in Chains",
+      # Best of Alice in Chains
+      attachments.poll_ids == "1295794646732419078" ~ "Dead",
+      # 'Dead' 'Faust'
+      attachments.poll_ids == "1309926269308596225" ~ "Carcass",
+      # Best of Carcass
+      attachments.poll_ids == "1322478548645543937" ~ "The Third and the Mortal",
+      # 3rd &amp; the Mortal
+      attachments.poll_ids == "1205812222687100928" ~ "Iron Maiden",
+      # Maiden
+      attachments.poll_ids == "1197969530473078784" ~ "Celtic Frost",
+      # Celtic Frost/Helloween/Kreator/Slayer
+      attachments.poll_ids == "1201037734137257985" ~ "Candlemass",
+      # Candlemass/Maiden/King Diamond/Motörhead
+      attachments.poll_ids == "1221513748688646145" ~ "Helloween",
+      # Helloween/Iron Maiden/Judas Priest/Queensryche
+      attachments.poll_ids == "1243953667092480000" ~ "Faith No More",
+      # Faith No More/Kreator/Morbid Angel/Sepultura
+      attachments.poll_ids == "1261626463935172608" ~ "Entombed",
+      # Entombed/Judas Priest/Megadeth/Obituary
+      attachments.poll_ids == "1274236907002769409" ~ "Death",
+      # Death/Master's Hammer/Metallica/Sepultura
+      attachments.poll_ids == "1318985488594776065" ~ "Cradle of Filth",
+      # Cradle of Filth or Emperor
+      TRUE ~ as.character(option_1)
+    )
+  ) %>%
+  mutate(
+    option_2 = case_when(
+      attachments.poll_ids == "1269635313267245062" ~ "Death",
+      # Carcass v Death
+      attachments.poll_ids == "1302664156492038144" ~ "Dissection",
+      # Darkthrone v Dissection
+      attachments.poll_ids == "1325536546678779904" ~ "In Flames",
+      # Bolt Thrower vs In Flames
+      attachments.poll_ids == "1328057351576969216" ~ "Tiamat",
+      # Corrosion of Conformity vs Tiamat
+      attachments.poll_ids == "1342912074855444481" ~ "Death",
+      # At the Gates vs Death
+      attachments.poll_ids == "1355493998438330368" ~ "White Zombie",
+      # Fear Factory vs White Zombie
+      attachments.poll_ids == "1368240751574982667" ~ "Opeth",
+      # Cryptopsy vs Opeth
+      attachments.poll_ids == "1388453265390592003" ~ "Paradise Lost",
+      # In the Woods.../Paradise Lost/The Gathering/Tiamat
+      attachments.poll_ids == "1436670166692253698" ~ "Testament",
+      # Neurosis vs Testament
+      attachments.poll_ids == "1226095239682809862" ~ "Flotsam and Jetsam",
+      # Flotsam &amp; Jetsam
+      attachments.poll_ids == "1295794646732419078" ~ "Faust",
+      # 'Dead' 'Faust'
+      attachments.poll_ids == "1333127357507493890" ~ "In the Woods...",
+      # In the Woods Ved Buens Ende @
+      attachments.poll_ids == "1208659040101945349" ~ "Guns N' Roses",
+      # Guns n' Roses
+      attachments.poll_ids == "1228744295647252481" ~ "Iron Maiden",
+      # Maiden
+      attachments.poll_ids == "1378655807227764740" ~ "Deströyer 666",
+      # Destroyer 666
+      attachments.poll_ids == "1197969530473078784" ~ "Helloween",
+      # Celtic Frost/Helloween/Kreator/Slayer
+      attachments.poll_ids == "1201037734137257985" ~ "Iron Maiden",
+      # Candlemass/Maiden/King Diamond/Motörhead
+      attachments.poll_ids == "1221513748688646145" ~ "Iron Maiden",
+      # Helloween/Iron Maiden/Judas Priest/Queensryche
+      attachments.poll_ids == "1243953667092480000" ~ "Kreator",
+      # Faith No More/Kreator/Morbid Angel/Sepultura
+      attachments.poll_ids == "1261626463935172608" ~ "Judas Priest",
+      # Entombed/Judas Priest/Megadeth/Obituary
+      attachments.poll_ids == "1274236907002769409" ~ "Master's Hammer",
+      # Death/Master's Hammer/Metallica/Sepultura
+      attachments.poll_ids == "1318985488594776065" ~ "Emperor",
+      # Cradle of Filth or Emperor
+      TRUE ~ as.character(option_2)
+    )
+  ) %>%
+  mutate(
+    option_3 = case_when(
+      attachments.poll_ids == "1388453265390592003" ~ "The Gathering",
+      # In the Woods.../Paradise Lost/The Gathering/Tiamat
+      attachments.poll_ids == "1393520454950957056" |
+        attachments.poll_ids == "1396076552715112448" ~ "In the Woods...",
+      # In the Woods
+      attachments.poll_ids == "1273876222314000385" ~ "Solitude Aeturnus",
+      # Solitude Aeternus
+      attachments.poll_ids == "1197969530473078784" ~ "Kreator",
+      # Celtic Frost/Helloween/Kreator/Slayer
+      attachments.poll_ids == "1201037734137257985" ~ "King Diamond",
+      # Candlemass/Maiden/King Diamond/Motörhead
+      attachments.poll_ids == "1221513748688646145" ~ "Judas Priest",
+      # Helloween/Iron Maiden/Judas Priest/Queensryche
+      attachments.poll_ids == "1243953667092480000" ~ "Morbid Angel",
+      # Faith No More/Kreator/Morbid Angel/Sepultura
+      attachments.poll_ids == "1261626463935172608" ~ "Megadeth",
+      # Entombed/Judas Priest/Megadeth/Obituary
+      attachments.poll_ids == "1274236907002769409" ~ "Metallica",
+      # Death/Master's Hammer/Metallica/Sepultura
+      TRUE ~ as.character(option_3)
+    )
+  ) %>%
+  mutate(
+    option_4 = case_when(
+      attachments.poll_ids == "1388453265390592003" ~ "Tiamat",
+      # In the Woods.../Paradise Lost/The Gathering/Tiamat
+      attachments.poll_ids == "1333127357507493890" ~ "Ved Buens Ende",
+      # In the Woods Ved Buens Ende @
+      attachments.poll_ids == "1218493861296771072" ~ "Guns N' Roses",
+      # Guns n' Roses
+      attachments.poll_ids == "1197969530473078784" ~ "Slayer",
+      # Celtic Frost/Helloween/Kreator/Slayer
+      attachments.poll_ids == "1201037734137257985" ~ "Motörhead",
+      # Candlemass/Maiden/King Diamond/Motörhead
+      attachments.poll_ids == "1221513748688646145" ~ "Queensryche",
+      # Helloween/Iron Maiden/Judas Priest/Queensryche
+      attachments.poll_ids == "1243953667092480000" ~ "Sepultura",
+      # Faith No More/Kreator/Morbid Angel/Sepultura
+      attachments.poll_ids == "1261626463935172608" ~ "Obituary",
+      # Entombed/Judas Priest/Megadeth/Obituary
+      attachments.poll_ids == "1274236907002769409" ~ "Sepultura",
+      # Death/Master's Hammer/Metallica/Sepultura
+      TRUE ~ as.character(option_4)
+    )
+  ) %>%
+  select(
+    screen_name,
+    user_id,
+    created_at,
+    attachments.poll_ids,
+    conversation_id,
+    status_id,
+    text,
+    prompt,
+    option_1,
+    option_2,
+    option_3,
+    option_4
+  ) %>%
+  clean_names()
+
+poll_frame <- poll_split %>%
+  mutate(
+    year = case_when(
+      grepl("70", prompt) ~ "1970",
+      grepl("71", prompt) ~ "1971",
+      grepl("72", prompt) ~ "1972",
+      grepl("73", prompt) ~ "1973",
+      grepl("74", prompt) ~ "1974",
+      grepl("75", prompt) ~ "1975",
+      grepl("76", prompt) ~ "1976",
+      grepl("77", prompt) ~ "1977",
+      grepl("78", prompt) ~ "1978",
+      grepl("79", prompt) ~ "1979",
+      grepl("80", prompt) ~ "1980",
+      grepl("81", prompt) ~ "1981",
+      grepl("82", prompt) ~ "1982",
+      grepl("83", prompt) ~ "1983",
+      grepl("84", prompt) ~ "1984",
+      grepl("85", prompt) ~ "1985",
+      grepl("86", prompt) ~ "1986",
+      grepl("87", prompt) ~ "1987",
+      grepl("88", prompt) ~ "1988",
+      grepl("89", prompt) ~ "1989",
+      grepl("90", prompt) ~ "1990",
+      grepl("91", prompt) ~ "1991",
+      grepl("92", prompt) ~ "1992",
+      grepl("93", prompt) ~ "1993",
+      grepl("94", prompt) ~ "1994",
+      grepl("95", prompt) ~ "1995",
+      grepl("96", prompt) ~ "1996",
+      grepl("97", prompt) ~ "1997",
+      grepl("98", prompt) ~ "1998",
+      grepl("99", prompt) ~ "1999",
+      grepl("2000", prompt) ~ "2000",
+      grepl("2001", prompt) ~ "2001",
+      TRUE ~ NA_character_
+    )
+  )
+
+poll_frame <- poll_frame %>%
+  mutate(
+    year = ifelse(
+      attachments_poll_ids == "1175370073671905281" |
+        attachments_poll_ids == "1178731691600470018" |
+        attachments_poll_ids == "1244206472164147200" |
+        attachments_poll_ids == "1424450958046728192" |
+        attachments_poll_ids == "1426256995825377285" |
+        attachments_poll_ids == "1431333213738262528" |
+        attachments_poll_ids == "1431690724345585665" |
+        attachments_poll_ids == "1434534777873371146" |
+        attachments_poll_ids == "1436670166692253698" |
+        attachments_poll_ids == "1440026084477657090" |
+        attachments_poll_ids == "1441704546468761617" |
+        attachments_poll_ids == "1442069527739596804" |
+        attachments_poll_ids == "1444737929960636423" |
+        attachments_poll_ids == "1447292914430787585" |
+        attachments_poll_ids == "1449814228630638598" |
+        attachments_poll_ids == "1472573930372227074",
+      NA,
+      year
+    )
+  )
+
+poll_frame <- poll_frame %>%
+  arrange(created_at) %>%
+  group_by(year) %>%
+  mutate(id = row_number()) %>%
+  mutate(max_value = max(id)) %>%
+  mutate(poll_type = ifelse(
+    is.na(year),
+    "Bonus",
+    ifelse(
+      attachments_poll_ids == "1218493861296771072",
+      "Final",
+      ifelse(
+        attachments_poll_ids == "1220796728108077062",
+        "Final (alternate)",
+        ifelse(
+          attachments_poll_ids == "1472198115600089092",
+          "Qualifying",
+          ifelse(
+            attachments_poll_ids == "1472573930372227074",
+            "Bonus",
+            ifelse(id == max_value, "Final", NA)
+          )
+        )
+      )
+    )
+  )) %>%
+  mutate(poll_type = ifelse(is.na(poll_type),
+                            "Qualifying", poll_type)) %>%
+  mutate(valid = ifelse(attachments_poll_ids == "1220796728108077062", 0, 1)) %>%
+  select(-c(id, max_value)) %>%
+  ungroup() 
+
+save(poll_frame, file = "data/poll_frame.rda")
+
+```
+
+#Conversation IDs
+
+```{r}
+
+ids <- poll_frame %>% 
+  select(conversation_id) %>% 
+  mutate(row = row_number())
+
+write.table(ids, file = "data/ids.txt", sep = "\t",
+            row.names = FALSE,  col.names=FALSE)
+
+# manually rename "ids" to "ids_modified" and keep track of which ids have been queried already. the manual rename is to avoid accidentally over-writing it.
+
+```
+
+# Query poll 
+
+## Constant
+
+```{r}
+library(httr)
+library(jsonlite)
+library(data.table)
+library(rlist)
+library(janitor)
+
+headers = c(
+  `Authorization` = 'Bearer AAAAAAAAAAAAAAAAAAAAADJmXQEAAAAANF1R9tQ0Ouw6wcXsjMCEWlZkrGE%3Di9a1dAA20N0QdS41sE5U1MJ8TZ5ozrXduTWNSujmITRtQLAvah'
+)
+
+```
+
+## Step 1: Update 'ids'
+
+```{r}
+params = list(
+  `ids` = "1368240759221129217",
+  `expansions` = 'attachments.poll_ids',
+  `poll.fields` = 'duration_minutes,end_datetime,id,options,voting_status'
+)
+```
+
+## step 2: call tweet and unlist data
+
+```{r}
+
+res <- httr::GET(url = 'https://api.twitter.com/2/tweets', httr::add_headers(.headers=headers), query = params)
+
+http_type(res); http_error(res)
+
+res_content <- content(res, as = "text") #JSON response structured into raw data
+print(res_content)
+
+res_data <- fromJSON(res_content)
+
+res_data_flat <- as.data.table(flatten(res_data$data))
+res_data_flat[, ] <- lapply(res_data_flat[, ], as.character)
+
+names(res_data_flat)
+
+res_parsed <- content(res, as="parsed") #JSON response structured into parsed data
+print(res_parsed)
+
+is.list(res_parsed[[2]][[1]]) 
+
+df <- lapply(res_parsed[[2]], as.data.table) 
+
+dt <- rbindlist(df, fill = TRUE) 
+
+dt_list <- dt %>% 
+  #slice(1L)
+  filter(grepl("list", V1))
+
+#filter out attachments.poll_ids, voting_status, end_datetime, duration_minutes
+
+is.list(dt_list[[1]]) 
+
+dt_parse <- list.parse(dt_list, type='yaml')
+
+is.list(dt_parse[[1]]) 
+
+dt_parse2 <- dt_parse[['1']]
+dt_parse3 <- dt_parse2[['V1']]
+
+dt_parse3 <- lapply(dt_parse2[["V1"]], as.data.table)  
+
+dt_unlist <- rbindlist(dt_parse3, fill = TRUE)
+
+print(dt_unlist)
+
+```
+
+## Step 3: modify dt _if needed_ and bind to running data frame
+
+```{r}
+
+dt_wide <- dt_unlist %>% 
+  pivot_wider(names_from = position, values_from = c(label, votes)) #%>% 
+#  mutate(label_4 = NA, Votes_4 = NA) %>% # turn on if < 4 option poll  
+#  mutate(label_3 = NA, votes_3 = NA) # and if 2 option poll
+
+print(dt_wide)
+
+poll_query <- cbind(res_data_flat, dt_wide)
+
+poll_new <- poll_query %>% 
+  rename(text2 = text) %>% 
+  clean_names()
+
+names(poll_new)
+
+#load("data/poll_rbind.rda") # load if new session
+
+poll_rbind <- rbind(poll_rbind, poll_new)
+
+save(poll_rbind, file = "data/poll_rbind.rda")
+
+tail(poll_rbind, 2) 
+
+```
+
+## step 4: save backup file for recovery if needed
+
+```{r}
+
+dups <- poll_rbind$attachments_poll_ids[duplicated(poll_rbind$attachments_poll_ids)] # identify duplicates
+
+print(dups) # print duplicate ids
+
+#dups_inspect <- poll_rbind %>% 
+#  filter(attachments_poll_ids == "1309926269308596225" | attachments_poll_ids == "1327599771767492610") # run to inspect duplicates
+
+#poll_rbind <- poll_rbind[-c(87), ] # turn on if need to delete a row; update row number
+
+poll_rbind_backup <- poll_rbind
+
+save(poll_rbind_backup, file = "data/poll_rbind_backup.rda")
+
+#load("data/poll_rbind.rda")
+#load("data/poll_rbind_back_up.rda")
+
+rm(df, dt, dt_list, dt_parse, dt_parse2, dt_parse3, dt_unlist, dt_wide, dups_inspect, poll_new, poll_query, res, res_data, res_data_flat, res_parsed)
+
+```
+
+# merge with frame
+
+```{r}
+
+rm(params, poll_rbind_backup)
+
+load("data/poll_frame.rda")
+
+names(poll_frame); names(poll_rbind)
+
+raw_twitter_api_poll_data <- poll_frame %>% 
+  left_join(poll_rbind, by = "attachments_poll_ids")
+
+save(raw_twitter_api_poll_data, file = "data-raw/raw_twitter_api_poll_data.rda")
+
+rm(poll_frame, poll_rbind)
+
+```
+
+# manual retrieval of polls not returned in api query
+
+```{r}
+check <- raw_twitter_api_poll_data %>% 
+  filter(is.na(id))
+
+length(unique(raw_twitter_api_poll_data$attachments_poll_ids))
+
+1175370073671905281
+1175121663027011584"1175121663027011584"
+1178731691600470018
+1178373037529411585"1178373037529411585"
+1294603333949370373
+1294603072585465857"1294603072585465857"
+1295794646732419078
+1294603072585465857"1294603072585465857"
+1453077145484464133
+1453071245440868360"1453071245440868360"
+
+```
+
