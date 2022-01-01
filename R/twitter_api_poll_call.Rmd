@@ -420,7 +420,7 @@ library(rlist)
 library(janitor)
 
 headers = c(
-  `Authorization` = 'Bearer AAAAAAAAAAAAAAAAAAAAADJmXQEAAAAANF1R9tQ0Ouw6wcXsjMCEWlZkrGE%3Di9a1dAA20N0QdS41sE5U1MJ8TZ5ozrXduTWNSujmITRtQLAvah'
+  `Authorization` = 'Bearer [insert]'
 )
 
 ```
@@ -553,6 +553,8 @@ raw_twitter_api_poll_data <- poll_frame %>%
 
 save(raw_twitter_api_poll_data, file = "data-raw/raw_twitter_api_poll_data.rda")
 
+load("data-raw/raw_twitter_api_poll_data.rda")
+
 rm(poll_frame, poll_rbind)
 
 ```
@@ -565,16 +567,15 @@ check <- raw_twitter_api_poll_data %>%
 
 length(unique(raw_twitter_api_poll_data$attachments_poll_ids))
 
-1175370073671905281
-1175121663027011584"1175121663027011584"
-1178731691600470018
-1178373037529411585"1178373037529411585"
-1294603333949370373
-1294603072585465857"1294603072585465857"
-1295794646732419078
-1294603072585465857"1294603072585465857"
-1453077145484464133
-1453071245440868360"1453071245440868360"
+1175370073671905281 "1175121663027011584" "Bonus poll: best of #NWoBHM in 1980? @dewarpr @steevXIII @haroldvs @ProfAndyField @Kane_WMC_Lab"
+
+1178731691600470018 "1178373037529411585" "Bonus poll: best #NWoBHM album of 1981? Please RT @dewarpr @steevXIII @haroldvs @ProfAndyField @Kane_WMC_Lab @Kate_E_Quinn @NecroHippy"
+
+1294603333949370373 "1294603072585465857" "Black metal album of 1993 (2/2): Dissection/Marduk/Rotting Christ/Sigh? Please RT @keithkahnharris @steevXIII @haroldvs @ProfAndyField @robinnkok @Kate_E_Quinn @NecroHippy @marklavenia @dayalpatterson @TeethoftheSea @onewinteronly @OliZoltarBadin @djrobotham"
+
+1295794646732419078 "1294603072585465857"
+
+1453077145484464133 "1453071245440868360"
 
 ```
 
