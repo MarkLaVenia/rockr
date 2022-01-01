@@ -553,7 +553,7 @@ raw_twitter_api_poll_data <- poll_frame %>%
 
 save(raw_twitter_api_poll_data, file = "data-raw/raw_twitter_api_poll_data.rda")
 
-load("data-raw/raw_twitter_api_poll_data.rda")
+#load("data-raw/raw_twitter_api_poll_data.rda")
 
 rm(poll_frame, poll_rbind)
 
@@ -562,6 +562,9 @@ rm(poll_frame, poll_rbind)
 # manual retrieval of polls not returned in api query
 
 ```{r}
+library(splitstackshape)
+library(janitor)
+
 check <- raw_twitter_api_poll_data %>% 
   filter(is.na(id))
 
@@ -641,25 +644,69 @@ raw_twitter_api_poll_data <- raw_twitter_api_poll_data %>%
     attachments_poll_ids == "1453077145484464133" ~ 0,
     TRUE ~ as.numeric(votes_4)))
 
+temp <- raw_twitter_api_poll_data %>% 
+  filter(is.na(option_1)) %>% 
+  mutate(split_1 = label_1,
+         split_2 = label_2,
+         split_3 = label_3,
+         split_4 = label_4) %>% 
+  cSplit(c("split_1", "split_2", "split_3", "split_4"), ":") %>% 
+  mutate(option_1 = split_1_1,
+         option_2 = split_2_1,
+         option_3 = split_3_1,
+         option_4 = split_4_1) %>% 
+  mutate(option_1 = case_when(
+attachments_poll_ids == "1145227016913981440" | 
+attachments_poll_ids == "1147215438084001797" | 
+attachments_poll_ids == "1155002451059232768" | 
+attachments_poll_ids == "1165157880946933760" ~ "Black Sabbath",
+attachments_poll_ids == "1167506237908508674" | 
+attachments_poll_ids == "1169612213436452864" ~ "Judas Priest",
+TRUE ~ as.character(option_1))) %>%  
+  mutate(option_2 = case_when(
+attachments_poll_ids == "1145227016913981440" ~ "Deep Purple",
+attachments_poll_ids == "1190961960378089473" ~ "Celtic Frost",
+TRUE ~ as.character(option_2))) %>% 
+  mutate(option_3 = case_when(
+attachments_poll_ids == "1145227016913981440" ~ "Black Sabbath",
+attachments_poll_ids == "1175121662234304513" ~ "Judas Priest",
+attachments_poll_ids == "1162408977109532673" ~ "Rainbow",
+TRUE ~ as.character(option_3))) %>% 
+  mutate(option_4 = case_when(
+attachments_poll_ids == "1145227016913981440" ~ "Uriah Heep",
+TRUE ~ as.character(option_4))) %>% 
+  select(-c(contains("split")))
+
+raw_twitter_api_poll_data <- anti_join(raw_twitter_api_poll_data, temp, by = "attachments_poll_ids") %>%
+         bind_rows(temp) %>% 
+  arrange(created_at) 
+
 check <- raw_twitter_api_poll_data %>% 
-  filter(is.na(id))
+  filter(is.na(option_1))
 
-rm(check)
-      
-    
-  )
-  mutate(text2 = 
-  mutate(label1 = 
-  mutate(label2 = 
-  mutate(label3 = 
-  mutate(label4 = 
-  mutate(votes1 = 
-  mutate(votes2 = 
-  mutate(votes3 = 
-  mutate(votes4 = )
+setequal(raw_twitter_api_poll_data$conversation_id, raw_twitter_api_poll_data$id) 
 
+setequal(raw_twitter_api_poll_data$text, raw_twitter_api_poll_data$text2) 
 
+check <- raw_twitter_api_poll_data %>% 
+  mutate(text_check = case_when(
+    text == text2 ~ TRUE,
+    text != text2 ~ FALSE,
+    TRUE ~ as.logical(NA))) %>% 
+      filter(text_check == FALSE) %>% 
+      select(attachments_poll_ids, text, text2, text_check)
 
+print(check$text); print(check$text2)
+
+raw_twitter_api_poll_data <- raw_twitter_api_poll_data %>% 
+  arrange(created_at) %>% 
+  select(-c(id, text2))
+
+rm(check, temp)
+  
+save(raw_twitter_api_poll_data, file = "data-raw/raw_twitter_api_poll_data.rda")
+
+write.csv(raw_twitter_api_poll_data, file = "data-raw/raw_twitter_api_poll_data")
 
 
 
