@@ -567,15 +567,117 @@ check <- raw_twitter_api_poll_data %>%
 
 length(unique(raw_twitter_api_poll_data$attachments_poll_ids))
 
-1175370073671905281 "1175121663027011584" "Bonus poll: best of #NWoBHM in 1980? @dewarpr @steevXIII @haroldvs @ProfAndyField @Kane_WMC_Lab"
+names(raw_twitter_api_poll_data)
 
-1178731691600470018 "1178373037529411585" "Bonus poll: best #NWoBHM album of 1981? Please RT @dewarpr @steevXIII @haroldvs @ProfAndyField @Kane_WMC_Lab @Kate_E_Quinn @NecroHippy"
+raw_twitter_api_poll_data <- raw_twitter_api_poll_data %>% 
+  mutate(id = case_when(
+    attachments_poll_ids == "1175370073671905281" ~ "1175121663027011584",
+    attachments_poll_ids == "1178731691600470018" ~ "1178373037529411585",
+    attachments_poll_ids == "1294603333949370373" ~ "1294603072585465857",
+    attachments_poll_ids == "1295794646732419078" ~ "1294603072585465857",
+    attachments_poll_ids == "1453077145484464133" ~ "1453071245440868360",
+    TRUE ~ as.character(id))) %>% 
+  mutate(text2 = case_when(
+    attachments_poll_ids == "1175370073671905281" ~ "Bonus poll: best of #NWoBHM in 1980? @dewarpr @steevXIII @haroldvs @ProfAndyField @Kane_WMC_Lab",
+    attachments_poll_ids == "1178731691600470018" ~ "Bonus poll: best #NWoBHM album of 1981? Please RT @dewarpr @steevXIII @haroldvs @ProfAndyField @Kane_WMC_Lab @Kate_E_Quinn @NecroHippy",
+    attachments_poll_ids == "1294603333949370373" ~ "Black metal album of 1993 (2/2): Dissection/Marduk/Rotting Christ/Sigh? Please RT @keithkahnharris @steevXIII @haroldvs @ProfAndyField @robinnkok @Kate_E_Quinn @NecroHippy @marklavenia @dayalpatterson @TeethoftheSea @onewinteronly @OliZoltarBadin @djrobotham",
+    attachments_poll_ids == '1295794646732419078' ~ "Most despicable act in black metal: 'Dead'/'Faust'/ Nödtveidt/Vikernes. R.I.P.",
+    attachments_poll_ids == "1453077145484464133" ~  "Your favourite lead on 'Necroticism: Descanting the Insalubrious'? @keithkahnharris @steevXIII @haroldvs @ProfAndyField @robinnkok @Kate_E_Quinn @Necrohippy @marklavenia @dayalpatterson @TeethoftheSea @onewinteronly @OliZoltarBadin @djrobotham @AsgardRoot",
+    TRUE ~ as.character(text2))) %>% 
+  mutate(label_1 = case_when(
+    attachments_poll_ids == "1175370073671905281" ~ "Angel Witch: s/t",
+    attachments_poll_ids == "1178731691600470018" ~ "Def Leppard: High and Dry",
+    attachments_poll_ids == "1294603333949370373" ~ "The Somberlain",
+    attachments_poll_ids == "1295794646732419078" ~ "Killing himself",
+    attachments_poll_ids == "1453077145484464133" ~ "Compost Humus Horticultur",
+    TRUE ~ as.character(label_1))) %>% 
+  mutate(label_2 = case_when(
+    attachments_poll_ids == "1175370073671905281" ~ "Diamond Head: Lightning",
+    attachments_poll_ids == "1178731691600470018" ~ "Holocaust: Nightcomers",
+    attachments_poll_ids == "1294603333949370373" ~ "Those of the Unlight",
+    attachments_poll_ids == "1295794646732419078" ~ "Killing Magne Andreassen",
+    attachments_poll_ids == "1453077145484464133" ~ "Corpsereality",
+    TRUE ~ as.character(label_2))) %>% 
+  mutate(label_3 = case_when(
+    attachments_poll_ids == "1175370073671905281" ~ "Saxon: Wheels of Steel",
+    attachments_poll_ids == "1178731691600470018" ~ "Raven: Rock 'til You Drop",
+    attachments_poll_ids == "1294603333949370373" ~ "The Mighty Contract",
+    attachments_poll_ids == "1295794646732419078" ~ "Death of Josef Meddour",
+    attachments_poll_ids == "1453077145484464133" ~ "Gutted, Hashed & Deboned",
+    TRUE ~ as.character(label_3))) %>% 
+  mutate(label_4 = case_when(
+    attachments_poll_ids == "1175370073671905281" ~ "Witchfynde: Give 'em Hell",
+    attachments_poll_ids == "1178731691600470018" ~ "Saxon: Denim and Leather",
+    attachments_poll_ids == "1294603333949370373" ~ "Scorn Defeat",
+    attachments_poll_ids == "1295794646732419078" ~ "Killing 'Euronymous'",
+    attachments_poll_ids == "1453077145484464133" ~ "Viscous Residue Snorting",
+    TRUE ~ as.character(label_4))) %>% 
+  mutate(votes_1 = case_when(
+    attachments_poll_ids == "1175370073671905281" ~ 1,
+    attachments_poll_ids == "1178731691600470018" ~ 5,
+    attachments_poll_ids == "1294603333949370373" ~ 8,
+    attachments_poll_ids == "1295794646732419078" ~ 1,
+    attachments_poll_ids == "1453077145484464133" ~ 0,
+    TRUE ~ as.numeric(votes_1))) %>% 
+  mutate(votes_2 = case_when(
+    attachments_poll_ids == "1175370073671905281" ~ 3,
+    attachments_poll_ids == "1178731691600470018" ~ 1,
+    attachments_poll_ids == "1294603333949370373" ~ 2,
+    attachments_poll_ids == "1295794646732419078" ~ 6,
+    attachments_poll_ids == "1453077145484464133" ~ 3,
+    TRUE ~ as.numeric(votes_2))) %>% 
+  mutate(votes_3 = case_when(
+    attachments_poll_ids == "1175370073671905281" ~ 0,
+    attachments_poll_ids == "1178731691600470018" ~ 0,
+    attachments_poll_ids == "1294603333949370373" ~ 6,
+    attachments_poll_ids == "1295794646732419078" ~ 2,
+    attachments_poll_ids == "1453077145484464133" ~ 2,
+    TRUE ~ as.numeric(votes_3))) %>% 
+  mutate(votes_4 = case_when(
+    attachments_poll_ids == "1175370073671905281" ~ 1,
+    attachments_poll_ids == "1178731691600470018" ~ 1,
+    attachments_poll_ids == "1294603333949370373" ~ 2,
+    attachments_poll_ids == "1295794646732419078" ~ 4,
+    attachments_poll_ids == "1453077145484464133" ~ 0,
+    TRUE ~ as.numeric(votes_4)))
 
-1294603333949370373 "1294603072585465857" "Black metal album of 1993 (2/2): Dissection/Marduk/Rotting Christ/Sigh? Please RT @keithkahnharris @steevXIII @haroldvs @ProfAndyField @robinnkok @Kate_E_Quinn @NecroHippy @marklavenia @dayalpatterson @TeethoftheSea @onewinteronly @OliZoltarBadin @djrobotham"
+check <- raw_twitter_api_poll_data %>% 
+  filter(is.na(id))
 
-1295794646732419078 "1294603072585465857"
+rm(check)
+      
+    
+  )
+  mutate(text2 = 
+  mutate(label1 = 
+  mutate(label2 = 
+  mutate(label3 = 
+  mutate(label4 = 
+  mutate(votes1 = 
+  mutate(votes2 = 
+  mutate(votes3 = 
+  mutate(votes4 = )
 
-1453077145484464133 "1453071245440868360"
+
+
+
+
+
+
+
+
+
+
+
+	
+
+	
+
+	
+
+	
+
+
 
 ```
 
