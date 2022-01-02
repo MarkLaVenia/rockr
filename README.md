@@ -111,9 +111,11 @@ function that cycles through the ids automatically.
 
 ### Analysis file
 
-Twitter polls provide data on the number of votes per poll response
-option, Accordingly, using the `mutate()` command we calculate the
-percentage of votes per response option.
+The [Twitter API poll
+objecy](https://developer.twitter.com/en/docs/twitter-api/data-dictionary/object-model/poll)
+contains data on the number of votes per poll response option,
+Accordingly, using the `mutate()` command we calculate the percentage of
+votes per response option.
 
 ### Exploration
 
