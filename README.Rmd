@@ -56,7 +56,7 @@ The analyses described herein requires the installation and loading of the follo
 
 `tidyverse`, `gt`, `gtsummary`, `install_phantomjs`, `ggplot2`, `gganimate`, `png`
 
-All `R` code required for this project can be found in [R/Animated Bar Chart.Rmd](https://github.com/MarkLaVenia/rockr/blob/master/R/Animated%20Bar%20Chart.Rmd), with raw data found in [data-raw/raw_twitter_poll_data.csv](https://github.com/MarkLaVenia/rockr/tree/master/data-raw/raw_twitter_poll_data.csv)
+All `R` code required for this project can be found in [R/twitter_api_poll_call.Rmd](https://github.com/MarkLaVenia/rockr/blob/master/R/twitter_api_poll_call.Rmd) (for calling and cleaning the data) and [R/Animated Bar Chart.Rmd](https://github.com/MarkLaVenia/rockr/blob/master/R/Animated%20Bar%20Chart.Rmd) (for analyzing and plotting the data), with raw data found in [data-raw/raw_twitter_api_poll_data.csv](https://github.com/MarkLaVenia/rockr/tree/master/data-raw/raw_twitter_api_poll_data.csv)
 
 ## Analytic premises and assumptions (*...however questionable*)
 
@@ -75,19 +75,18 @@ All `R` code required for this project can be found in [R/Animated Bar Chart.Rmd
 
 ## Data preparation
 
-Raw data for this project were hand-entered from Twitter, structured in a long-format entry log.
+Via access to the [Twitter API](https://developer.twitter.com/en/products/twitter-api), I used R programming to query and wrangle the poll data. 
+
+Regrettably, I have not devised a function that can call poll fields for an entire timeline all at once. Therefore, the procedure presented here required a first step of calling the `conversation_ids` for the entire timeline. Then, manually updating the Client URL in the code for each poll. This second step took 30-40 seconds for each call. Suggestion are welcome on a more elegant solution, such as a `for()loop` or `lapply()` function that cycles through the ids automatically.  
 
 
-### Precision
+### Analysis file
 
-Twitter polls provide data on the total number of votes and the percentage of votes per response option rounded to the first decimal place. Accordingly, using the `mutate()` command we calculated
-
-- the number of votes per response option (which is a metric of interest in itself) and 
-- the percentage of votes per response option without truncation due to rounding.
+Twitter polls provide data on the number of votes per poll response option, Accordingly, using the `mutate()` command we calculate the percentage of votes per response option.
 
 ### Exploration
 
-The first thing we do is make a quick check for data entry error red flags. Using the `group_by()` and `summarise(sum())` commands we calculate the sum of percentages for each response option for each poll; and using the `mutate(sprintf())` and `unique()` commands to verifiy that all polls sum to 100 percent.
+The first thing we do is make a quick check for data error red flags. Using the `group_by()` and `summarise(sum())` commands we calculate the sum of percentages for each response option for each poll; and using the `mutate(sprintf())` and `unique()` commands to verify that all polls sum to 100 percent.
 
 And using the `ggplot()` function, we produce a visualization to inspect the number of votes per poll. Here we use the `facet_grid()` command to group the polls for each album year.
 
@@ -97,7 +96,7 @@ We observe a suspiciously low number of votes for the 1982 final poll. Double-ch
 <img src="R/plots/poll_votes.png" alt="reviewer">
 </p> 
 
-Using the `summarise(n_distinct())` command we see that across all polls, the data comprise *50* polls covering *79* bands cumulatively. Constraining to final polls only, the data comprise *21* polls covering *37* bands cumulatively.
+Using the `summarise(n_distinct())` command we see that across all qualifying and final polls, the data comprise *179* polls covering *249* bands cumulatively. Constraining to final polls only, the data comprise *31* polls covering *70* bands cumulatively.
 
 Then, we use the `tbl_summary()` command to view the mean and standard deviation in poll votes by poll type to make some assessment of the central tendency and dispersion of responsiveness to the polls.
 

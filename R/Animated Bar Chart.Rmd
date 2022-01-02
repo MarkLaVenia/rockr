@@ -23,66 +23,82 @@ ipak <- function(pkg) {
 packages <- c("tidyverse", "gt", "gtsummary", "install_phantomjs", "ggplot2", "gganimate", "png")
 ipak(packages)
 
-#install.packages("dplyr") run in case of "there is no package called ‘rlang’" error
+#Warning in install.packages :
+#  package ‘install_phantomjs’ is not available for this version of R
+
+setwd("C:/Users/Mark Lavenia/GitHub/rockr")
 
 ```
 
 ## Data preparation
 
-Raw data for this project were hand-entered from Twitter, structured in a long-format entry log.
-
-Data entry excluded polls for:
-- Most influential female metal musician
-- Best metal band of the '80s? 
-- best Christian metal band
-- Best metal band of the '70s? 
+All `R` code for calling and cleaning the raw data can be found in [R/twitter_api_poll_call.Rmd](https://github.com/MarkLaVenia/rockr/blob/master/R/twitter_api_poll_call.Rmd)
 
 ```{r}
 
-setwd("C:/Users/MarkLaVenia/GitHub/rockr")
-
-twitter_poll_data <-
-  read_csv("data-raw/raw_twitter_poll_data.csv")
+load("data-raw/raw_twitter_api_poll_data.rda")
 
 ```
 
-### Precision
+### Analysis file
 
-Twitter polls provide data on the total number of votes and the percentage of votes per response option rounded to the first decimal place, Accordingly, using the `mutate()` command we calculate
-
-- the number of votes per response option (which is a metric of interest in itself) and 
-- the percentage of votes per response option without truncation due to rounding.
-
-Each step in the process described below I use the `rm()` command to remove dataframes I am no longer using. I find keeping my environment free of clutter helps me be clear on what I am working on and reduces the chances that I will accidentally work in the incorrect version of files.
+Twitter polls provide data on the number of votes per poll response option, Accordingly, using the `mutate()` command we calculate the percentage of votes per response option.
 
 ```{r}
 
-precision_poll_data <- twitter_poll_data %>%
-  mutate(album_votes = round(poll_votes * (poll_percent / 100), 0)) %>%
-  mutate(poll_percent = (album_votes / poll_votes) * 100) 
+poll_data <- raw_twitter_api_poll_data %>% 
+  mutate(poll_votes = rowSums(dplyr::select(., votes_1, votes_2, votes_3, votes_4), na.rm = TRUE)) %>% 
+  mutate(option_percent_1 = (votes_1 / poll_votes) * 100,
+         option_percent_2 = (votes_2 / poll_votes) * 100,
+         option_percent_3 = (votes_3 / poll_votes) * 100,
+         option_percent_4 = (votes_4 / poll_votes) * 100) 
 
-rm(twitter_poll_data)
+names(poll_data)
+
+poll_data <- poll_data %>% 
+    pivot_longer(c(option_1:option_4), 
+                 names_to="option_number", values_to="option") %>%
+    pivot_longer(c(label_1:label_4), 
+                 names_to="label_number", values_to="label") %>%
+    pivot_longer(c(votes_1:votes_4), 
+                 names_to="votes_number", values_to="votes") %>%
+    pivot_longer(c(option_percent_1:option_percent_4), 
+                 names_to="option_percent_number", values_to="percent") %>%
+    filter(option_number == "option_1" & label_number == "label_1" & votes_number == "votes_1" & option_percent_number == "option_percent_1" | 
+           option_number == "option_2" & label_number == "label_2" & votes_number == "votes_2" & option_percent_number == "option_percent_2" | 
+             option_number == "option_3" & label_number == "label_3" & votes_number == "votes_3" & option_percent_number == "option_percent_3" | 
+             option_number == "option_4" & label_number == "label_4" & votes_number == "votes_4" & option_percent_number == "option_percent_4") %>% 
+  separate(col = option_number, into = c("option_number", "category"), sep = "_") %>%      select(-ends_with("_number")) %>% 
+  mutate(year = ifelse(is.na(year), "[undefined]", year)) %>%
+  filter(!is.na(option)) 
+
+unique(poll_data$year)
+
+save(poll_data, file = "data/poll_data.rda")
+
+rm(raw_twitter_api_poll_data)
 
 ```
 
 ### Exploration
 
-The first thing we do is make a quick check for data entry error red flags. Using the `group_by()` and `summarise(sum())` commands we calculate the sum of persentages for each response option for each poll; and using the `mutate(sprintf())` and `unique()` commands to verifiy that all polls sum to 100 percent.
+The first thing we do is make a quick check for data error red flags. Using the `group_by()` and `summarise(sum())` commands we calculate the sum of persentages for each response option for each poll; and using the `mutate(sprintf())` and `unique()` commands to verify that all polls sum to 100 percent.
 
 ```{r}
 
-precision_poll_data <- transform(precision_poll_data, poll_id=match(poll_date, unique(poll_date)))
-
-poll_EDA <- precision_poll_data %>%
-  group_by(poll_id) %>%
-  summarise(poll_date = max(poll_date),
+poll_EDA <- poll_data %>% 
+  filter(year != 2001) %>%
+  group_by(attachments_poll_ids) %>%
+  summarise(poll_date = max(created_at),
             poll_type = max(poll_type),
-            poll_votes = max(poll_votes),
-            album_year = max(album_year),
-            poll_percent_sum=sum(poll_percent)) %>% 
-  mutate(poll_percent_sum = sprintf("%0.1f", poll_percent_sum))
+            poll_votes = max(votes),
+            album_year = max(year),
+            poll_percent_sum = sum(percent, na.rm = TRUE)) %>% 
+  mutate(poll_percent_sum = sprintf("%0.1f", poll_percent_sum)) %>% ungroup() 
 
 unique(poll_EDA$poll_percent_sum)
+unique(poll_EDA$poll_type)
+unique(poll_EDA$album_year)
 
 ```
 
@@ -91,10 +107,10 @@ the number of votes per poll. We observe a suspiciously low number of votes for 
 
 ```{r}
 
-poll_EDA$poll_type <- factor(poll_EDA$poll_type, levels=c("qual", "final", "final_alt", "bonus"), labels=c("Qualifying", "Final", "Final (alternate)", "Bonus"))
+poll_EDA$poll_type <- factor(poll_EDA$poll_type, levels=c("Qualifying", "Final", "Final (alternate)", "Bonus"), labels=c("Qualifying", "Final", "Final (alternate)", "Bonus")) 
 
 p <- poll_EDA %>%
-  ggplot(aes(x = factor(poll_id), y = poll_votes, fill = poll_type))  +
+  ggplot(aes(x = factor(attachments_poll_ids), y = poll_votes, fill = poll_type))  +
   geom_col(position = "dodge") +
   facet_grid(~ album_year, scales = "free_x", space = "free_x", switch = "x") +
   labs(title = 'Number of votes per poll') +
@@ -115,7 +131,7 @@ p <- poll_EDA %>%
 
 p
 
-ggsave("R/plots/poll_votes.png", width = 8, height = 4)
+ggsave("R/plots/poll_votes.png", width = 18, height = 6)
 
 ```
 
@@ -123,11 +139,13 @@ Using the `summarise(n_distinct())` command we see that across all poll types, t
 
 ```{r}
 
-band_counts <- precision_poll_data  %>%
-  summarise(poll_counts_all = n_distinct(poll_id),
-    bands_counts_all = n_distinct(band_name),
-    poll_counts_final = n_distinct(poll_id[poll_type == 'final']),
-    bands_counts_final = n_distinct(band_name[poll_type == 'final']))
+band_counts <- poll_data  %>% 
+  filter(year != 2001) %>%  # & (poll_type == "Qualifying" | poll_type == "Final")) %>%
+  summarise(poll_counts_all = n_distinct(attachments_poll_ids),
+    bands_counts_all = n_distinct(option),
+    poll_counts_final = n_distinct(attachments_poll_ids[poll_type == 'Final']),
+    poll_counts_bonus = n_distinct(attachments_poll_ids[poll_type == 'Bonus']),
+    bands_counts_final = n_distinct(option[poll_type == 'Final']))
 
 band_counts
 
@@ -521,7 +539,7 @@ rm(anim)
 
 ```
 
-If you had gone through the full cycle of enabled/disabled code, you should have three anaimated bar charts saved as separate GIFS.
+If you had gone through the full cycle of enabled/disabled code, you should have three animated bar charts saved as separate GIFS.
 
 #### Bar Chart 1. *Best album cumulative percentage of votes aggregated by band*
 

@@ -60,7 +60,7 @@ library(RTwitterV2)
 #Get timeline
 
 ```{r}
-Bearer_Token <- "AAAAAAAAAAAAAAAAAAAAADJmXQEAAAAANF1R9tQ0Ouw6wcXsjMCEWlZkrGE%3Di9a1dAA20N0QdS41sE5U1MJ8TZ5ozrXduTWNSujmITRtQLAvah" #Insert your Bearer Token
+Bearer_Token <- "$BEARER_TOKEN" # replace $BEARER_TOKEN with your token
 
 tweets <-
   get_timelines_v2(
@@ -420,8 +420,8 @@ library(rlist)
 library(janitor)
 
 headers = c(
-  `Authorization` = 'Bearer [insert]'
-)
+  `Authorization` = '$BEARER_TOKEN'
+) # replace $BEARER_TOKEN with your token
 
 ```
 
@@ -429,7 +429,7 @@ headers = c(
 
 ```{r}
 params = list(
-  `ids` = "1368240759221129217",
+  `ids` = "1368240759221129217", # update id for eqch call
   `expansions` = 'attachments.poll_ids',
   `poll.fields` = 'duration_minutes,end_datetime,id,options,voting_status'
 )
@@ -559,7 +559,7 @@ rm(poll_frame, poll_rbind)
 
 ```
 
-# manual retrieval of polls not returned in api query
+# manual retrieval of polls not returned in api query, patch blank option cells, and clean/standardize band names
 
 ```{r}
 library(splitstackshape)
@@ -642,7 +642,15 @@ raw_twitter_api_poll_data <- raw_twitter_api_poll_data %>%
     attachments_poll_ids == "1294603333949370373" ~ 2,
     attachments_poll_ids == "1295794646732419078" ~ 4,
     attachments_poll_ids == "1453077145484464133" ~ 0,
-    TRUE ~ as.numeric(votes_4)))
+    TRUE ~ as.numeric(votes_4))) %>% 
+  mutate(option_4 = case_when(
+attachments_poll_ids == "1396076552715112448" ~ "Meshuggah",
+attachments_poll_ids == "1352964354229022722" ~ "Strapping Young Lad",
+TRUE ~ as.character(option_4))) %>% 
+  mutate(year = 
+ifelse(attachments_poll_ids == "1175370073671905281", 1980,
+ifelse(attachments_poll_ids == "1178731691600470018", 1981,
+ifelse(attachments_poll_ids == "1453077145484464133", 1991, year))))
 
 temp <- raw_twitter_api_poll_data %>% 
   filter(is.na(option_1)) %>% 
@@ -686,7 +694,17 @@ check <- raw_twitter_api_poll_data %>%
 
 setequal(raw_twitter_api_poll_data$conversation_id, raw_twitter_api_poll_data$id) 
 
+setequal(raw_twitter_api_poll_data$conversation_id, raw_twitter_api_poll_data$status_id)
+
 setequal(raw_twitter_api_poll_data$text, raw_twitter_api_poll_data$text2) 
+
+check <- raw_twitter_api_poll_data %>% 
+  mutate(id_check = case_when(
+    conversation_id == status_id ~ TRUE,
+    conversation_id != status_id ~ FALSE,
+    TRUE ~ as.logical(NA))) %>% 
+      filter(id_check == FALSE) %>% 
+      select(attachments_poll_ids, conversation_id, status_id, id_check)
 
 check <- raw_twitter_api_poll_data %>% 
   mutate(text_check = case_when(
@@ -703,28 +721,12 @@ raw_twitter_api_poll_data <- raw_twitter_api_poll_data %>%
   select(-c(id, text2))
 
 rm(check, temp)
+
+
   
 save(raw_twitter_api_poll_data, file = "data-raw/raw_twitter_api_poll_data.rda")
 
-write.csv(raw_twitter_api_poll_data, file = "data-raw/raw_twitter_api_poll_data")
-
-
-
-
-
-
-
-
-
-	
-
-	
-
-	
-
-	
-
-
+write.csv(raw_twitter_api_poll_data, file = "data-raw/raw_twitter_api_poll_data.csv")
 
 ```
 
