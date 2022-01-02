@@ -26,6 +26,10 @@ ipak(packages)
 #Warning in install.packages :
 #  package ‘install_phantomjs’ is not available for this version of R
 
+#PhantomJS not found. You can install it with webshot::install_phantomjs(). If it is installed, please make sure the phantomjs executable can be found via the PATH variable.
+
+#webshot::install_phantomjs() # uncomment first time
+
 setwd("C:/Users/Mark Lavenia/GitHub/rockr")
 
 ```
@@ -91,7 +95,7 @@ poll_EDA <- poll_data %>%
   group_by(attachments_poll_ids) %>%
   summarise(poll_date = max(created_at),
             poll_type = max(poll_type),
-            poll_votes = max(votes),
+            poll_votes = max(poll_votes),
             album_year = max(year),
             poll_percent_sum = sum(percent, na.rm = TRUE)) %>% 
   mutate(poll_percent_sum = sprintf("%0.1f", poll_percent_sum)) %>% ungroup() 
@@ -135,16 +139,16 @@ ggsave("R/plots/poll_votes.png", width = 18, height = 6)
 
 ```
 
-Using the `summarise(n_distinct())` command we see that across all poll types, the data comprise 50 separate polls on 79 bands cumulatively. Constraining to final polls only, the data comprise 21 separate polls on 37 bands cumulatively.
+Using the `summarise(n_distinct())` command we see that across all qualifying and final polls, the data comprise *179* polls covering *247* bands cumulatively. Constraining to final polls only, the data comprise *31* polls covering *69* bands cumulatively.
 
 ```{r}
 
 band_counts <- poll_data  %>% 
-  filter(year != 2001) %>%  # & (poll_type == "Qualifying" | poll_type == "Final")) %>%
+  filter(year != 2001 & (poll_type == "Qualifying" | poll_type == "Final")) %>%
   summarise(poll_counts_all = n_distinct(attachments_poll_ids),
     bands_counts_all = n_distinct(option),
     poll_counts_final = n_distinct(attachments_poll_ids[poll_type == 'Final']),
-    poll_counts_bonus = n_distinct(attachments_poll_ids[poll_type == 'Bonus']),
+#    poll_counts_bonus = #n_distinct(attachments_poll_ids[poll_type == 'Bonus']),
     bands_counts_final = n_distinct(option[poll_type == 'Final']))
 
 band_counts
@@ -174,7 +178,7 @@ table1
 
 table1 %>%
   gtsave("table1.png", expand = 10,
-    path = "C:/Users/MarkLaVenia/GitHub/rockr/R/plots")
+    path = "R/plots")
 
 
 ```
@@ -196,18 +200,19 @@ We then reduce the dataframe to the observations of interest.
   - In the example data, one poll coded as invalid was conducted as an alternate final.
 - For two analyses we retain data for only final polls, excluding data for bonus and qualifying polls and; for a third analysis we retained data for all valid polls, inclusive of bonus, qualifying, and final polls.
 
-The steps that follow immediately track toward the creation of analysis files for the first two analyses. I circle back later to create the the third analysis file. In the code chunk below I save the cleaned `precision` file so that I can start there when I return to create that third file.
+The steps that follow immediately track toward the creation of analysis files for the first two analyses. I circle back later to create the the third analysis file. In the code chunk below I load the saved, clean `poll_data` file so that I can start there when I return to create that third file.
 
 ```{r}
 
-album_finalpolls <-
-  precision_poll_data[precision_poll_data$valid %in%  # include only valid polls
-              c(1) &
-              precision_poll_data$poll_type %in%  # include only final polls
-              c("final"),]
+load("data/poll_data.rda")
 
-save(precision_poll_data, file = "data/precision_poll_data.rda")
-rm(precision_poll_data)
+album_finalpolls <-
+  poll_data[poll_data$valid %in%  # include only valid polls
+              c(1) &
+              poll_data$poll_type %in%  # include only final polls
+              c("Final"),]
+
+rm(poll_data)
 
 ```
 
@@ -222,9 +227,9 @@ To remedy instances where a given band appeared more than once in a given year
 ```{r}
 
 band_finalpolls <- album_finalpolls %>%
-  group_by(band_name, album_year) %>%
-  summarise_at(c("album_votes", "poll_percent"), sum) %>%
-  arrange(album_year, band_name)
+  group_by(option, year) %>%
+  summarise_at(c("votes", "percent"), sum) %>%
+  arrange(year, option)
 
 rm(album_finalpolls)
 
@@ -240,9 +245,9 @@ Ultimately we want a file in a long (tidy) format, with each band having a row f
 
 band_finalpolls_wide <- pivot_wider(
   data = band_finalpolls,
-  id_cols = band_name,
-  names_from = album_year,
-  values_from = c("album_votes", "poll_percent"))
+  id_cols = option,
+  names_from = year,
+  values_from = c("votes", "percent"))
 
 rm(band_finalpolls)
 
@@ -258,13 +263,13 @@ To calculate rolling averages and sums, we use
 ```{r}
 
 band_finalpolls_long <- band_finalpolls_wide %>%
-  pivot_longer(album_votes_1970:poll_percent_1989,
+  pivot_longer(votes_1970:percent_2000,
     names_to = c(".value", "year"),
     names_pattern = "(.*)_(.*)",
     values_to = c("var1, var2")) %>%
-  arrange(band_name, year) %>%
-  mutate(poll_percent_cumulative = cummean(replace_na(poll_percent, 0))) %>%
-  mutate(album_votes_cumulative = cumsum(replace_na(album_votes, 0)))
+  arrange(option, year) %>%
+  mutate(poll_percent_cumulative = cummean(replace_na(percent, 0))) %>%
+  mutate(album_votes_cumulative = cumsum(replace_na(votes, 0)))
 
 rm(band_finalpolls_wide)
 
@@ -275,14 +280,14 @@ Here we'll create and save two of our analysis files.
 ```{r}
 
 finalpolls_percent_analysisfile <- band_finalpolls_long  %>%
-  select(band_name, year, poll_percent_cumulative) %>%
+  select(option, year, poll_percent_cumulative) %>%
   rename (value = poll_percent_cumulative)
 
 save(finalpolls_percent_analysisfile, file = "data/finalpolls_percent_analysisfile.rda")
 rm(finalpolls_percent_analysisfile)
 
 finalpolls_sum_analysisfile <- band_finalpolls_long  %>%
-  select(band_name, year, album_votes_cumulative) %>%
+  select(option, year, album_votes_cumulative) %>%
   rename (value = album_votes_cumulative)
 
 save(finalpolls_sum_analysisfile, file = "data/finalpolls_sum_analysisfile.rda")
@@ -292,42 +297,42 @@ rm(band_finalpolls_long)
 
 ```
 
-Before rendering our barcharts, we have one more analysis file to create and save. Here I assemble all the steps described above into a single code chunk, except starting with the clean `precision` data file we've already created and saved.
+Before rendering our barcharts, we have one more analysis file to create and save. Here I assemble all the steps described above into a single code chunk, except starting with the clean `poll_data` data file we've already created and saved.
 
 ```{r}
 
-load("data/precision_poll_data.rda")
+load("data/poll_data.rda")
 
 album_allpolls <-
-  precision_poll_data[precision_poll_data$valid %in%  # include only valid polls
+  poll_data[poll_data$valid %in%  # include only valid polls
               c(1),]
 
-rm(precision_poll_data)
+rm(poll_data)
 
 band_allpolls <- album_allpolls %>%
-  group_by(band_name, album_year) %>%
-  summarise_at(c("album_votes"), sum) %>%
-  arrange(album_year, band_name)
+  group_by(option, year) %>%
+  summarise_at(c("votes"), sum) %>%
+  arrange(year, option)
 
 rm(album_allpolls)
 
 band_allpolls_wide <- pivot_wider(
   data = band_allpolls,
-  id_cols = band_name,
-  names_from = album_year,
-  values_from = c("album_votes"))
+  id_cols = option,
+  names_from = year,
+  values_from = c("votes"))
 
 rm(band_allpolls)
 
 band_allpolls_long <- band_allpolls_wide %>%
-  gather(year, album_votes, 2:22) %>%
-  arrange(band_name, year) %>%
-  mutate(album_votes_cumulative = cumsum(replace_na(album_votes, 0)))
+  gather(year, votes, 3:33) %>%
+  arrange(option, year) %>%
+  mutate(album_votes_cumulative = cumsum(replace_na(votes, 0)))
 
 rm(band_allpolls_wide)
 
 allpolls_sum_analysisfile <- band_allpolls_long  %>%
-  select(band_name, year, album_votes_cumulative) %>%
+  select(option, year, album_votes_cumulative) %>%
   rename (value = album_votes_cumulative)
 
 save(allpolls_sum_analysisfile, file = "data/allpolls_sum_analysisfile.rda")
@@ -367,13 +372,18 @@ analysisfile_formatted <- analysisfile %>%
     rank = rank(-value),
     value_rel = value / value[rank == 1],
     value_lbl = paste0(" ", round(value / 1))) %>%
-  group_by(band_name) %>%
+  ungroup() %>%
+  group_by(option) %>%
   filter(rank <= 10) %>%
   ungroup()
 
+#check <- analysisfile_formatted %>% 
+#  filter(rank <= 10) %>% 
+#  arrange(option, year, rank)
+
 #rm(finalpolls_percent_analysisfile) # for final polls percentages; render plot before disabling
 #rm(finalpolls_sum_analysisfile) # for final polls sums; render plot before disabling
-rm(allpolls_sum_analysisfile) # for all polls sums; render plot before disabling
+#rm(allpolls_sum_analysisfile) # for all polls sums; render plot before disabling
 rm(analysisfile)
 
 ```
@@ -392,21 +402,25 @@ Observe in the chunk below there are two lines of code to enable/disable depedni
 
 ```{r}
 
-band_listlength <- n_distinct(analysisfile_formatted$band_name) # number of distinct bands for which colors are needed
+band_listlength <- n_distinct(analysisfile_formatted$option) # number of distinct bands for which colors are needed
 band_listlength
 
-band_list <- unique(analysisfile_formatted$band_name) # generate list of bands for which colors are needed
+band_list <- tibble(unique(analysisfile_formatted$option)) # generate list of bands for which colors are needed
 band_list
 
 mycolors_scale <- c(
+  'AC/DC' = '#362f78',#new
   'Anthrax' = '#362f78',
   'Bathory' = '#936663',
   'Black Sabbath' = '#000000',
   'Budgie' = '#8B8B00',
+  'Carcass' = '#8B8B00', #new
   'Celtic Frost' = '#03A89E',
   'Death' = '#8B1A1A',
   'Deep Purple' = '#551A8B',
-  "Guns n' Roses" = '#FFC125',
+  'Emperor' = '#551A8B', # new
+  "Faith No More" = '#FFC125', #new
+  "Guns N' Roses" = '#FFC125',
   'Iron Maiden' = '#458B00',
   'Judas Priest' = '#6E8243',
   'Kreator' = '#DC143C',
@@ -414,8 +428,9 @@ mycolors_scale <- c(
   'Megadeth' = '#b91e45',
   'Mercyful Fate' = '#FF4500',
   'Metallica' = '#0000CD',
-  'Motorhead' = '#2E382F',
+  'Motörhead' = '#2E382F',
   'Night Sun' = '#FCA811',
+  'Pantera' = '#FCA811', #new
   'Queen' = '#cb54d6',
   'Rainbow' = '#9932CC',
   'Rush' = '#573420',
@@ -428,14 +443,18 @@ mycolors_scale <- c(
 )
 
 mycolors_fill <- c(
+  'AC/DC' = '#362f78',#new
   'Anthrax' = '#362f78',
   'Bathory' = '#936663',
   'Black Sabbath' = '#000000',
   'Budgie' = '#8B8B00',
+  'Carcass' = '#8B8B00', #new
   'Celtic Frost' = '#03A89E',
   'Death' = '#8B1A1A',
   'Deep Purple' = '#551A8B',
-  "Guns n' Roses" = '#FFC125',
+  'Emperor' = '#551A8B', # new
+  "Faith No More" = '#FFC125', #new
+  "Guns N' Roses" = '#FFC125',
   'Iron Maiden' = '#458B00',
   'Judas Priest' = '#6E8243',
   'Kreator' = '#DC143C',
@@ -443,8 +462,9 @@ mycolors_fill <- c(
   'Megadeth' = '#b91e45',
   'Mercyful Fate' = '#FF4500',
   'Metallica' = '#0000CD',
-  'Motorhead' = '#2E382F',
+  'Motörhead' = '#2E382F',
   'Night Sun' = '#FCA811',
+  'Pantera' = '#FCA811', #new
   'Queen' = '#cb54d6',
   'Rainbow' = '#9932CC',
   'Rush' = '#573420',
@@ -456,11 +476,13 @@ mycolors_fill <- c(
   'Voivod' = '#9F79EE'
 )
 
-staticplot = ggplot(analysisfile_formatted, aes(rank, group = band_name, fill = as.factor(band_name), color = as.factor(band_name))) +
+staticplot = ggplot(analysisfile_formatted, aes(rank, group = option, fill = as.factor(option), color = as.factor(option))) +
   geom_tile(aes(y = value / 2, height = value, width = 0.9 ), alpha = 0.8, color = NA) +
-  geom_text(aes(y = 0, label = paste(band_name, " ")), size = 10, vjust = 0.2, hjust = 1) +
+  geom_text(aes(y = 0, label = paste(option, " ")), size = 10, vjust = 0.2, hjust = 1) +
 #  geom_text(aes(y = value, label = paste(value_lbl, "%")), size = 7, hjust = 0) + # use for plot with percentage values
   geom_text(aes(y=value,label = value_lbl), size = 7, hjust = 0) + # use for plots with sum values
+  geom_text(aes(x = 10, y=max(value), label = as.factor(year)), hjust = 1, vjust = 0, alpha = 0.5,  col = "gray", size = 40) +
+  transition_states(year, state_length = 0, transition_length = 2) +
   coord_flip(clip = "off", expand = FALSE) +
   scale_y_continuous(labels = scales::comma) +
   scale_x_reverse() +
@@ -479,14 +501,14 @@ staticplot = ggplot(analysisfile_formatted, aes(rank, group = band_name, fill = 
     panel.border = element_blank(),
     panel.grid.major = element_blank(),
     panel.grid.minor = element_blank(),
-    plot.title = element_text(size = 28, hjust = 0.5, face = "bold", colour = "grey", vjust = 1.5),
-    plot.subtitle = element_text(size = 22, hjust = 0.5, face = "italic", color = "grey"),
+    plot.title = element_text(size = 30, hjust = 0.5, face = "bold", colour = "grey", vjust = 1),
+    plot.subtitle = element_text(size = 24, hjust = 0.5, face = "italic", color = "grey"),
     plot.caption = element_text(size = 19, hjust = 0.5, face = "italic",  color = "grey"),
     plot.background = element_blank(),
     plot.margin = margin(4, 1.8, 1, 7.5, "cm")
   )
 
-rm(analysisfile_formatted)
+rm(analysisfile_formatted, band_list)
 
 staticplot
 
@@ -503,17 +525,19 @@ More enabling/disabling to do here depending on the analysis.
 anim = staticplot + transition_states(year, transition_length = 4, state_length = 1) +
   view_follow(fixed_x = TRUE)  +
   
-#  labs(title = 'Best album cumulative percentage of votes aggregated by band: {closest_state}', # for final polls percentages
+#  labs(title = 'Best album cumulative percentage of votes aggregated by band', # for final polls percentages
        
-  labs(title = 'Best album cumulative votes aggregated by band: {closest_state}', # for final and all polls sums
+  labs(title = 'Best album cumulative votes aggregated by band', # for final and all polls sums
 
-       subtitle  =  "Top 10 Bands | 1970–1990",
+       subtitle  =  "Top 10 Bands | 1970–2000",
        
 #       caption  = "Data Source: @nickmoberly Twitter best album of the year final polls (excluding data for bonus and qualifying polls).\nValues indicate the percentage of votes from the polls for 1970 through a given year, weighted equally across years.") # for final polls percentages
 
-#       caption  = "Data Source: @nickmoberly Twitter best album of the year final polls (excluding data for bonus and qualifying polls).\nValues indicate the sum of votes from the polls for 1970 through a given year.") # for final polls sums
+ #      caption  = "Data Source: @nickmoberly Twitter best album of the year final polls (excluding data for bonus and qualifying polls).\nValues indicate the sum of votes from the polls for 1970 through a given year.") # for final polls sums
 
        caption  = "Data Source: @nickmoberly Twitter best album of the year polls, inclusive of all polls (bonus, qualifying, and grand finales).\nValues indicate the sum of votes from the polls for 1970 through a given year.") # for all polls sums
+
+
 
 rm(staticplot)
 

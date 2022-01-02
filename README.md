@@ -112,7 +112,7 @@ function that cycles through the ids automatically.
 ### Analysis file
 
 The [Twitter API poll
-objecy](https://developer.twitter.com/en/docs/twitter-api/data-dictionary/object-model/poll)
+object](https://developer.twitter.com/en/docs/twitter-api/data-dictionary/object-model/poll)
 contains data on the number of votes per poll response option,
 Accordingly, using the `mutate()` command we calculate the percentage of
 votes per response option.
@@ -141,9 +141,9 @@ the variation in response rate.
 </p>
 
 Using the `summarise(n_distinct())` command we see that across all
-qualifying and final polls, the data comprise *179* polls covering *249*
+qualifying and final polls, the data comprise *179* polls covering *247*
 bands cumulatively. Constraining to final polls only, the data comprise
-*31* polls covering *70* bands cumulatively.
+*31* polls covering *69* bands cumulatively.
 
 Then, we use the `tbl_summary()` command to view the mean and standard
 deviation in poll votes by poll type to make some assessment of the
@@ -285,20 +285,16 @@ plotted metric, based on results according to *all* polls.
 
 ### Future development of `rockr`
 
-1.  The most intuitive next step in development of `rockr` is to
-    integrate web scraping into the workflow to more efficiently gather
-    the data from the Twitter polls.
-    -   Existing `R` packages that might be employed to access and
-        scrape Twitter data are `rtweet` and `twitterR`;
-        -   though, as discussed below, other web scraping tasks might
-            be called for that are best executed through other available
-            tools such as the `rvest` or `Rcrawler`packages.
+1.  The most intuitive next step in development of `rockr` is to improve
+    the method of calling poll fields from the Twitter API.
+
 2.  The exercise of deploying Twitter polls on album of the year derived
     from Nick’s (@NickMoberly) desire to fill gaps in knowledge on the
     prominent hard rock and metal bands over the decades. Accordingly,
     an enhancement to the function of `rockr` could be to integrate data
     that could be drawn upon for the purpose of informing the
     development of new polls and survey instruments.
+
     -   The [Metal Archives: Encyclopdaedia
         Metallum](https://www.metal-archives.com/) is an extensive data
         repository on metal bands with information on home country,
@@ -328,6 +324,7 @@ plotted metric, based on results according to *all* polls.
                     directories, unimpeded by the various constraints
                     with which those services contend around access and
                     use.
+
 3.  Additional data that might be incorporated include archives of
     rankings according to rock and metal ’zine charts and reviews,
     including those from prominent outlets like *Kerrang!* and *Metal
@@ -342,6 +339,7 @@ plotted metric, based on results according to *all* polls.
     example webstores and repositories of metal fanzines that might be
     drawn upon, not to mention university archives that could be
     accessed.
+
     -   An extraordinarily ambitious undertaking might be to even
         incorporate text from interviews and articles published in such
         sources. The opportunities for textual analysis from such a data
@@ -352,11 +350,13 @@ plotted metric, based on results according to *all* polls.
         learning techniques could be leveraged to group bands by
         profile, allowing profile to vary over time according to
         observed indicators for albums.
+
 4.  Further, `spotifyr`, a `R` wrapper for Spotify’s [Web
     API](https://developer.spotify.com/documentation/web-api/), can be
     used to gain access to not only information on artists, albums,
     tracks, etc., but also attributes for each song such as tempo,
     energy, key, etc.
+
     -   In addition to existing data on attributes of songs, original
         analysis of music can be conducted through tools such as the
         `tuneR` R package. The opportunities for engaging in the
@@ -364,12 +364,14 @@ plotted metric, based on results according to *all* polls.
         components](https://joelezekielconfetti.wordpress.com) in the
         service of building a robust ontology of rock sub-genres is
         truly awe-inspiring.
+
 5.  The [Bound by Metal - Interactive Metal Genres
     Graph](https://www.boundbymetal.com/en/common/metal-genres-graph)
     represents an excellent data visualization for up- and down-stream
     influences between sub-genres. This kind of network analysis can be
     useful for interrogating the ontology of and relationships between
     sub-genres.
+
     -   However, I would love greater transparency around the source
         data and decision rules. Also, I’d love to be able toggle the
         unit of analysis to visualize the network connections by band–or
@@ -379,6 +381,7 @@ plotted metric, based on results according to *all* polls.
             network graphing to explore established relationships and
             plot analyses probing proposed relationships can make
             `rockr` a useful tool for learning and presenting.
+
 6.  [Alberto Acerbi’s genre
     analysis](https://github.com/albertoacerbi/mxm_genres_analysis)
     constitutes an interesting sentiment analysis of lyrics, which
@@ -389,6 +392,7 @@ plotted metric, based on results according to *all* polls.
     [musixmatch](https://www.musixmatch.com/) repository of song lyrics
     for his analysis, which could be drawn upon for replication and
     extension of this line of inquiry.
+
     -   One variation on this analytic strategy includes taking a more
         holistic approach to categorizing positive and negative
         emotional tone, such as keying by word phrases rather than

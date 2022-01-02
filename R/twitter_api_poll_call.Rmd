@@ -504,11 +504,11 @@ poll_new <- poll_query %>%
 
 names(poll_new)
 
-#load("data/poll_rbind.rda") # load if new session
-
 poll_rbind <- rbind(poll_rbind, poll_new)
 
 save(poll_rbind, file = "data/poll_rbind.rda")
+
+load("data/poll_rbind.rda") 
 
 tail(poll_rbind, 2) 
 
@@ -553,7 +553,7 @@ raw_twitter_api_poll_data <- poll_frame %>%
 
 save(raw_twitter_api_poll_data, file = "data-raw/raw_twitter_api_poll_data.rda")
 
-#load("data-raw/raw_twitter_api_poll_data.rda")
+load("data-raw/raw_twitter_api_poll_data.rda")
 
 rm(poll_frame, poll_rbind)
 
@@ -642,7 +642,13 @@ raw_twitter_api_poll_data <- raw_twitter_api_poll_data %>%
     attachments_poll_ids == "1294603333949370373" ~ 2,
     attachments_poll_ids == "1295794646732419078" ~ 4,
     attachments_poll_ids == "1453077145484464133" ~ 0,
-    TRUE ~ as.numeric(votes_4))) %>% 
+    TRUE ~ as.numeric(votes_4))) %>%  
+  mutate(option_1 = case_when(
+attachments_poll_ids == "1182972118704766982" ~ "Iron Maiden",
+TRUE ~ as.character(option_1))) %>%  
+  mutate(option_3 = case_when(
+attachments_poll_ids == "1467137863275925512" ~ "earthtone9",
+TRUE ~ as.character(option_3))) %>%
   mutate(option_4 = case_when(
 attachments_poll_ids == "1396076552715112448" ~ "Meshuggah",
 attachments_poll_ids == "1352964354229022722" ~ "Strapping Young Lad",
@@ -674,6 +680,8 @@ TRUE ~ as.character(option_1))) %>%
   mutate(option_2 = case_when(
 attachments_poll_ids == "1145227016913981440" ~ "Deep Purple",
 attachments_poll_ids == "1190961960378089473" ~ "Celtic Frost",
+attachments_poll_ids == "1180462854069194755" ~ "Iron Maiden",
+attachments_poll_ids == "1442069527739596804" ~ "HammerFall",
 TRUE ~ as.character(option_2))) %>% 
   mutate(option_3 = case_when(
 attachments_poll_ids == "1145227016913981440" ~ "Black Sabbath",
@@ -720,10 +728,34 @@ raw_twitter_api_poll_data <- raw_twitter_api_poll_data %>%
   arrange(created_at) %>% 
   select(-c(id, text2))
 
+bands1 <- tibble(unique(raw_twitter_api_poll_data$option_1)) %>% 
+  rename(band_name = 1)
+bands2 <- tibble(unique(raw_twitter_api_poll_data$option_2))%>% 
+  rename(band_name = 1)
+bands3 <- tibble(unique(raw_twitter_api_poll_data$option_3))%>% 
+  rename(band_name = 1)
+bands4 <- tibble(unique(raw_twitter_api_poll_data$option_4))%>% 
+  rename(band_name = 1)
+
+bands <- rbind(bands1, bands2, bands3, bands4)
+
+bands_unique <- tibble(unique(bands)) %>% 
+  arrange(band_name)
+
+check <- raw_twitter_api_poll_data %>% 
+  filter(grepl("Hammerfall", option_1) |
+           grepl("Hammerfall", option_2) |
+           grepl("Hammerfall", option_3) |
+           grepl("Hammerfall", option_4)) %>% 
+  select(attachments_poll_ids, contains("option"))
+
+check <- bands_unique %>% 
+  filter(grepl("^Maiden", band_name) |
+           grepl("Earthtone9", band_name) |
+           grepl("Hammerfall", band_name))
+
 rm(check, temp)
 
-
-  
 save(raw_twitter_api_poll_data, file = "data-raw/raw_twitter_api_poll_data.rda")
 
 write.csv(raw_twitter_api_poll_data, file = "data-raw/raw_twitter_api_poll_data.csv")
