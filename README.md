@@ -80,10 +80,9 @@ Chart.Rmd](https://github.com/MarkLaVenia/rockr/blob/master/R/Animated%20Bar%20C
     -   however, the sum of votes may (in part) be an indicator of
         enthusiasm for a given band or album–and therefore may also be a
         valid metric for ranking bands.
-    -   That said, early polls averaged fewer responses than later
-        polls; therefore, it appears reach of the polls increased over
-        time–likely giving an upward bias for bands in later polls when
-        using vote sums as the metric of analysis.
+        -   polls for years 1984-1992 attracted more responses than
+            earlier and later polls–perhaps signalling the best/most
+            interesting era for metal.
 -   Constraining the data to only the final poll for each year avoids
     the problem of needing to account for albums that appeared on both
     qualifying and final polls;
@@ -105,7 +104,7 @@ Regrettably, I have not devised a function that can call poll fields for
 an entire timeline all at once. Therefore, the procedure presented here
 required a first step of calling the `conversation_ids` for the entire
 timeline. Then, manually updating the Client URL in the code for each
-poll. This second step took 30-40 seconds for each call. Suggestion are
+poll. This second step took 30-40 seconds for each call. Suggestions are
 welcome on a more elegant solution, such as a `for()loop` or `lapply()`
 function that cycles through the ids automatically.
 
