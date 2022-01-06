@@ -21,7 +21,7 @@ Love](https://badges.frapsoft.com/os/v1/open-source.png?v=103)](https://github.c
 The (current) goal of `rockr` is to identify top ranked bands from
 polling data on best album of the year. Given a series of Twitter polls
 on best album of the year, with sequential polls for each year, where
-some bands are reoccurring response options across polls, we
+some bands are reoccurring response options across polls, I
 
 1.  Munge data into an analysis-ready format
 
@@ -110,25 +110,29 @@ function that cycles through the ids automatically.
 
 ### Analysis file
 
-The [Twitter API poll
+Querying the Twitter API [poll
 object](https://developer.twitter.com/en/docs/twitter-api/data-dictionary/object-model/poll)
-contains data on the number of votes per poll response option,
-Accordingly, using the `mutate()` command we calculate the percentage of
+returns data on the number of votes per poll response option,
+Accordingly, using the `mutate()` command I calculate the percentage of
 votes per response option.
+
+Another preliminary step was to restructure the data to a long format
+using the `pivot_longer()` command to facilitate calculating summary
+statistics by survey id.
 
 ### Exploration
 
-The first thing we do is make a quick check for data error red flags.
-Using the `group_by()` and `summarise(sum())` commands we calculate the
+The first thing I do is make a quick check for data error red flags.
+Using the `group_by()` and `summarise(sum())` commands I calculate the
 sum of percentages for each response option for each poll; and using the
 `mutate(sprintf())` and `unique()` commands to verify that all polls sum
 to 100 percent.
 
-And using the `ggplot()` function, we produce a visualization to inspect
-the number of votes per poll. Here we use the `facet_grid()` command to
+And using the `ggplot()` function, I produce a visualization to inspect
+the number of votes per poll. Here I use the `facet_grid()` command to
 group the polls for each album year.
 
-We observe a suspiciously low number of votes for the 1982 final poll.
+I observe a suspiciously low number of votes for the 1982 final poll.
 Double-checking Twitter revealed that the 1982 poll indeed did have a
 low response rate: shocking given it included bangers such as Maiden’s
 *Number of the Beast* and Priest’s *Screaming for Vengeance*, making it
@@ -139,12 +143,12 @@ the variation in response rate.
 <img src="R/plots/poll_votes.png" alt="reviewer">
 </p>
 
-Using the `summarise(n_distinct())` command we see that across all
+Using the `summarise(n_distinct())` command I see that across all
 qualifying and final polls, the data comprise *179* polls covering *247*
 bands cumulatively. Constraining to final polls only, the data comprise
 *31* polls covering *69* bands cumulatively.
 
-Then, we use the `tbl_summary()` command to view the mean and standard
+Then, I use the `tbl_summary()` command to view the mean and standard
 deviation in poll votes by poll type to make some assessment of the
 central tendency and dispersion of responsiveness to the polls.
 
@@ -154,14 +158,14 @@ central tendency and dispersion of responsiveness to the polls.
 
 ### Selection
 
-We then reduce the dataframe to the observations of interest.
+I then reduce the dataframe to the observations of interest.
 
--   For all analyses, we drop observations for polls coded as invalid.
+-   For all analyses, I drop observations for polls coded as invalid.
     -   In the example data, one poll coded as invalid was conducted as
         an alternate final.
--   For two analyses we retain data for only final polls, excluding data
+-   For two analyses I retain data for only final polls, excluding data
     for bonus and qualifying polls (see [Bar Chart 1](#Bar%20Chart%201)
-    and [Bar Chart 2](#Bar%20Chart%202)); for a third analysis we
+    and [Bar Chart 2](#Bar%20Chart%202)); for a third analysis I
     retained data for all valid polls, inclusive of bonus, qualifying,
     and final polls (see [Bar Chart 3](#Bar%20Chart%203)).
 
@@ -170,7 +174,7 @@ We then reduce the dataframe to the observations of interest.
 To remedy instances where a given band appeared more than once in a
 given year
 
--   we use the `group_by()` and `summarise_at()` commands to sum
+-   I use the `group_by()` and `summarise_at()` commands to sum
     percentages or vote counts for each band per year.
 -   This scenario occurred in the 1970 final poll, where *Black Sabbath*
     had two albums that year;
@@ -179,8 +183,8 @@ given year
 
 ### Structure
 
-Before undertaking the computations in the next step, we want a file in
-a long (tidy) format, with each band having a row for every year in the
+Before undertaking the computations in the next step, I want a file in a
+long (tidy) format, with each band having a row for every year in the
 dataset regardless of whether the band had poll data for that year.
 There is probably a more efficient way of accomplishing this; but short
 of figuring that out,
@@ -193,7 +197,7 @@ of figuring that out,
 
 ### Computation
 
-To calculate rolling averages and sums, we use
+To calculate rolling averages and sums, I use
 
 -   the `mutate(cummmean())` command with the `poll_percent` variable
     and
@@ -208,7 +212,7 @@ calling
     bands with each year and
 -   the `group_by()` and `filter()` commands to constrain the data to
     the top ranked bands for any given year.
-    -   In this example we filter to the top 10 ranked bands.
+    -   In this example I filter to the top 10 ranked bands.
 
 ## Rendering animated bar charts
 
@@ -222,10 +226,10 @@ static bar charts using the `ggplot()` command.
     `scale_fill_manual()` commands.
     -   After all, *Black Sabbath* has to be *black* and *Deep Purple*
         has to be *purple*, *right*?
--   Using the `unique()` command we can generate the list of bands in
-    the plot for which colors are needed.
+-   Using the `unique()` command I can generate the list of bands in the
+    plot for which colors are needed.
 
-Then we use the `transition_states()` command to stitch together the
+Then I use the `transition_states()` command to stitch together the
 individual static plots.
 
 -   And the final step is rendering the animated plots using the
@@ -408,7 +412,22 @@ plotted metric, based on results according to *all* polls.
         -   A repository of this kind could be a valuabe resource for
             researchers studying the social psychology of music,
             including inter-individual differences in aesthetic
-            sensativity. <br>
+            sensativity.
+
+7.  [MetalStats](https://metalstats.wordpress.com/author/metalstats/)
+    publishes an array of interesting statistical analytics and dataviz
+    about metal bands, much of which is posted on Twitter at
+    \[@Metalplots\](<https://twitter.com/Metalplots>). I believe Metal
+    Stats primarily uses Python programming, whose work represents an
+    inspiration for a number of possibilities a `rockr` package could
+    undertake.
+
+    -   MetalStats has also assembled links to [What are Other People
+        Doing with Metal
+        Data?](https://metalstats.wordpress.com/2021/10/08/what-are-other-people-doing-with-metal-data/)
+        that can be drawn upon for inspiration.
+
+<br>
 
 #### On a `rockrverse` collection of `R` packages
 
@@ -429,7 +448,7 @@ opportunities provokes the call for a meta-package: a `rockrverse`.
     / [pymetal](https://github.com/OpenJarbas/pymetal), a`Python`
     package for generating new band names, song names, and lyrics.
 
-    -   Again, this function is not integral to what we set out to
+    -   Again, this function is not integral to what I set out to
         accomplish with a `rockr` package. Nevertheless, within the
         suite of `rockrverse` packages might live an `R` cousin of
         `pymetal`: `rmetal`, if you will. I’d venture that those
