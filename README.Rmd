@@ -223,6 +223,10 @@ This plot uses a rolling sum of the `album_votes` variable as the plotted metric
     - One variation on this analytic strategy includes taking a more holistic approach to categorizing positive and negative emotional tone, such as keying by word phrases rather than individual words--or even clustering lyrics by song to allow for an evaluation of individual songs over the entire arc of their lyrics. 
       - Going further, incorporating data on the attributes of the music itself might allow for a multidimensional framework that explains how an overall positive emotional tone can occur for a song with ostensibly negative lyrics. It seems textural, sonic, and musical components may be an important factor to include when trying to understand the effect of music on the listener.
       - A repository of this kind could be a valuabe resource for researchers studying the social psychology of music, including inter-individual differences in aesthetic sensativity. 
+      
+7. [MetalStats](https://metalstats.wordpress.com/author/metalstats/) publishes an array of interesting statistical analytics and dataviz about metal bands, much of which is posted on Twitter at [@Metalplots](https://twitter.com/Metalplots). I believe Metal Stats primarily uses Python programming, whose work represents an inspiration for a number of possibilities a `rockr` package could undertake.
+    - MetalStats has also assembled links to [What are Other People Doing with Metal Data?](https://metalstats.wordpress.com/2021/10/08/what-are-other-people-doing-with-metal-data/) that can be drawn upon for inspiration.
+      
 <br>
 
 #### On a `rockrverse` collection of `R` packages

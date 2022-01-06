@@ -5,31 +5,7 @@ date: "12/24/2021"
 output: html_document
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
-
-## R Markdown
-
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
-
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
-
-```{r cars}
-summary(cars)
-```
-
-## Including Plots
-
-You can also embed plots, for example:
-
-```{r pressure, echo=FALSE}
-plot(pressure)
-```
-
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
-
-# baseline
+## Baseline
 
 ```{r}
 library(tidyverse)
@@ -39,7 +15,9 @@ setwd("C:/Users/Mark Lavenia/GitHub/rockr")
 
 ```
 
-# packages for timeline
+## Call Twitter API for user timeline
+
+### Step 1.1: Install and load packages for timeline
 
 ```{r}
 
@@ -57,7 +35,7 @@ library(RTwitterV2)
 
 ```
 
-#Get timeline
+### Step 1.2: Get timeline
 
 ```{r}
 Bearer_Token <- "$BEARER_TOKEN" # replace $BEARER_TOKEN with your token
@@ -80,7 +58,7 @@ polls <- tweets %>%
 
 ```
 
-#Parse text
+### Step 1.3: Parse text
 
 ```{r}
 
@@ -393,7 +371,7 @@ save(poll_frame, file = "data/poll_frame.rda")
 
 ```
 
-#Conversation IDs
+### Step 1.4: Obtain Conversation IDs
 
 ```{r}
 
@@ -408,9 +386,9 @@ write.table(ids, file = "data/ids.txt", sep = "\t",
 
 ```
 
-# Query poll 
+## Query poll data
 
-## Constant
+### Constant
 
 ```{r}
 library(httr)
@@ -425,7 +403,7 @@ headers = c(
 
 ```
 
-## Step 1: Update 'ids'
+### Step 2.1: Update 'ids'
 
 ```{r}
 params = list(
@@ -435,7 +413,7 @@ params = list(
 )
 ```
 
-## step 2: call tweet and unlist data
+### step 2.2: call tweet and unlist data
 
 ```{r}
 
@@ -485,7 +463,7 @@ print(dt_unlist)
 
 ```
 
-## Step 3: modify dt _if needed_ and bind to running data frame
+### Step 2.3: modify dt _if needed_ and bind to running data frame
 
 ```{r}
 
@@ -514,7 +492,7 @@ tail(poll_rbind, 2)
 
 ```
 
-## step 4: save backup file for recovery if needed
+### step 2.4: save backup file for recovery if needed
 
 ```{r}
 
@@ -538,7 +516,9 @@ rm(df, dt, dt_list, dt_parse, dt_parse2, dt_parse3, dt_unlist, dt_wide, dups_ins
 
 ```
 
-# merge with frame
+## Build raw data file
+
+### Step 3.1: Merge with frame
 
 ```{r}
 
@@ -559,7 +539,7 @@ rm(poll_frame, poll_rbind)
 
 ```
 
-# manual retrieval of polls not returned in api query, patch blank option cells, and clean/standardize band names
+### Step 3.2: Manual retrieval of polls not returned in api query, patch blank option cells, and clean/standardize band names
 
 ```{r}
 library(splitstackshape)
