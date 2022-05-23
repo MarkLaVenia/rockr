@@ -30,7 +30,7 @@ ipak(packages)
 
 #webshot::install_phantomjs() # uncomment first time
 
-setwd("C:/Users/Mark Lavenia/GitHub/rockr")
+setwd("C:/Users/MarkLaVenia/GitHub/rockr")
 
 ```
 
